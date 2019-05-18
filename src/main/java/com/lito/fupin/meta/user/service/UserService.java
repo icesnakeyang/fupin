@@ -1,0 +1,50 @@
+package com.lito.fupin.meta.user.service;
+
+import com.lito.fupin.meta.user.dao.UserDao;
+import com.lito.fupin.meta.user.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Service
+public class UserService implements IUserService {
+    private final UserDao userDao;
+
+    @Autowired
+    public UserService(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    /**
+     * 新增一个用户
+     * @param user
+     * @throws Exception
+     */
+    @Override
+    public void createUser(User user) throws Exception {
+        userDao.createUser(user);
+    }
+
+    /**
+     * 根据登录名和密码查询用户
+     * @param loginName
+     * @param password
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public User getUserByLoginNamePassword(String loginName, String password) throws Exception {
+        Map qIn = new HashMap();
+        qIn.put("loginName", loginName);
+        qIn.put("password", password);
+        User user = userDao.getUserByLoginNamePassword(qIn);
+        return user;
+    }
+
+    @Override
+    public User getUserByUserId(String userId) throws Exception {
+        return null;
+    }
+}

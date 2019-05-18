@@ -1,0 +1,17 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:mysql://39.108.50.125:3306/fupin?serverTimezone=UTC
+    username: root
+    password: 85000464
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    check-template-location: true
+    suffix: .html
+    encoding: UTF-8
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+logging:
+  file: logs/application-fupin.log
