@@ -15,6 +15,8 @@ public class User {
     private String password;
     private Date createdTime;
     private String organizeId;
+    private String token;
+    private Date tokenTime;
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public Integer getIds() {
@@ -63,5 +65,21 @@ public class User {
 
     public void setOrganizeId(String organizeId) {
         this.organizeId = organizeId;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Date getTokenTime() {
+        return tokenTime;
+    }
+
+    public void setTokenTime(Date tokenTime) {
+        this.tokenTime = tokenTime;
     }
 }

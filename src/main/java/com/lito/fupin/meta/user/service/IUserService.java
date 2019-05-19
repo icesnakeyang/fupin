@@ -23,4 +23,5 @@ public interface IUserService {
 
     User getUserByUserId(String userId) throws Exception;
 
+    User getUserByToken(String token) throws Exception;
 }

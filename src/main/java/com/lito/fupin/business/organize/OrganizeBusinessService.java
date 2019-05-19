@@ -33,7 +33,7 @@ public class OrganizeBusinessService implements IOrganizeBusinessService {
         iOrganizeService.createOrganize(organize);
 
         Map out = new HashMap();
-        out.put("organize", organize);
+        out.put("admin/organize", organize);
         return out;
     }
 

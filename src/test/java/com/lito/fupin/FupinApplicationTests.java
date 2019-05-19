@@ -41,7 +41,7 @@ public class FupinApplicationTests {
             password = GGF.encoderByMd5(password);
             User user = iUserService.getUserByLoginNamePassword(loginName, password);
             Map out = new HashMap();
-            out.put("user", user);
+            out.put("admin/user", user);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }

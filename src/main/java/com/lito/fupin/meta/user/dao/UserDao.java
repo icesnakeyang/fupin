@@ -19,4 +19,6 @@ public interface UserDao {
      * @return
      */
     User getUserByLoginNamePassword(Map qIn);
+
+    User getUserByToken(String token);
 }

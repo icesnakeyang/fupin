@@ -43,7 +43,7 @@ public class UserBusinessService implements IUserBusinessService {
         iUserService.createUser(user);
 
         Map out = new HashMap();
-        out.put("user", user);
+        out.put("admin/user", user);
         return out;
     }
 
@@ -60,7 +60,7 @@ public class UserBusinessService implements IUserBusinessService {
         password = GGF.encoderByMd5(password);
         User user = iUserService.getUserByLoginNamePassword(loginName, password);
         Map out = new HashMap();
-        out.put("user", user);
+        out.put("admin/user", user);
         return out;
     }
 }

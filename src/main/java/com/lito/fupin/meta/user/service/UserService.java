@@ -19,6 +19,7 @@ public class UserService implements IUserService {
 
     /**
      * 新增一个用户
+     *
      * @param user
      * @throws Exception
      */
@@ -29,6 +30,7 @@ public class UserService implements IUserService {
 
     /**
      * 根据登录名和密码查询用户
+     *
      * @param loginName
      * @param password
      * @return
@@ -46,5 +48,11 @@ public class UserService implements IUserService {
     @Override
     public User getUserByUserId(String userId) throws Exception {
         return null;
+    }
+
+    @Override
+    public User getUserByToken(String token) throws Exception {
+        User user = userDao.getUserByToken(token);
+        return user;
     }
 }

@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/organize")
+@RequestMapping("/admin/organize")
 public class OrganizeController {
     private final IOrganizeBusinessService iOrganizeBusinessService;
 
