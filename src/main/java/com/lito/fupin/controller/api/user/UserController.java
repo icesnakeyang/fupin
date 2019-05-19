@@ -1,4 +1,4 @@
-package com.lito.fupin.controller.user;
+package com.lito.fupin.controller.api.user;
 
 import com.lito.fupin.business.user.IUserBusinessService;
 import com.lito.fupin.controller.vo.Response;
@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
-@RequestMapping("/admin/user")
+@RestController
+@RequestMapping("/api/user")
 public class UserController {
     private final IUserBusinessService iUserBusinessService;
 
@@ -26,7 +26,7 @@ public class UserController {
     }
 
     /**
-     * 注册一个新用户
+     * 注册一个管理员用户
      *
      * @param request
      * @param httpServletRequest
@@ -55,11 +55,11 @@ public class UserController {
         return response;
     }
 
-    @RequestMapping("/loginPage")
-    public String loginPage(ModelAndView mv) {
-        return "/admin/user/login";
-    }
-
+    /**
+     * 管理员登录
+     * @param request
+     * @return
+     */
     @ResponseBody
     @PostMapping("/login")
     public Response login(@RequestBody UserRequest request) {

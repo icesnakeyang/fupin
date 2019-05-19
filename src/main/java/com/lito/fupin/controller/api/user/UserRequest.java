@@ -1,4 +1,4 @@
-package com.lito.fupin.controller.user;
+package com.lito.fupin.controller.api.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.lito.fupin.controller.pages;
+package com.lito.fupin.controller.webPage;
 
 import com.lito.fupin.business.organize.IOrganizeBusinessService;
 import org.springframework.beans.factory.annotation.Autowired;

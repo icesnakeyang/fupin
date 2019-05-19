@@ -1,11 +1,10 @@
-package com.lito.fupin.controller.paper;
+package com.lito.fupin.controller.api.paper;
 
 import com.lito.fupin.business.paper.IPaperBusinessService;
 import com.lito.fupin.controller.vo.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

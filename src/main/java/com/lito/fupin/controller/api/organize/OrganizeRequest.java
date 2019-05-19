@@ -1,4 +1,4 @@
-package com.lito.fupin.controller.organize;
+package com.lito.fupin.controller.api.organize;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

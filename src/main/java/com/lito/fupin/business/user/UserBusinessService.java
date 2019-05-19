@@ -40,6 +40,8 @@ public class UserBusinessService implements IUserBusinessService {
         user.setLoginName(loginName);
         user.setOrganizeId(organizeId);
         user.setUserId(GGF.UUID().toString());
+        user.setToken(GGF.UUID().toString());
+        user.setTokenTime(new Date());
         iUserService.createUser(user);
 
         Map out = new HashMap();

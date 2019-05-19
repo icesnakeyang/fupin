@@ -1,4 +1,4 @@
-package com.lito.fupin.controller.organize;
+package com.lito.fupin.controller.api.organize;
 
 import com.lito.fupin.business.organize.IOrganizeBusinessService;
 import com.lito.fupin.controller.vo.Response;
