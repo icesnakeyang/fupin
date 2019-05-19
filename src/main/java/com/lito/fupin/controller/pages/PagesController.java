@@ -29,4 +29,9 @@ public class PagesController {
         }
         return "index";
     }
+
+    @RequestMapping("/test")
+    public String testPage(Model model) {
+        return "/admin/user/testLogin";
+    }
 }
