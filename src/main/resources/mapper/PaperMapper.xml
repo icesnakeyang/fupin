@@ -22,4 +22,9 @@
         <result property="organizeId" column="organize_id"/>
     </resultMap>
 
+    <select id="listPaperUnApprove" parameterType="map"
+            resultMap="paperMap">
+
+    </select>
+
 </mapper>

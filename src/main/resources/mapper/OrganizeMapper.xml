@@ -56,4 +56,11 @@
         delete from organize
         where organize_id=#{organizeId}
     </delete>
+
+    <!--    查询指定父分类id的所有子分类-->
+    <select id="listOrganizeByPid" parameterType="java.lang.String"
+            resultMap="organizeMap">
+        select * from organize
+        where pid=#{pid}
+    </select>
 </mapper>

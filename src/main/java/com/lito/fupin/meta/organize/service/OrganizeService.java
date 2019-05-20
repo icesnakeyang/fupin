@@ -59,12 +59,24 @@ public class OrganizeService implements IOrganizeService {
 
     @Override
     public Organize getOrganizeById(String organizeId) throws Exception {
-        Organize organize=organizeDao.getOrganizeById(organizeId);
+        Organize organize = organizeDao.getOrganizeById(organizeId);
         return organize;
     }
 
     @Override
     public void deleteOrganize(String organizeId) throws Exception {
         organizeDao.deleteOrganize(organizeId);
+    }
+
+    /**
+     * 查询指定父分类id的所有子分类
+     *
+     * @param pid
+     * @return
+     */
+    @Override
+    public ArrayList<Organize> listOrganizeByPid(String pid) {
+        ArrayList<Organize> organizes = organizeDao.listOrganizeByPid(pid);
+        return organizes;
     }
 }

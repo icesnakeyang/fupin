@@ -5,6 +5,9 @@ import com.lito.fupin.meta.paper.entity.Paper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 
 @Service
 public class PaperService implements IPaperService{
@@ -18,5 +21,11 @@ public class PaperService implements IPaperService{
     @Override
     public void createPaper(Paper paper) throws Exception {
         paperDao.createPaper(paper);
+    }
+
+    @Override
+    public ArrayList<Paper> listPaperUnApprove(Map in) throws Exception {
+        paperDao.listPaperUnApprove(in);
+        return null;
     }
 }

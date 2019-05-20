@@ -10,6 +10,7 @@ public interface IOrganizeService {
 
     /**
      * 根据机构名称模糊查询机构列表，支持分页
+     *
      * @param name
      * @param pageIndex
      * @param pageSize
@@ -25,4 +26,12 @@ public interface IOrganizeService {
     Organize getOrganizeById(String organizeId) throws Exception;
 
     void deleteOrganize(String organizeId) throws Exception;
+
+    /**
+     * 查询指定父分类id的所有子分类
+     *
+     * @param pid
+     * @return
+     */
+    ArrayList<Organize> listOrganizeByPid(String pid);
 }

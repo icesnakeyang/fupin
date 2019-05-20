@@ -24,4 +24,11 @@ public interface OrganizeDao {
     Organize getOrganizeById(String organizeId);
 
     void deleteOrganize(String organizeId);
+
+    /**
+     * 查询指定父分类id的所有子分类
+     * @param pid
+     * @return
+     */
+    ArrayList<Organize> listOrganizeByPid(String pid);
 }

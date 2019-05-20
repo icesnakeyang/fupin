@@ -1,6 +1,8 @@
 package com.lito.fupin.business.paper;
 
 import com.lito.fupin.common.GGF;
+import com.lito.fupin.meta.organize.entity.Organize;
+import com.lito.fupin.meta.organize.service.IOrganizeService;
 import com.lito.fupin.meta.paper.entity.Paper;
 import com.lito.fupin.meta.paper.service.IPaperService;
 import com.lito.fupin.meta.user.entity.User;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,12 +20,15 @@ import java.util.Map;
 public class PaperBusinessService implements IPaperBusinessService {
     private final IPaperService iPaperService;
     private final IUserService iUserService;
+    private final IOrganizeService iOrganizeService;
 
     @Autowired
     public PaperBusinessService(IPaperService iPaperService,
-                                IUserService iUserService) {
+                                IUserService iUserService,
+                                IOrganizeService iOrganizeService) {
         this.iPaperService = iPaperService;
         this.iUserService = iUserService;
+        this.iOrganizeService = iOrganizeService;
     }
 
     /**
@@ -69,7 +75,21 @@ public class PaperBusinessService implements IPaperBusinessService {
         String token=in.get("token").toString();
         User user=iUserService.getUserByToken(token);
 
-        iPaperService.listPaperUnApprove()
+        /**
+         * 1、读取当前用户
+         * 2、获取当前用户的机构id
+         * 3、读取该机构id下一级的所有的机构id
+         * 4、查询这些机构id下的所有文章，Approve time=null
+         */
+
+        User loginUser=iUserService.getUserByToken(token);
+
+        ArrayList<Organize> organizeList=iOrganizeService.listOrganizeByPid(loginUser.getOrganizeId());
+
+
+        for(int i=0;i<organizeList.size();i++){
+            iPaperService.createPaper();
+        }
         return null;
     }
 }
