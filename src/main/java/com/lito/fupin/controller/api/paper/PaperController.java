@@ -53,6 +53,12 @@ public class PaperController {
         return response;
     }
 
+    /**
+     * 读取一个用户需要审核的下级单位文章
+     * @param request
+     * @param httpServletRequest
+     * @return
+     */
     @ResponseBody
     @PostMapping("/listPaperUnApprove")
     public Response listPaperUnApprove(@RequestBody PaperRequest request,

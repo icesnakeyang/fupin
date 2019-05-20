@@ -10,7 +10,7 @@ import java.util.Map;
 
 
 @Service
-public class PaperService implements IPaperService{
+public class PaperService implements IPaperService {
     private final PaperDao paperDao;
 
     @Autowired
@@ -23,9 +23,16 @@ public class PaperService implements IPaperService{
         paperDao.createPaper(paper);
     }
 
+    /**
+     * 读取一个机构下的所有未审核文章
+     *
+     * @param organizeId
+     * @return
+     * @throws Exception
+     */
     @Override
-    public ArrayList<Paper> listPaperUnApprove(Map in) throws Exception {
-        paperDao.listPaperUnApprove(in);
-        return null;
+    public ArrayList<Paper> listPaperUnApprove(String organizeId) throws Exception {
+        ArrayList<Paper> papers = paperDao.listPaperUnApprove(organizeId);
+        return papers;
     }
 }

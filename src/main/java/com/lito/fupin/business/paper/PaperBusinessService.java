@@ -70,10 +70,15 @@ public class PaperBusinessService implements IPaperBusinessService {
         return out;
     }
 
+    /**
+     * 读取一个用户需要审核的下级单位文章
+     * @param in
+     * @return
+     * @throws Exception
+     */
     @Override
     public Map listPaperUnApprove(Map in) throws Exception {
-        String token=in.get("token").toString();
-        User user=iUserService.getUserByToken(token);
+        String token = in.get("token").toString();
 
         /**
          * 1、读取当前用户
@@ -82,14 +87,20 @@ public class PaperBusinessService implements IPaperBusinessService {
          * 4、查询这些机构id下的所有文章，Approve time=null
          */
 
-        User loginUser=iUserService.getUserByToken(token);
+        User loginUser = iUserService.getUserByToken(token);
 
-        ArrayList<Organize> organizeList=iOrganizeService.listOrganizeByPid(loginUser.getOrganizeId());
+        ArrayList<Organize> organizeList = iOrganizeService.listOrganizeByPid(loginUser.getOrganizeId());
 
-
-        for(int i=0;i<organizeList.size();i++){
-            iPaperService.createPaper();
+        ArrayList<Paper> paperList = new ArrayList<>();
+        for (int i = 0; i < organizeList.size(); i++) {
+            ArrayList<Paper> papers = iPaperService.listPaperUnApprove(organizeList.get(i).getOrganizeId());
+            if (papers.size() > 0) {
+                paperList.addAll(papers);
+            }
         }
-        return null;
+
+        Map out = new HashMap();
+        out.put("paperList", paperList);
+        return out;
     }
 }

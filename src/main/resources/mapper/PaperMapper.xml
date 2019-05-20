@@ -22,9 +22,12 @@
         <result property="organizeId" column="organize_id"/>
     </resultMap>
 
+    <!-- 读取一个机构下的所有未审核文章-->
     <select id="listPaperUnApprove" parameterType="map"
             resultMap="paperMap">
-
+        select ids, paper_id, title, upload_time, upload_user_id, public, author from paper
+        where organize_id=#{organizeId}
+        and approve_time is null
     </select>
 
 </mapper>
