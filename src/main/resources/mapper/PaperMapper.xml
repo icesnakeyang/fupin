@@ -4,9 +4,9 @@
 
     <insert id="createPaper" parameterType="com.lito.fupin.meta.paper.entity.Paper">
         insert into paper
-        (paper_id, title, content, upload_time, upload_user_id, category_id, is_public, img_url, file_url, author)
+        (paper_id, title, content, upload_time, upload_user_id, category_id, public, img_url, file_url, author, organize_id)
         values
-        (#{paperId}, #{title}, #{content}, #{uploadTime}, #{uploadUserId}, #{categoryId}, #{isPublic}, #{imgUrl}, #{author})
+        (#{paperId}, #{title}, #{content}, #{uploadTime}, #{uploadUserId}, #{categoryId}, #{isPublic}, #{imgUrl}, #{fileUrl}, #{author}, #{organizeId})
     </insert>
 
     <!--配置paper表和Paper对象的字段映射 -->
@@ -19,6 +19,7 @@
         <result property="imgUrl" column="img_url"/>
         <result property="fileUrl" column="file_url"/>
         <result property="imgUrl" column="img_url"/>
+        <result property="organizeId" column="organize_id"/>
     </resultMap>
 
 </mapper>

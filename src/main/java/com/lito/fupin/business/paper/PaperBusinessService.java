@@ -10,10 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class PaperBusinessService implements IPaperBusinessService{
+public class PaperBusinessService implements IPaperBusinessService {
     private final IPaperService iPaperService;
     private final IUserService iUserService;
 
@@ -24,20 +25,27 @@ public class PaperBusinessService implements IPaperBusinessService{
         this.iUserService = iUserService;
     }
 
+    /**
+     * 创建一个文章paper
+     *
+     * @param in
+     * @return
+     * @throws Exception
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Map createPaper(Map in) throws Exception {
-        String token=in.get("token").toString();
-        String author=(String)in.get("author");
-        String categoryId=in.get("categoryId").toString();
-        String content=in.get("content").toString();
-        String fileUrl=(String)in.get("fileUrl");
-        String imgUrl=(String)in.get("imgUrl");
-        String isPublic=in.get("isPublic").toString();
-        String title=in.get("title").toString();
+        String token = in.get("token").toString();
+        String author = (String) in.get("author");
+        String categoryId = in.get("categoryId").toString();
+        String content = in.get("content").toString();
+        String fileUrl = (String) in.get("fileUrl");
+        String imgUrl = (String) in.get("imgUrl");
+        String isPublic = in.get("isPublic").toString();
+        String title = in.get("title").toString();
 
-        User user=iUserService.getUserByToken(token);
-        Paper paper=new Paper();
+        User user = iUserService.getUserByToken(token);
+        Paper paper = new Paper();
         paper.setAuthor(author);
         paper.setCategoryId(categoryId);
         paper.setContent(content);
@@ -47,8 +55,21 @@ public class PaperBusinessService implements IPaperBusinessService{
         paper.setPaperId(GGF.UUID().toString());
         paper.setTitle(title);
         paper.setUploadTime(new Date());
-//        paper.setUploadUserId();
+        paper.setUploadUserId(user.getUserId());
+        paper.setOrganizeId(user.getOrganizeId());
         iPaperService.createPaper(paper);
+
+        Map out = new HashMap();
+        out.put("paper", paper);
+        return out;
+    }
+
+    @Override
+    public Map listPaperUnApprove(Map in) throws Exception {
+        String token=in.get("token").toString();
+        User user=iUserService.getUserByToken(token);
+
+        iPaperService.listPaperUnApprove()
         return null;
     }
 }

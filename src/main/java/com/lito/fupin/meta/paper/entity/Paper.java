@@ -12,19 +12,18 @@ public class Paper {
     private String content;
     private Date uploadTime;
     private String uploadUserId;
-    private String auditStatus;
-    private String auditRemark;
-    private Date auditTime;
+    private String status;
+    private String approveRemark;
+    private Date approveTime;
     private String categoryId;
     private String isPublic;
     private String imgUrl;
     private String fileUrl;
-    private String auditUserId;
+    private String approveUserId;
     private String author;
     private Integer views;
+    private String organizeId;
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
     public Integer getIds() {
         return ids;
     }
@@ -73,30 +72,6 @@ public class Paper {
         this.uploadUserId = uploadUserId;
     }
 
-    public String getAuditStatus() {
-        return auditStatus;
-    }
-
-    public void setAuditStatus(String auditStatus) {
-        this.auditStatus = auditStatus;
-    }
-
-    public String getAuditRemark() {
-        return auditRemark;
-    }
-
-    public void setAuditRemark(String auditRemark) {
-        this.auditRemark = auditRemark;
-    }
-
-    public Date getAuditTime() {
-        return auditTime;
-    }
-
-    public void setAuditTime(Date auditTime) {
-        this.auditTime = auditTime;
-    }
-
     public String getCategoryId() {
         return categoryId;
     }
@@ -129,14 +104,6 @@ public class Paper {
         this.fileUrl = fileUrl;
     }
 
-    public String getAuditUserId() {
-        return auditUserId;
-    }
-
-    public void setAuditUserId(String auditUserId) {
-        this.auditUserId = auditUserId;
-    }
-
     public String getAuthor() {
         return author;
     }
@@ -151,5 +118,45 @@ public class Paper {
 
     public void setViews(Integer views) {
         this.views = views;
+    }
+
+    public String getOrganizeId() {
+        return organizeId;
+    }
+
+    public void setOrganizeId(String organizeId) {
+        this.organizeId = organizeId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getApproveRemark() {
+        return approveRemark;
+    }
+
+    public void setApproveRemark(String approveRemark) {
+        this.approveRemark = approveRemark;
+    }
+
+    public Date getApproveTime() {
+        return approveTime;
+    }
+
+    public void setApproveTime(Date approveTime) {
+        this.approveTime = approveTime;
+    }
+
+    public String getApproveUserId() {
+        return approveUserId;
+    }
+
+    public void setApproveUserId(String approveUserId) {
+        this.approveUserId = approveUserId;
     }
 }

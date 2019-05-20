@@ -29,6 +29,6 @@
     <select id="getUserByToken" parameterType="java.lang.String"
             resultMap="userMap">
         select * from user
-        where
+        where token=#{token}
     </select>
 </mapper>
