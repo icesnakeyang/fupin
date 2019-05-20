@@ -78,4 +78,10 @@ public class OrganizeBusinessService implements IOrganizeBusinessService {
             iOrganizeService.updateOrganize(organize);
         }
     }
+
+    @Override
+    public void deleteOrganize(Map in) throws Exception {
+        String organizeId=in.get("organizeId").toString();
+        iOrganizeService.deleteOrganize(organizeId);
+    }
 }

@@ -62,4 +62,9 @@ public class OrganizeService implements IOrganizeService {
         Organize organize=organizeDao.getOrganizeById(organizeId);
         return organize;
     }
+
+    @Override
+    public void deleteOrganize(String organizeId) throws Exception {
+        organizeDao.deleteOrganize(organizeId);
+    }
 }

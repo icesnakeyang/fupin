@@ -51,7 +51,6 @@ public class OrganizeController {
         return response;
     }
 
-
     /**
      * 根据机构名称模糊查询机构列表，支持分页
      * @param request
@@ -102,6 +101,7 @@ public class OrganizeController {
         }
         return response;
     }
+
     @ResponseBody
     @PostMapping("/deleteOrganize")
     public Response deleteOrganize(@RequestBody OrganizeRequest request,
@@ -109,10 +109,8 @@ public class OrganizeController {
         Response response = new Response();
         try {
             Map in = new HashMap();
-            in.put("organizeName", request.getOrganizeName());
-            in.put("pid", request.getPid());
-            Map out = iOrganizeBusinessService.createOrganize(in);
-            response.setData(out);
+            in.put("organizeId", request.getOrganizeId());
+            iOrganizeBusinessService.deleteOrganize(in);
         } catch (Exception ex) {
             try {
                 response.setCode(Integer.parseInt(ex.getMessage()));

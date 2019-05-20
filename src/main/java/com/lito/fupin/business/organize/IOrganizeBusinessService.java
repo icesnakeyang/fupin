@@ -14,4 +14,6 @@ public interface IOrganizeBusinessService {
     Map listOrganize(Map in) throws Exception;
 
     void updateOrganize(Map in) throws Exception;
+
+    void deleteOrganize(Map in) throws Exception;
 }

@@ -22,4 +22,6 @@ public interface OrganizeDao {
     Organize getOrganizeByName(String organizeName);
 
     Organize getOrganizeById(String organizeId);
+
+    void deleteOrganize(String organizeId);
 }

@@ -23,4 +23,6 @@ public interface IOrganizeService {
     Organize getOrganizeByName(String organizeName) throws Exception;
 
     Organize getOrganizeById(String organizeId) throws Exception;
+
+    void deleteOrganize(String organizeId) throws Exception;
 }

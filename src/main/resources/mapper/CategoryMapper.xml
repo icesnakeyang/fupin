@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lito.fupin.meta.category.dao.CategoryDao">
+    <!--新增一个文章分类-->
+    <insert id="createCategory" parameterType="com.lito.fupin.meta.category.entity.Category">
+        insert into category
+        (category_id, category_name, pid)
+        values
+        (#{categoryId}, #{categoryName}, #{pid})
+    </insert>
+
+    <!--配置category表和Category对象的字段映射 -->
+    <resultMap id="categoryMap" type="com.lito.fupin.meta.category.entity.Category">
+        <result property="categoryId" column="category_id"/>
+        <result property="categoryName" column="category_name"/>
+    </resultMap>
+
+    <!--    根据分类名称模糊查询分类；或者根据pid查询所有的子分类-->
+    <select id="listCategory" parameterType="map"
+            resultMap="categoryMap">
+        select * from category
+        where 1=1
+        <choose>
+            <when test="categoryName!=null">
+                and category_name like concat('%',#{categoryName},'%')
+            </when>
+        </choose>
+        <choose>
+            <when test="pid!=null">
+                and pid=#{pid}
+            </when>
+        </choose>
+        order by pid
+    </select>
+
+    <select id="getCategoryByName" parameterType="java.lang.String"
+            resultMap="categoryMap">
+        select * from category
+        where category_name=#{categoryName}
+    </select>
+
+    <select id="getCategoryById" parameterType="java.lang.String"
+            resultMap="categoryMap">
+        select * from category
+        where category_id=#{categoryId}
+    </select>
+
+    <update id="updateCategory" parameterType="com.lito.fupin.meta.category.entity.Category">
+        update category
+        set category_name=#{categoryName},
+        <choose>
+            <when test="pid!=null">
+                pid=#{pid}
+            </when>
+        </choose>
+        where category_id = #{categoryId}
+    </update>
+
+    <delete id="deleteCategory" parameterType="java.lang.String">
+        delete from category
+        where category_id=#{categoryId}
+    </delete>
+</mapper>

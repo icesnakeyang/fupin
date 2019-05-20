@@ -51,4 +51,9 @@
         </choose>
         where organize_id = #{organizeId}
     </update>
+
+    <delete id="deleteOrganize" parameterType="java.lang.String">
+        delete from organize
+        where organize_id=#{organizeId}
+    </delete>
 </mapper>
