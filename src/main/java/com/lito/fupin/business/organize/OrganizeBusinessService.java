@@ -37,11 +37,45 @@ public class OrganizeBusinessService implements IOrganizeBusinessService {
         return out;
     }
 
+    /**
+     * 根据机构名称模糊查询机构列表，支持分页
+     *
+     * @param in
+     * @return
+     * @throws Exception
+     */
     @Override
-    public Map listOrganize() throws Exception {
-        ArrayList<Organize> organizes = iOrganizeService.listOrganize();
+    public Map listOrganize(Map in) throws Exception {
+        String organizeName = (String) in.get("organizeName");
+        Integer pageIndex = (Integer) in.get("pageIndex");
+        Integer pageSize = (Integer) in.get("pageSize");
+
+        ArrayList<Organize> organizes = iOrganizeService.listOrganize(organizeName, pageIndex, pageSize);
         Map out = new HashMap();
         out.put("organizeList", organizes);
         return out;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void updateOrganize(Map in) throws Exception {
+        String organizeId = in.get("organizeId").toString();
+        String organizeName = (String) in.get("organizeName");
+        String pOrgName = (String) in.get("pOrgName");
+
+        Organize organize = iOrganizeService.getOrganizeById(organizeId);
+        int pp = 0;
+        if (!organize.getOrganizeName().equals(organizeName)) {
+            organize.setOrganizeName(organizeName);
+            pp++;
+        }
+        if (pOrgName != null) {
+            Organize pOrganize = iOrganizeService.getOrganizeByName(pOrgName);
+            organize.setPid(pOrganize.getOrganizeId());
+            pp++;
+        }
+        if (pp > 0) {
+            iOrganizeService.updateOrganize(organize);
+        }
     }
 }

@@ -62,7 +62,7 @@ public class UserBusinessService implements IUserBusinessService {
         password = GGF.encoderByMd5(password);
         User user = iUserService.getUserByLoginNamePassword(loginName, password);
         Map out = new HashMap();
-        out.put("admin/user", user);
+        out.put("user", user);
         return out;
     }
 }

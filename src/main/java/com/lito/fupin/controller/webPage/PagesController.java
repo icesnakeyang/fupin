@@ -21,8 +21,6 @@ public class PagesController {
     @RequestMapping("/organizeList")
     public String getUser(Model model) {
         try {
-            Map out = iOrganizeBusinessService.listOrganize();
-            model.addAttribute("organizeList", out.get("organizeList"));
 
         } catch (Exception ex) {
 
