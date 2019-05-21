@@ -42,72 +42,85 @@
     <!--增量修改文章信息-->
     <update id="updatePaper" parameterType="com.lito.fupin.meta.paper.entity.Paper">
         update paper set
+        update_time=now()
         <choose>
             <when test="title!=null">
-                title=#{title},
+                ,title=#{title}
             </when>
         </choose>
         <choose>
             <when test="content!=null">
-                content=#{content},
+                ,content=#{content}
             </when>
         </choose>
         <choose>
             <when test="status!=null">
-                status=#{status},
+                ,status=#{status}
             </when>
         </choose>
         <choose>
-            <when test="approveMark!=null">
-                approve_mark=#{approveMark},
+            <when test="approveRemark!=null">
+                ,approve_mark=#{approveRemark}
             </when>
         </choose>
         <choose>
             <when test="approveTime!=null">
-                approve_time=#{approveTime},
+                ,approve_time=#{approveTime}
             </when>
         </choose>
         <choose>
             <when test="categoryId!=null">
-                category_id=#{categoryId},
+                ,category_id=#{categoryId}
             </when>
         </choose>
         <choose>
             <when test="isPublic!=null">
-                public =#{isPublic},
+                ,public =#{isPublic}
             </when>
         </choose>
         <choose>
             <when test="imgUrl!=null">
-                img_url=#{imgUrl},
+                ,img_url=#{imgUrl}
             </when>
         </choose>
         <choose>
             <when test="fileUrl!=null">
-                file_url=#{fileUrl},
+                ,file_url=#{fileUrl}
             </when>
         </choose>
         <choose>
             <when test="approveUserId!=null">
-                approve_user_id=#{approveUserId},
+                ,approve_user_id=#{approveUserId}
             </when>
         </choose>
         <choose>
             <when test="author!=null">
-                author=#{author},
+                ,author=#{author}
             </when>
         </choose>
         <choose>
             <when test="views!=null">
-                views=#{views},
+                ,views=#{views}
             </when>
         </choose>
         <choose>
             <when test="organizeId!=null">
-                organize_id=#{organizeId},
+                ,organize_id=#{organizeId}
             </when>
         </choose>
         where paper_id=#{paperId}
     </update>
+
+    <!--查询文章用于网站显示，指定分类和单位，分页-->
+    <select id="listPaperToShow" parameterType="map"
+            resultMap="paperMap">
+        select ids, paper_id, title, views, approve_time from paper
+        where 1=1
+        and status='通过审核'
+        and category_id=#{categoryId}
+        and organize_id=#{organizeId}
+        order by ids desc
+        limit #{offset},#{size}
+    </select>
 
 </mapper>
