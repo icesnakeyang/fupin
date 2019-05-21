@@ -23,6 +23,13 @@ public class PaperController {
         this.iPaperBusinessService = iPaperBusinessService;
     }
 
+    /**
+     * 创建一篇文章
+     *
+     * @param request
+     * @param httpServletRequest
+     * @return
+     */
     @ResponseBody
     @PostMapping("/createPaper")
     public Response createPaper(@RequestBody PaperRequest request,
@@ -55,6 +62,7 @@ public class PaperController {
 
     /**
      * 读取一个用户需要审核的下级单位文章
+     *
      * @param request
      * @param httpServletRequest
      * @return
@@ -70,6 +78,35 @@ public class PaperController {
             in.put("token", token);
             Map out = iPaperBusinessService.listPaperUnApprove(in);
             response.setData(out);
+        } catch (Exception ex) {
+            try {
+                response.setCode(Integer.parseInt(ex.getMessage()));
+            } catch (Exception ex2) {
+                response.setCode(10001);
+                logger.error(ex.getMessage());
+            }
+        }
+        return response;
+    }
+
+    /**
+     * 管理员通过文章审核
+     * @param request
+     * @param httpServletRequest
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/approvePaper")
+    public Response approvePaper(@RequestBody PaperRequest request,
+                                 HttpServletRequest httpServletRequest) {
+        Response response = new Response();
+        try {
+            String token = httpServletRequest.getHeader("token");
+            Map in = new HashMap();
+            in.put("token", token);
+            in.put("paperId", request.getPaperId());
+
+            iPaperBusinessService.approvePaper(in);
         } catch (Exception ex) {
             try {
                 response.setCode(Integer.parseInt(ex.getMessage()));

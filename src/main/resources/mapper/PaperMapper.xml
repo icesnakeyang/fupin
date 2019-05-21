@@ -30,4 +30,84 @@
         and approve_time is null
     </select>
 
+    <!--读取文章的简要信息，不包含详情-->
+    <select id="getPaperTinyByPaperId" parameterType="java.lang.String"
+            resultMap="paperMap">
+        select ids, paper_id, title, upload_time, upload_user_id, status, approve_remark, approve_time,
+        category_id, public, approve_user_id, author, views, organize_id
+        from paper
+        where paper_id=#{paperId}
+    </select>
+
+    <!--增量修改文章信息-->
+    <update id="updatePaper" parameterType="com.lito.fupin.meta.paper.entity.Paper">
+        update paper set
+        <choose>
+            <when test="title!=null">
+                title=#{title},
+            </when>
+        </choose>
+        <choose>
+            <when test="content!=null">
+                content=#{content},
+            </when>
+        </choose>
+        <choose>
+            <when test="status!=null">
+                status=#{status},
+            </when>
+        </choose>
+        <choose>
+            <when test="approveMark!=null">
+                approve_mark=#{approveMark},
+            </when>
+        </choose>
+        <choose>
+            <when test="approveTime!=null">
+                approve_time=#{approveTime},
+            </when>
+        </choose>
+        <choose>
+            <when test="categoryId!=null">
+                category_id=#{categoryId},
+            </when>
+        </choose>
+        <choose>
+            <when test="isPublic!=null">
+                public =#{isPublic},
+            </when>
+        </choose>
+        <choose>
+            <when test="imgUrl!=null">
+                img_url=#{imgUrl},
+            </when>
+        </choose>
+        <choose>
+            <when test="fileUrl!=null">
+                file_url=#{fileUrl},
+            </when>
+        </choose>
+        <choose>
+            <when test="approveUserId!=null">
+                approve_user_id=#{approveUserId},
+            </when>
+        </choose>
+        <choose>
+            <when test="author!=null">
+                author=#{author},
+            </when>
+        </choose>
+        <choose>
+            <when test="views!=null">
+                views=#{views},
+            </when>
+        </choose>
+        <choose>
+            <when test="organizeId!=null">
+                organize_id=#{organizeId},
+            </when>
+        </choose>
+        where paper_id=#{paperId}
+    </update>
+
 </mapper>

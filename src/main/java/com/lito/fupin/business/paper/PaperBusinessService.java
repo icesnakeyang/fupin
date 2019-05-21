@@ -63,6 +63,7 @@ public class PaperBusinessService implements IPaperBusinessService {
         paper.setUploadTime(new Date());
         paper.setUploadUserId(user.getUserId());
         paper.setOrganizeId(user.getOrganizeId());
+        paper.setStatus("等待审核");
         iPaperService.createPaper(paper);
 
         Map out = new HashMap();
@@ -103,4 +104,29 @@ public class PaperBusinessService implements IPaperBusinessService {
         out.put("paperList", paperList);
         return out;
     }
+
+    /**
+     * 增量修改文章信息
+     * @param in
+     * @throws Exception
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void approvePaper(Map in) throws Exception {
+        String token=in.get("token").toString();
+        String paperId=in.get("paperId").toString();
+
+        User user=iUserService.getUserByToken(token);
+        Paper paper=iPaperService.getPaperTinyByPaperId(paperId);
+        Organize userOrganize=iOrganizeService.getOrganizeById(user.getOrganizeId());
+        Organize paperOrganize=iOrganizeService.getOrganizeById(paper.getOrganizeId());
+        if(!paperOrganize.getPid().equals(userOrganize.getOrganizeId())){
+            throw new Exception("10002");
+        }
+        paper.setStatus("通过审核");
+        paper.setApproveTime(new Date());
+        paper.setApproveUserId(user.getUserId());
+        iPaperService.updatePaper(paper);
+    }
+
 }

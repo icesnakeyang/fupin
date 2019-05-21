@@ -16,4 +16,19 @@ public interface IPaperService {
      * @throws Exception
      */
     ArrayList<Paper> listPaperUnApprove(String organizeId) throws Exception;
+
+    /**
+     * 读取文章的简要信息，不包含详情
+     * @param paperId
+     * @return
+     * @throws Exception
+     */
+    Paper getPaperTinyByPaperId(String paperId) throws Exception;
+
+    /**
+     * 增量修改文章信息
+     * @param paper
+     * @throws Exception
+     */
+    void updatePaper(Paper paper) throws Exception;
 }

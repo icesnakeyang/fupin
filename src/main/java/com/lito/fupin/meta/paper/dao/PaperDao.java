@@ -15,4 +15,17 @@ public interface PaperDao {
      * @param organizeId
      */
     ArrayList<Paper> listPaperUnApprove(String organizeId);
+
+    /**
+     * 读取文章的简要信息，不包含详情
+     * @param paperId
+     * @return
+     */
+    Paper getPaperTinyByPaperId(String paperId);
+
+    /**
+     * 增量修改文章信息
+     * @param paper
+     */
+    void updatePaper(Paper paper);
 }
