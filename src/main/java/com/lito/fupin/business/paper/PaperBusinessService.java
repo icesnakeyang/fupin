@@ -106,7 +106,7 @@ public class PaperBusinessService implements IPaperBusinessService {
     }
 
     /**
-     * 增量修改文章信息
+     * 通过审核
      * @param in
      * @throws Exception
      */
@@ -126,6 +126,40 @@ public class PaperBusinessService implements IPaperBusinessService {
         paper.setStatus("通过审核");
         paper.setApproveTime(new Date());
         paper.setApproveUserId(user.getUserId());
+        iPaperService.updatePaper(paper);
+    }
+
+    @Override
+    public Map listPaperToShow(Map in) throws Exception {
+        ArrayList<Paper> papers=iPaperService.listPaperToShow(in);
+        Map out=new HashMap();
+        out.put("paperList", papers);
+        return out;
+    }
+
+    /**
+     * 拒绝文章审核
+     * @param in
+     * @throws Exception
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void rejectPaper(Map in) throws Exception {
+        String token=in.get("token").toString();
+        String paperId=in.get("paperId").toString();
+        String remark=(String)in.get("remark");
+
+        User user=iUserService.getUserByToken(token);
+        Paper paper=iPaperService.getPaperTinyByPaperId(paperId);
+        Organize userOrganize=iOrganizeService.getOrganizeById(user.getOrganizeId());
+        Organize paperOrganize=iOrganizeService.getOrganizeById(paper.getOrganizeId());
+        if(!paperOrganize.getPid().equals(userOrganize.getOrganizeId())){
+            throw new Exception("10002");
+        }
+        paper.setStatus("拒绝审核");
+        paper.setApproveTime(new Date());
+        paper.setApproveUserId(user.getUserId());
+        paper.setApproveRemark(remark);
         iPaperService.updatePaper(paper);
     }
 

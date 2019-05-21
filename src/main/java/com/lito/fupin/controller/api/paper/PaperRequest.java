@@ -17,4 +17,5 @@ public class PaperRequest {
     private String imgUrl;
     private String fileUrl;
     private String author;
+    private String remark;
 }

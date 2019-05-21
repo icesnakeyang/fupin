@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -58,5 +59,23 @@ public class PaperService implements IPaperService {
     @Override
     public void updatePaper(Paper paper) throws Exception {
         paperDao.updatePaper(paper);
+    }
+
+    @Override
+    public ArrayList<Paper> listPaperToShow(Map in) throws Exception {
+        String categoryId=(String)in.get("categoryId");
+        String organizeId=in.get("organizeId").toString();
+        Integer pageIndex=(Integer)in.get("pageIndex");
+        Integer pageSize=(Integer)in.get("pageSize");
+        Integer offset=pageIndex*pageSize;
+        Integer size=pageSize;
+
+        Map qIn=new HashMap();
+        qIn.put("categoryId", categoryId);
+        qIn.put("organizeId", organizeId);
+        qIn.put("offset", offset);
+        qIn.put("size", size);
+        ArrayList<Paper> papers=paperDao.listPaperToShow(qIn);
+        return papers;
     }
 }

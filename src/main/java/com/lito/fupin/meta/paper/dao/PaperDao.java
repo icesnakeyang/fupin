@@ -28,4 +28,6 @@ public interface PaperDao {
      * @param paper
      */
     void updatePaper(Paper paper);
+
+    ArrayList<Paper> listPaperToShow(Map qIn);
 }

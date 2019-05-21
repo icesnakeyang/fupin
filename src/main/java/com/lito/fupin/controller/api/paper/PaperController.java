@@ -117,4 +117,28 @@ public class PaperController {
         }
         return response;
     }
+
+    @ResponseBody
+    @PostMapping("/rejectPaper")
+    public Response rejectPaper(@RequestBody PaperRequest request,
+                                 HttpServletRequest httpServletRequest) {
+        Response response = new Response();
+        try {
+            String token = httpServletRequest.getHeader("token");
+            Map in = new HashMap();
+            in.put("token", token);
+            in.put("paperId", request.getPaperId());
+            in.put("remark", request.getRemark());
+
+            iPaperBusinessService.rejectPaper(in);
+        } catch (Exception ex) {
+            try {
+                response.setCode(Integer.parseInt(ex.getMessage()));
+            } catch (Exception ex2) {
+                response.setCode(10001);
+                logger.error(ex.getMessage());
+            }
+        }
+        return response;
+    }
 }

@@ -14,4 +14,8 @@ public interface IPaperBusinessService {
     Map listPaperUnApprove(Map in) throws Exception;
 
     void approvePaper(Map in) throws Exception;
+
+    Map listPaperToShow(Map in) throws Exception;
+
+    void rejectPaper(Map in) throws Exception;
 }
