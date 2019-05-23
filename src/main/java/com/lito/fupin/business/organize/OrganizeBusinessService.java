@@ -3,6 +3,8 @@ package com.lito.fupin.business.organize;
 import com.lito.fupin.common.GGF;
 import com.lito.fupin.meta.organize.entity.Organize;
 import com.lito.fupin.meta.organize.service.IOrganizeService;
+import com.lito.fupin.meta.user.entity.User;
+import com.lito.fupin.meta.user.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,10 +16,13 @@ import java.util.Map;
 @Service
 public class OrganizeBusinessService implements IOrganizeBusinessService {
     private final IOrganizeService iOrganizeService;
+    private final IUserService iUserService;
 
     @Autowired
-    public OrganizeBusinessService(IOrganizeService iOrganizeService) {
+    public OrganizeBusinessService(IOrganizeService iOrganizeService,
+                                   IUserService iUserService) {
         this.iOrganizeService = iOrganizeService;
+        this.iUserService = iUserService;
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -46,11 +51,19 @@ public class OrganizeBusinessService implements IOrganizeBusinessService {
      */
     @Override
     public Map listOrganize(Map in) throws Exception {
+        String token=(String)in.get("token");
         String organizeName = (String) in.get("organizeName");
         Integer pageIndex = (Integer) in.get("pageIndex");
         Integer pageSize = (Integer) in.get("pageSize");
 
-        ArrayList<Organize> organizes = iOrganizeService.listOrganize(organizeName, pageIndex, pageSize);
+        ArrayList<Organize> organizes=null;
+        if(organizeName!=null) {
+            organizes = iOrganizeService.listOrganize(organizeName, pageIndex, pageSize);
+        }else {
+            User user=iUserService.getUserByToken(token);
+            Organize organize=iOrganizeService.getOrganizeById(user.getOrganizeId());
+            organizes=iOrganizeService.listOrganize(organize.getOrganizeName(), pageIndex, pageSize);
+        }
         Map out = new HashMap();
         out.put("organizeList", organizes);
         return out;

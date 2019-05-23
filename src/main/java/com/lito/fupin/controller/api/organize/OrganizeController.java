@@ -63,7 +63,9 @@ public class OrganizeController {
                                    HttpServletRequest httpServletRequest) {
         Response response = new Response();
         try {
+            String token=httpServletRequest.getHeader("token");
             Map in = new HashMap();
+            in.put("token", token);
             in.put("organizeName", request.getOrganizeName());
             in.put("pageIndex", request.getPageIndex());
             in.put("pageSize", request.getPageSize());
