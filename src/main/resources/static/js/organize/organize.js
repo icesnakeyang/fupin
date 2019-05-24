@@ -19,9 +19,6 @@ $(function () {
         success: function (response) {
             console.log(response.code)
             console.log(response.data)
-            // $.session.set('token', response.data.user.token)
-            // console.log($.session.get('token'))
-            // window.location.href = "/admin/dashboard";
         }
     })
 
