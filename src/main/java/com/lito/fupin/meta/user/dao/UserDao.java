@@ -3,6 +3,7 @@ package com.lito.fupin.meta.user.dao;
 import com.lito.fupin.meta.user.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 @Mapper
@@ -21,4 +22,13 @@ public interface UserDao {
     User getUserByLoginNamePassword(Map qIn);
 
     User getUserByToken(String token);
+
+    ArrayList<User> listUserByPid(String organizeId);
+
+    /**
+     * 查询一个机构下的所有用户
+     * @param organizeId
+     * @return
+     */
+    ArrayList<User> listUserByOrganize(String organizeId);
 }

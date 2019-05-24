@@ -24,4 +24,14 @@ public interface IUserService {
     User getUserByUserId(String userId) throws Exception;
 
     User getUserByToken(String token) throws Exception;
+
+    ArrayList<User> listUserByPid(String organizeId) throws Exception;
+
+    /**
+     * 读取一个机构下的所有用户
+     * @param organizeId
+     * @return
+     * @throws Exception
+     */
+    ArrayList listUserByOrganizeId(String organizeId) throws Exception;
 }

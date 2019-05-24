@@ -5,6 +5,7 @@ import com.lito.fupin.meta.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,5 +55,23 @@ public class UserService implements IUserService {
     public User getUserByToken(String token) throws Exception {
         User user = userDao.getUserByToken(token);
         return user;
+    }
+
+    @Override
+    public ArrayList<User> listUserByPid(String organizeId) throws Exception {
+        ArrayList<User> userList = userDao.listUserByPid(organizeId);
+        return userList;
+    }
+
+    /**
+     * 查询一个机构下的所有用户
+     * @param organizeId
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public ArrayList listUserByOrganizeId(String organizeId) throws Exception {
+        ArrayList<User> userArrayList=userDao.listUserByOrganize(organizeId);
+        return userArrayList;
     }
 }

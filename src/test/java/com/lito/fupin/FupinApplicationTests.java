@@ -1,6 +1,9 @@
 package com.lito.fupin;
 
+import com.lito.fupin.business.user.IUserBusinessService;
 import com.lito.fupin.common.GGF;
+import com.lito.fupin.meta.organize.entity.Organize;
+import com.lito.fupin.meta.organize.service.IOrganizeService;
 import com.lito.fupin.meta.user.entity.User;
 import com.lito.fupin.meta.user.service.IUserService;
 import org.junit.Test;
@@ -9,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +22,10 @@ import java.util.Map;
 public class FupinApplicationTests {
     @Autowired
     private IUserService iUserService;
+    @Autowired
+    private IUserBusinessService iUserBusinessService;
+    @Autowired
+    private IOrganizeService iOrganizeService;
 
     @Test
     public void contextLoads() {
@@ -42,6 +50,18 @@ public class FupinApplicationTests {
             User user = iUserService.getUserByLoginNamePassword(loginName, password);
             Map out = new HashMap();
             out.put("admin/user", user);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    @Test
+    public void listUser() {
+        try {
+            Organize organize = iOrganizeService.getOrganizeById("c47809ee-f158-4f9b-92fa-28abec108f0e");
+//            ArrayList<User> userList = iUserBusinessService.listSubUser(organize);
+            int i = 0;
+            i = 5;
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }

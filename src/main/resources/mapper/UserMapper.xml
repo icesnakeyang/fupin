@@ -15,6 +15,7 @@
         <result property="loginName" column="login_name"/>
         <result property="createdTime" column="created_time"/>
         <result property="organizeId" column="organize_id"/>
+        <result property="organizeName" column="organize_name"/>
         <result property="tokenTime" column="token_time"/>
     </resultMap>
 
@@ -30,5 +31,20 @@
             resultMap="userMap">
         select * from user
         where token=#{token}
+    </select>
+
+    <select id="listUserByPid" parameterType="java.lang.String"
+            resultMap="userMap">
+
+    </select>
+
+<!--    查询一个机构下的所有用户-->
+    <select id="listUserByOrganize" parameterType="java.lang.String"
+            resultMap="userMap">
+        select org.ids, login_name, created_time, org.organize_id, organize_name, pid, token, token_time, user_id from user as user
+        left join organize as org
+        on user.organize_id=org.organize_id
+        where 1=1
+        and org.organize_id=#{organizeId}
     </select>
 </mapper>

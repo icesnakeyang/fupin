@@ -15,6 +15,7 @@ public class User {
     private String password;
     private Date createdTime;
     private String organizeId;
+    private String organizeName;
     private String token;
     private Date tokenTime;
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,5 +82,13 @@ public class User {
 
     public void setTokenTime(Date tokenTime) {
         this.tokenTime = tokenTime;
+    }
+
+    public String getOrganizeName() {
+        return organizeName;
+    }
+
+    public void setOrganizeName(String organizeName) {
+        this.organizeName = organizeName;
     }
 }

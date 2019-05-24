@@ -2,6 +2,7 @@ package com.lito.fupin.controller.api.user;
 
 import com.lito.fupin.business.user.IUserBusinessService;
 import com.lito.fupin.controller.vo.Response;
+import com.lito.fupin.meta.paper.entity.Paper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,7 @@ public class UserController {
 
     /**
      * 管理员登录
+     *
      * @param request
      * @return
      */
@@ -67,6 +69,27 @@ public class UserController {
             in.put("loginName", request.getLoginName());
             in.put("password", request.getPassword());
             Map out = iUserBusinessService.login(in);
+            response.setData(out);
+        } catch (Exception ex) {
+            try {
+                response.setCode(Integer.parseInt(ex.getMessage()));
+            } catch (Exception ex2) {
+                response.setCode(10001);
+                logger.error(ex.getMessage());
+            }
+        }
+        return response;
+    }
+
+    @ResponseBody
+    @PostMapping("/listUserByToken")
+    public Response listUserByToken(HttpServletRequest httpServletRequest) {
+        Response response = new Response();
+        try {
+            String token = httpServletRequest.getHeader("token");
+            Map in = new HashMap();
+            in.put("token", token);
+            Map out = iUserBusinessService.listUserByToken(in);
             response.setData(out);
         } catch (Exception ex) {
             try {
