@@ -1,13 +1,22 @@
 package com.lito.fupin.controller.adminPage;
 
 import com.lito.fupin.business.user.IUserBusinessService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("admin")
 public class AdminPageController {
+    private final IUserBusinessService iUserBusinessService;
+
+    public AdminPageController(IUserBusinessService iUserBusinessService) {
+        this.iUserBusinessService = iUserBusinessService;
+    }
 
     /**
      * 用户登录页面
@@ -59,7 +68,17 @@ public class AdminPageController {
      * @return
      */
     @RequestMapping("/user")
-    public String userPage(){
+    public String userPage(Model model, HttpServletRequest httpServletRequest){
+
+        try {
+            String token = httpServletRequest.getHeader("token");
+            Map in = new HashMap();
+            in.put("token", token);
+            Map out = iUserBusinessService.listUserByToken(in);
+            model.addAttribute("map",out);
+        }catch (Exception ex){
+
+        }
         return "admin/user/user";
     }
 }

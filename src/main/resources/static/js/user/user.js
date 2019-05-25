@@ -13,7 +13,7 @@ $(function () {
         url: "/api/user/listUserByToken",
         data: JSON.stringify(params),
         contentType: 'application/json',
-        beforeSend: function(xhr) {
+        beforeSend: function (xhr) {
             xhr.setRequestHeader("token", $.session.get("token"));
         },
         success: function (response) {
@@ -21,5 +21,4 @@ $(function () {
             console.log(response.data)
         }
     })
-
 })
