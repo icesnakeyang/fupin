@@ -81,4 +81,9 @@ public class AdminPageController {
         }
         return "admin/user/user";
     }
+
+    @RequestMapping("/editPaper")
+    public String editPaperPage(){
+        return "admin/paper/editPaper";
+    }
 }
