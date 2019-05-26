@@ -51,18 +51,18 @@ public class OrganizeBusinessService implements IOrganizeBusinessService {
      */
     @Override
     public Map listOrganize(Map in) throws Exception {
-        String token=(String)in.get("token");
+        String token = (String) in.get("token");
         String organizeName = (String) in.get("organizeName");
         Integer pageIndex = (Integer) in.get("pageIndex");
         Integer pageSize = (Integer) in.get("pageSize");
 
-        ArrayList<Organize> organizes=null;
-        if(organizeName!=null) {
+        ArrayList<Organize> organizes = null;
+        if (organizeName != null) {
             organizes = iOrganizeService.listOrganize(organizeName, pageIndex, pageSize);
-        }else {
-            User user=iUserService.getUserByToken(token);
-            Organize organize=iOrganizeService.getOrganizeById(user.getOrganizeId());
-            organizes=iOrganizeService.listOrganize(organize.getOrganizeName(), pageIndex, pageSize);
+        } else {
+            User user = iUserService.getUserByToken(token);
+            Organize organize = iOrganizeService.getOrganizeById(user.getOrganizeId());
+            organizes = iOrganizeService.listOrganize(organize.getOrganizeName(), pageIndex, pageSize);
         }
         Map out = new HashMap();
         out.put("organizeList", organizes);
@@ -94,7 +94,38 @@ public class OrganizeBusinessService implements IOrganizeBusinessService {
 
     @Override
     public void deleteOrganize(Map in) throws Exception {
-        String organizeId=in.get("organizeId").toString();
+        String organizeId = in.get("organizeId").toString();
         iOrganizeService.deleteOrganize(organizeId);
+    }
+
+    @Override
+    public Map listOrganizeByToken(Map in) throws Exception {
+        String token = in.get("token").toString();
+
+        User user = iUserService.getUserByToken(token);
+
+        if (user == null) {
+            throw new Exception("10003");
+        }
+
+        Organize organize = iOrganizeService.getOrganizeById(user.getOrganizeId());
+
+        ArrayList<Organize> organizeList=listSubOrganize(organize);
+
+        Map out = new HashMap();
+        out.put("organizeList", organizeList);
+
+        return out;
+    }
+
+    private ArrayList<Organize> listSubOrganize(Organize organize) throws Exception {
+        ArrayList<Organize> organizes = iOrganizeService.listOrganizeByPid(organize.getOrganizeId());
+        ArrayList<Organize> outOrganizeList = new ArrayList<>();
+        outOrganizeList.addAll(organizes);
+        for (int i = 0; i < organizes.size(); i++) {
+            ArrayList list = listSubOrganize(organizes.get(i));
+            outOrganizeList.addAll(list);
+        }
+        return outOrganizeList;
     }
 }

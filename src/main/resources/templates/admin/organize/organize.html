@@ -83,7 +83,8 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label>上级单位</label>
-                                                            <select data-placeholder="Choose a Country..." class="chosen-select" tabindex="2">
+                                                            <select data-placeholder="Choose a Country..."
+                                                                    class="chosen-select" tabindex="2">
                                                                 <option value="">Select</option>
                                                                 <option value="United States">United States</option>
                                                                 <option value="United Kingdom">United Kingdom</option>
@@ -115,7 +116,7 @@
                         </div>
                         <div class="ibox-content">
                             <div class="table-responsive">
-                                <table id="example"
+                                <table id="organizeTable"
                                        class="table table-striped table-bordered table-hover dataTables-example">
                                     <thead>
                                     <tr>
@@ -125,22 +126,12 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="gradeX">
-                                        <td>道孚县</td>
-                                        <td>甘孜州</td>
-                                        <td>
-                                            <button type="button">编辑</button>
-                                            <button type="button">删除</button>
-                                        </td>
-                                    </tr>
-                                    </tfoot>
+                                    </tbody>
                                 </table>
                             </div>
-
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -161,7 +152,52 @@
 
 <script>
     $(document).ready(function () {
+        var params = {
+            "pageIndex": 0,
+            "pageSize": 200
+        }
+        var userList
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: "/api/organize/listOrganizeByToken",
+            data: JSON.stringify(params),
+            contentType: 'application/json',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("token", $.session.get("token"));
+            },
+            success: function (response) {
+                userList = response.data.organizeList
+            }
+        })
         $('.dataTables-example').DataTable({
+            data: userList,
+            //给table内自定义按钮
+            "columnDefs": [
+                {
+                    // targets用于指定操作的列，从第0列开始，-1为最后一列，这里第4列
+                    // return后边是我们希望在指定列填入的按钮代码
+                    "targets": -1,
+                    //操作列不排序
+                    "bSortable": false,
+                    "render": function (data, type, full) {
+                        return '<button id="btEditRow" type = "button" class="btn btn-primary">编辑</button>' +
+                            '&nbsp;&nbsp;<button id="btDelRow" type="button" class="btn btn-danger">删除</button>'
+                    }
+                }
+            ],
+            //给列赋值，这里的列名需要和data的数据名对应
+            //注意这里第4列数据指定为null，用来存放我们加入的按钮
+            "columns": [
+                {
+                    "data": "organizeName"
+                }, {
+                    "data": "pname"
+                },
+                {
+                    "data": null
+                }
+            ],
             pageLength: 25,
             responsive: true,
             dom: '<"html5buttons"B>lTfgitp',
@@ -170,7 +206,6 @@
                 {extend: 'csv'},
                 {extend: 'excel', title: 'ExampleFile'},
                 {extend: 'pdf', title: 'ExampleFile'},
-
                 {
                     extend: 'print',
                     customize: function (win) {
@@ -208,9 +243,14 @@
                 }
             }
         });
-
-    });
-    $('.chosen-select').chosen({width: "100%"});
+        $(document).on('click', '#btEditRow,#btDelRow', function () {
+            $(this).parent('td').parent("tr").addClass('select').siblings('tr').removeClass('select')
+            var table = $('#organizeTable').DataTable()
+//            console.log(table.row('.select').data().organizeId)
+            alert(table.row('.select').data().organizeId)
+        })
+        $('.chosen-select').chosen({width: "100%"});
+    })
 </script>
 </body>
 </html>

@@ -123,4 +123,31 @@ public class OrganizeController {
         }
         return response;
     }
+
+    /**
+     * 根据用户的token，查询用户权限下的所有机构
+     * @param httpServletRequest
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/listOrganizeByToken")
+    public Response listOrganizeByToken(HttpServletRequest httpServletRequest){
+        Response response=new Response();
+        try {
+            String token=httpServletRequest.getHeader("token");
+            Map in=new HashMap();
+            in.put("token", token);
+
+            Map out=iOrganizeBusinessService.listOrganizeByToken(in);
+            response.setData(out);
+        }catch (Exception ex){
+            try {
+                response.setCode(Integer.parseInt(ex.getMessage()));
+            }catch (Exception ex2){
+                response.setCode(10001);
+                logger.error(ex.getMessage());
+            }
+        }
+        return response;
+    }
 }

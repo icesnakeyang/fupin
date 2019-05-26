@@ -18,14 +18,16 @@
     <!--    根据机构名称模糊查询机构列表，支持分页-->
     <select id="listOrganize" parameterType="map"
             resultMap="organizeMap">
-        select * from organize
+        select a.ids, a.organize_id, a.organize_name, a.pid,b.organize_name as pname from organize as a
+        left join organize as b
+        on a.pid=b.organize_id
         where 1=1
         <choose>
             <when test="name!=null">
-                and organize_name like concat('%',#{name},'%')
+                and a.organize_name like concat('%',#{name},'%')
             </when>
         </choose>
-        order by pid
+        order by a.pid
         limit #{offset}, #{size}
     </select>
 
@@ -60,7 +62,9 @@
     <!--    查询指定父分类id的所有子分类-->
     <select id="listOrganizeByPid" parameterType="java.lang.String"
             resultMap="organizeMap">
-        select * from organize
-        where pid=#{pid}
+        select a.ids, a.organize_id, a.organize_name, a.pid,b.organize_name as pname from organize as a
+        left join organize as b
+        on a.pid=b.organize_id
+        where a.pid=#{pid}
     </select>
 </mapper>

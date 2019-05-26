@@ -16,4 +16,6 @@ public interface IOrganizeBusinessService {
     void updateOrganize(Map in) throws Exception;
 
     void deleteOrganize(Map in) throws Exception;
+
+    Map listOrganizeByToken(Map in) throws Exception;
 }
