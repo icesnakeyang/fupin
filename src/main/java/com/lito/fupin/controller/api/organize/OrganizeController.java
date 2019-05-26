@@ -25,6 +25,7 @@ public class OrganizeController {
 
     /**
      * 创建机构
+     *
      * @param request
      * @param httpServletRequest
      * @return
@@ -35,7 +36,9 @@ public class OrganizeController {
                                    HttpServletRequest httpServletRequest) {
         Response response = new Response();
         try {
+            String token = httpServletRequest.getHeader("token");
             Map in = new HashMap();
+            in.put("token", token);
             in.put("organizeName", request.getOrganizeName());
             in.put("pid", request.getPid());
             Map out = iOrganizeBusinessService.createOrganize(in);
@@ -53,6 +56,7 @@ public class OrganizeController {
 
     /**
      * 根据机构名称模糊查询机构列表，支持分页
+     *
      * @param request
      * @param httpServletRequest
      * @return
@@ -60,10 +64,10 @@ public class OrganizeController {
     @ResponseBody
     @PostMapping("/listOrganize")
     public Response listOrganize(@RequestBody OrganizeRequest request,
-                                   HttpServletRequest httpServletRequest) {
+                                 HttpServletRequest httpServletRequest) {
         Response response = new Response();
         try {
-            String token=httpServletRequest.getHeader("token");
+            String token = httpServletRequest.getHeader("token");
             Map in = new HashMap();
             in.put("token", token);
             in.put("organizeName", request.getOrganizeName());
@@ -88,10 +92,13 @@ public class OrganizeController {
                                    HttpServletRequest httpServletRequest) {
         Response response = new Response();
         try {
+            String token=httpServletRequest.getHeader("token");
             Map in = new HashMap();
+            in.put("token", token);
             in.put("organizeId", request.getOrganizeId());
             in.put("organizeName", request.getOrganizeName());
             in.put("pOrgName", request.getpOrgName());
+            in.put("pid", request.getPid());
             iOrganizeBusinessService.updateOrganize(in);
         } catch (Exception ex) {
             try {
@@ -110,7 +117,9 @@ public class OrganizeController {
                                    HttpServletRequest httpServletRequest) {
         Response response = new Response();
         try {
+            String token=httpServletRequest.getHeader("token");
             Map in = new HashMap();
+            in.put("token", token);
             in.put("organizeId", request.getOrganizeId());
             iOrganizeBusinessService.deleteOrganize(in);
         } catch (Exception ex) {
@@ -126,24 +135,25 @@ public class OrganizeController {
 
     /**
      * 根据用户的token，查询用户权限下的所有机构
+     *
      * @param httpServletRequest
      * @return
      */
     @ResponseBody
     @PostMapping("/listOrganizeByToken")
-    public Response listOrganizeByToken(HttpServletRequest httpServletRequest){
-        Response response=new Response();
+    public Response listOrganizeByToken(HttpServletRequest httpServletRequest) {
+        Response response = new Response();
         try {
-            String token=httpServletRequest.getHeader("token");
-            Map in=new HashMap();
+            String token = httpServletRequest.getHeader("token");
+            Map in = new HashMap();
             in.put("token", token);
 
-            Map out=iOrganizeBusinessService.listOrganizeByToken(in);
+            Map out = iOrganizeBusinessService.listOrganizeByToken(in);
             response.setData(out);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             try {
                 response.setCode(Integer.parseInt(ex.getMessage()));
-            }catch (Exception ex2){
+            } catch (Exception ex2) {
                 response.setCode(10001);
                 logger.error(ex.getMessage());
             }

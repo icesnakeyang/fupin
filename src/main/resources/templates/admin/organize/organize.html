@@ -78,21 +78,19 @@
                                                     <form role="form">
                                                         <div class="form-group">
                                                             <label>机构名称</label>
-                                                            <input type="email"
+                                                            <input type="text" id="newName"
                                                                    class="form-control">
                                                         </div>
                                                         <div class="form-group">
                                                             <label>上级单位</label>
-                                                            <select data-placeholder="Choose a Country..."
+                                                            <select id="organizeSelect"
+                                                                    data-placeholder="Choose a Country..."
                                                                     class="chosen-select" tabindex="2">
-                                                                <option value="">Select</option>
-                                                                <option value="United States">United States</option>
-                                                                <option value="United Kingdom">United Kingdom</option>
-                                                                <option value="Afghanistan">Afghanistan</option>
                                                             </select>
                                                         </div>
                                                         <div>
-                                                            <button class="btn btn-sm btn-primary float-right m-t-n-xs"
+                                                            <button id="btCreateOrganize"
+                                                                    class="btn btn-sm btn-primary float-right m-t-n-xs"
                                                                     type="button"><strong>创建</strong></button>
                                                             </label>
                                                         </div>
@@ -137,6 +135,57 @@
     </div>
 </div>
 
+<div id="edit-form" class="modal fade" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3 class="m-t-none m-b">编辑机构</h3>
+                        <p>修改机构名称，重新设定上级单位</p>
+                        <form role="form">
+                            <div class="form-group">
+                                <label>机构名称</label>
+                                <input type="text" id="editOrganName"
+                                       class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>上级单位</label>
+                                <select id="editOrganizeSelect"
+                                        class="chosen-select" tabindex="2">
+                                </select>
+                            </div>
+                            <div>
+                                <button id="btEditOrganize"
+                                        class="btn btn-sm btn-primary float-right m-t-n-xs"
+                                        type="button"><strong>更改</strong></button>
+                                </label>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body">
+                <p>确认要删除该机构吗</p>
+                <span id="deleteOrganizeName" class="label label-warning"></span>
+            </div>
+            <div class="modal-footer">
+                <button id="btCancel" type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                <button id="btConfirmDelete" type="button" class="btn btn-primary">删除</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Mainly scripts -->
 <script src="/framework/jquery/jquery.min.js"></script>
 <script src="/framework/popper.min.js"></script>
@@ -156,7 +205,9 @@
             "pageIndex": 0,
             "pageSize": 200
         }
-        var userList
+        var organizeList
+        var rowId
+        var rowName
         $.ajax({
             type: "POST",
             async: false,
@@ -167,11 +218,12 @@
                 xhr.setRequestHeader("token", $.session.get("token"));
             },
             success: function (response) {
-                userList = response.data.organizeList
+                organizeList = response.data.organizeList
             }
         })
+        console.log(organizeList)
         $('.dataTables-example').DataTable({
-            data: userList,
+            data: organizeList,
             //给table内自定义按钮
             "columnDefs": [
                 {
@@ -243,13 +295,113 @@
                 }
             }
         });
-        $(document).on('click', '#btEditRow,#btDelRow', function () {
+        $(document).on('click', '#btEditRow', function () {
             $(this).parent('td').parent("tr").addClass('select').siblings('tr').removeClass('select')
             var table = $('#organizeTable').DataTable()
-//            console.log(table.row('.select').data().organizeId)
-            alert(table.row('.select').data().organizeId)
+            $('#editOrganName').val(table.row('.select').data().organizeName)
+            $('#editOrganizeSelect').val(table.row('.select').data().pid).trigger("chosen:updated")
+            rowId = table.row('.select').data().organizeId
+            $('#edit-form').modal('show')
         })
+
+        $(document).on('click', '#btDelRow', function () {
+            $(this).parent('td').parent("tr").addClass('select').siblings('tr').removeClass('select')
+            var table = $('#organizeTable').DataTable()
+            console.log(table.row('.select').data())
+            rowId = table.row('.select').data().organizeId
+            rowName = table.row('.select').data().organizeName
+            $('#deleteOrganizeName').html(rowName)
+            $('#modalConfirmDelete').modal('show')
+        })
+
+        var optionHtml
+        $.each(organizeList, function (i, item) {
+            optionHtml += '<option value="' + item.organizeId + '">' + item.organizeName + '</option>';
+        })
+        $('#organizeSelect').html(optionHtml);
+        $('#editOrganizeSelect').html(optionHtml);
+
         $('.chosen-select').chosen({width: "100%"});
+
+        $("#btCreateOrganize").click(function () {
+            var name = $('#newName').val()
+            var orgId = $('#organizeSelect').val()
+            if (orgId == "null") {
+                orgId = null
+            }
+
+            var params = {
+                "organizeName": name,
+                "pid": orgId
+            }
+
+            console.log(params)
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/api/organize/createOrganize",
+                data: JSON.stringify(params),
+                contentType: 'application/json',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("token", $.session.get("token"));
+                },
+                success: function (response) {
+                    console.log(response)
+                    if (response.code == 0) {
+                        console.log('refresh')
+                        location.reload()
+                    }
+                }
+            })
+        })
+
+        $('#btEditOrganize').click(function () {
+            var params = {
+                pid: $('#editOrganizeSelect').val(),
+                organizeName: $('#editOrganName').val(),
+                organizeId: rowId
+            }
+            console.log(params)
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/api/organize/updateOrganize",
+                data: JSON.stringify(params),
+                contentType: 'application/json',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("token", $.session.get("token"));
+                },
+                success: function (response) {
+                    console.log(response)
+                    if (response.code == 0) {
+                        location.reload()
+                    }
+                }
+            })
+        })
+
+        $('#btConfirmDelete').click(function () {
+            var params = {
+                organizeId: rowId
+            }
+            console.log(params)
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/api/organize/deleteOrganize",
+                data: JSON.stringify(params),
+                contentType: 'application/json',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("token", $.session.get("token"));
+                },
+                success: function (response) {
+                    console.log(response)
+                    if (response.code == 0) {
+                        location.reload()
+                    }
+                }
+            })
+        })
     })
 </script>
 </body>

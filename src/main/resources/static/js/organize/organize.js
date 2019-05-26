@@ -1,9 +1,5 @@
 $(function () {
-
-
-    console.log(userList)
-
-
-
-
+    $("#btCreateOrganize").click(function () {
+        console.log(1)
+    })
 })
