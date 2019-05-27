@@ -37,10 +37,13 @@ public class UserController {
                              HttpServletRequest httpServletRequest) {
         Response response = new Response();
         try {
+            String token=httpServletRequest.getHeader("token");
             Map in = new HashMap();
+            in.put("token", token);
             in.put("loginName", request.getLoginName());
             in.put("password", request.getPassword());
             in.put("organizeId", request.getOrganizeId());
+            in.put("permission", request.getPermission());
             Map out = iUserBusinessService.register(in);
             response.setData(out);
         } catch (Exception ex) {

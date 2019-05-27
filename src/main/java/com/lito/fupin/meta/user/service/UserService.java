@@ -46,6 +46,18 @@ public class UserService implements IUserService {
         return user;
     }
 
+    /**
+     * 根据loginName查询user用户
+     * @param loginName
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public User getUserByLoginName(String loginName) throws Exception {
+        User user=userDao.getUserByLoginName(loginName);
+        return user;
+    }
+
     @Override
     public User getUserByUserId(String userId) throws Exception {
         return null;

@@ -18,19 +18,21 @@
     <!--    根据分类名称模糊查询分类；或者根据pid查询所有的子分类-->
     <select id="listCategory" parameterType="map"
             resultMap="categoryMap">
-        select * from category
+        select a.ids, a.category_id, a.category_name, a.pid, b.category_name as pname
+        from category a
+        left join category b
+        on a.pid = b.category_id
         where 1=1
         <choose>
             <when test="categoryName!=null">
-                and category_name like concat('%',#{categoryName},'%')
+                and a.category_name like concat('%',#{categoryName},'%')
             </when>
         </choose>
         <choose>
             <when test="pid!=null">
-                and pid=#{pid}
+                and a.pid=#{pid}
             </when>
         </choose>
-        order by pid
     </select>
 
     <select id="getCategoryByName" parameterType="java.lang.String"

@@ -4,9 +4,9 @@
     <!--新增一个用户-->
     <insert id="createUser" parameterType="com.lito.fupin.meta.user.entity.User">
         insert into user
-        (user_id, login_name, password, created_time, organize_id, token, token_time)
+        (user_id, login_name, password, created_time, organize_id, token, token_time, permission)
         values
-        (#{userId}, #{loginName}, #{password}, #{createdTime}, #{organizeId}, #{token}, #{tokenTime})
+        (#{userId}, #{loginName}, #{password}, #{createdTime}, #{organizeId}, #{token}, #{tokenTime}, #{permission})
     </insert>
 
     <!--配置user表和User对象的字段映射 -->
@@ -38,13 +38,21 @@
 
     </select>
 
-<!--    查询一个机构下的所有用户-->
+    <!--    查询一个机构下的所有用户-->
     <select id="listUserByOrganize" parameterType="java.lang.String"
             resultMap="userMap">
-        select org.ids, login_name, created_time, org.organize_id, organize_name, pid, token, token_time, user_id from user as user
-        left join organize as org
-        on user.organize_id=org.organize_id
+        select a.ids, user_id,login_name, created_time, a.organize_id, organize_name, permission, pid
+        from user a
+        left join organize b
+        on a.organize_id = b.organize_id
         where 1=1
-        and org.organize_id=#{organizeId}
+        and a.organize_id=#{organizeId}
+    </select>
+
+<!--    根据loginName查询user用户-->
+    <select id="getUserByLoginName" parameterType="java.lang.String"
+            resultMap="userMap">
+        select * from user
+        where login_name=#{loginName}
     </select>
 </mapper>

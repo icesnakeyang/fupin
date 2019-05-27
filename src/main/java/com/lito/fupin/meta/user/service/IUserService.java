@@ -21,6 +21,14 @@ public interface IUserService {
      */
     User getUserByLoginNamePassword(String loginName, String password) throws Exception;
 
+    /**
+     * 根据loginName查询用户
+     * @param loginName
+     * @return
+     * @throws Exception
+     */
+    User getUserByLoginName(String loginName) throws Exception;
+
     User getUserByUserId(String userId) throws Exception;
 
     User getUserByToken(String token) throws Exception;

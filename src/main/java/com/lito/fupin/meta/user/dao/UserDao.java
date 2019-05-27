@@ -31,4 +31,11 @@ public interface UserDao {
      * @return
      */
     ArrayList<User> listUserByOrganize(String organizeId);
+
+    /**
+     * 根据loginName查询user用户
+     * @param loginName
+     * @return
+     */
+    User getUserByLoginName(String loginName);
 }

@@ -20,6 +20,11 @@ public class CategoryService implements ICategoryService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void createCategory(Category category) throws Exception {
+        if(category.getPid()!=null){
+            if(category.getPid().equals(category.getCategoryId())){
+                throw new Exception("10007");
+            }
+        }
         categoryDao.createCategory(category);
     }
 
@@ -44,6 +49,11 @@ public class CategoryService implements ICategoryService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateCategory(Category category) throws Exception {
+        if(category.getPid()!=null){
+            if(category.getPid().equals(category.getCategoryId())){
+                throw new Exception("10007");
+            }
+        }
         categoryDao.updateCategory(category);
     }
 

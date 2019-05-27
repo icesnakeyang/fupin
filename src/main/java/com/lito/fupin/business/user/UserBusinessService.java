@@ -36,9 +36,25 @@ public class UserBusinessService implements IUserBusinessService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Map register(Map in) throws Exception {
+        String token = in.get("token").toString();
         String loginName = in.get("loginName").toString();
         String password = in.get("password").toString();
         String organizeId = in.get("organizeId").toString();
+        String permission = in.get("permission").toString();
+
+        User loginUser = iUserService.getUserByToken(token);
+        if (loginUser == null) {
+            throw new Exception("10003");
+        }
+        if (!loginUser.getPermission().equals("超级管理员") &&
+                !loginUser.getPermission().equals("普通管理员")) {
+            throw new Exception("10005");
+        }
+
+        User checkUser = iUserService.getUserByLoginName(loginName);
+        if (checkUser != null) {
+            throw new Exception("10006");
+        }
 
         User user = new User();
         user.setCreatedTime(new Date());
@@ -48,6 +64,7 @@ public class UserBusinessService implements IUserBusinessService {
         user.setUserId(GGF.UUID().toString());
         user.setToken(GGF.UUID().toString());
         user.setTokenTime(new Date());
+        user.setPermission(permission);
         iUserService.createUser(user);
 
         Map out = new HashMap();
@@ -99,17 +116,13 @@ public class UserBusinessService implements IUserBusinessService {
     }
 
     private ArrayList listSubUser(Organize organize) throws Exception {
-        boolean isEnd = false;
-        Map out = new HashMap();
-        //查询当前机构的所有下一级机构
+        //查询当前机构的所有用户
+        ArrayList<User> userList = iUserService.listUserByOrganizeId(organize.getOrganizeId());
+        //j检查当前机构是否有下一级机构
         ArrayList<Organize> organizeList = iOrganizeService.listOrganizeByPid(organize.getOrganizeId());
-        //继续查询子机构
-        ArrayList<User> userList = null;
-        for (int i = 0; i < organizeList.size(); i++) {
-            userList = iUserService.listUserByOrganizeId(organizeList.get(i).getOrganizeId());
-            ArrayList<User> subUserList = listSubUser(organizeList.get(i));
-            if (subUserList != null) {
-                userList.addAll(subUserList);
+        if (organizeList.size() > 0) {
+            for (int i = 0; i < organizeList.size(); i++) {
+                userList.addAll(listSubUser(organizeList.get(i)));
             }
         }
         return userList;
