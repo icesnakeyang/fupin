@@ -18,14 +18,14 @@
                 <li>
                     <a href="/admin/dashboard"><i class="fa fa-th-large"></i> <span class="nav-label">控制台</span></a>
                 </li>
-                <li class="active">
+                <li>
                     <a href="/admin/organize"><i class="fa fa-university"></i> <span class="nav-label">组织机构</span></a>
                 </li>
                 <li>
                     <a href="/admin/category"><i class="fa fa-folder-open"></i> <span class="nav-label">网站栏目</span></a>
                 </li>
-                <li>
-                    <a href="/admin/paper"><i class="fa fa-file-text"></i> <span class="nav-label">文件管理 </span></a>
+                <li class="active">
+                    <a href="/admin/paper"><i class="fa fa-file-text"></i> <span class="nav-label">文章管理 </span></a>
                 </li>
                 <li>
                     <a href="/admin/user"><i class="fa fa-address-card"></i> <span class="nav-label">用户管理</span> </a>
@@ -43,10 +43,12 @@
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
+                        <span id="loginName"></span>
                         <span class="m-r-sm text-muted welcome-message">欢迎使用</span>
                     </li>
                     <li>
-                        <a href="login.html">
+                        <a href="/admin/loginPage">
+
                             <i class="fa fa-sign-out"></i>退出登录
                         </a>
                     </li>
@@ -123,6 +125,29 @@
 
 <script>
     $(document).ready(function () {
+        $('#loginName').html("你好，"+$.session.get("loginName")+"！");
+
+
+        // 读取文章列表
+        params={
+
+        }
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: "http://127.0.0.1:8080/api/paper/listPaperUnApprove",
+            data: JSON.stringify(params),
+            contentType: 'application/json',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("token", $.session.get("token"));
+            },
+            success: function (response) {
+                console.log(response)
+                if (response.code == 0) {
+
+                }
+            }
+        })
         $('.dataTables-example').DataTable({
             pageLength: 25,
             responsive: true,
@@ -170,6 +195,8 @@
                 }
             }
         });
+
+
 
     });
 </script>

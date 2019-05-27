@@ -8,6 +8,8 @@
     <link href="/framework/font-awesome/font-awesome.css" rel="stylesheet">
     <link href="/framework/css/style.css" rel="stylesheet">
     <link href="/framework/summernote/summernote-bs4.css" rel="stylesheet">
+    <link href="/framework/bootstrap/bootstrap-chosen.css" rel="stylesheet">
+    <link href="/framework/icheck/custom.css" rel="stylesheet">
 
 </head>
 
@@ -63,23 +65,29 @@
                         <div class="ibox-title">
                             <h5>添加文件</h5>
                             <div class="ibox-content">
-                                <div class="text-left">
-                                    <div class="summernote">
-                                        <h3>Lorem Ipsum is simply</h3>
-                                        dummy text of the printing and typesetting industry. <strong>Lorem Ipsum has been the
-                                        industry's</strong> standard dummy text ever since the 1500s,
-                                        when an unknown printer took a galley of type and scrambled it to make a type specimen
-                                        book. It has survived not only five centuries, but also the leap into electronic
-                                        typesetting, remaining essentially unchanged. It was popularised in the 1960s with the
-                                        release of Letraset sheets containing Lorem Ipsum passages, and more recently with
-                                        <br/>
-                                        <br/>
-                                        <ul>
-                                            <li>Remaining essentially unchanged</li>
-                                            <li>Make a type specimen book</li>
-                                            <li>Unknown printer</li>
-                                        </ul>
+                                <div class="form-group">
+                                    <label>标题</label>
+                                    <input id="txtTitle" type="text" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>作者</label>
+                                    <input id="txtAuthor" type="text" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>所属栏目</label>
+                                    <select id="selectCategory" class="chosen-select" tabindex="2"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label>是否公开</label>
+                                    <label> <input id="isPublic" type="checkbox" class="i-checks"> 公开 </label>
+                                </div>
+                                <div class="form-group">
+                                    <label>内容</label>
+                                    <div id="txtContent" class="summernote">
                                     </div>
+                                </div>
+                                <div class="form-group">
+                                    <button id="btCreatePaper" type="button">创建文章</button>
                                 </div>
                             </div>
                         </div>
@@ -98,12 +106,63 @@
 <script src="/framework/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script src="/framework/inspinia.js"></script>
 <script src="/framework/summernote/summernote-bs4.js"></script>
+<script src="/framework/summernote/summernotezhcn.js"></script>
 <script src="/framework/jquery/jquery.session.js"></script>
-<script src="/js/organize/organize.js"></script>
+<script src="/framework/bootstrap/chosen.jquery.js"></script>
+<script src="/framework/icheck/icheck.min.js"></script>
+
 
 <script>
     $(document).ready(function () {
-        $('.summernote').summernote();
+        $('.summernote').summernote({
+            lang: 'zh-CN',
+        });
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+
+        // 初始化栏目选择下拉框
+        //  读取栏目列表
+        params = {
+            "categoryName": null,
+            "pid": null
+        }
+        var categoryList
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: "http://127.0.0.1:8080/api/category/listCategory",
+            data: JSON.stringify(params),
+            contentType: 'application/json',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("token", $.session.get("token"));
+            },
+            success: function (response) {
+                console.log(response)
+                if (response.code == 0) {
+                    categoryList = response.data.categoryList
+                }
+            }
+        })
+        var optionHtml = ""
+        $.each(categoryList, function (i, item) {
+            optionHtml += '<option value="' + item.categoryId + '">' + item.categoryName + '</option>';
+        })
+        console.log(optionHtml)
+        $('#selectCategory').html(optionHtml);
+        $('.chosen-select').chosen({width: "100%"});
+
+        $('#btCreatePaper').click(function () {
+            params = {
+                title: $('#txtTitle').val(),
+                author: $('#txtAuthor').val(),
+                categoryId: $('#selectCategory').val(),
+                content: $('#txtContent').summernote('code'),
+                isPublic:$('#isPublic').value()
+            }
+            console.log(params)
+        })
     });
 </script>
 </body>
