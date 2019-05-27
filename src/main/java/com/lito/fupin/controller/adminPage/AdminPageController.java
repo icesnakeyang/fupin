@@ -55,12 +55,12 @@ public class AdminPageController {
     }
 
     /**
-     * 文章管理页面
+     * 文章审核页面
      * @return
      */
-    @RequestMapping("/paper")
-    public String paperPage(){
-        return "admin/paper/paper";
+    @RequestMapping("/approvePaper")
+    public String approvePaperPage(){
+        return "admin/paper/approvePaper";
     }
 
     /**
@@ -86,4 +86,10 @@ public class AdminPageController {
     public String editPaperPage(){
         return "admin/paper/editPaper";
     }
+
+    @RequestMapping("/pendingPaper")
+    public String myPendingPaper(){
+        return "admin/paper/pendingPaper";
+    }
+
 }
