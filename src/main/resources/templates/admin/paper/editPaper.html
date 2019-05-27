@@ -159,9 +159,27 @@
                 author: $('#txtAuthor').val(),
                 categoryId: $('#selectCategory').val(),
                 content: $('#txtContent').summernote('code'),
-                isPublic:$('#isPublic').value()
+                isPublic: $('#isPublic').is(':checked')
             }
             console.log(params)
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "http://127.0.0.1:8080/api/paper/createPaper",
+                data: JSON.stringify(params),
+                contentType: 'application/json',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("token", $.session.get("token"));
+                },
+                success: function (response) {
+                    if (response.code == 0) {
+                        window.location.href = "/admin/paper"
+                    } else {
+                        alert("保存失败！")
+                    }
+                }
+            })
+
         })
     });
 </script>

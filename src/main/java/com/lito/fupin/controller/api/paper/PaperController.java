@@ -76,6 +76,8 @@ public class PaperController {
             String token = httpServletRequest.getHeader("token");
             Map in = new HashMap();
             in.put("token", token);
+            in.put("pageIndex", request.getPageIndex());
+            in.put("pageSize", request.getPageSize());
             Map out = iPaperBusinessService.listPaperUnApprove(in);
             response.setData(out);
         } catch (Exception ex) {

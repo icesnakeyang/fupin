@@ -18,4 +18,6 @@ public class PaperRequest {
     private String fileUrl;
     private String author;
     private String remark;
+    private Integer pageIndex;
+    private Integer pageSize;
 }
