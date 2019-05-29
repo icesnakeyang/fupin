@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="/framework/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="/framework/font-awesome/font-awesome.css" rel="stylesheet">
+    <link href="/framework/css/style.css" rel="stylesheet">
+    <link href="/framework/summernote/summernote-bs4.css" rel="stylesheet">
+    <link href="/framework/bootstrap/bootstrap-chosen.css" rel="stylesheet">
+    <link href="/framework/icheck/custom.css" rel="stylesheet">
+</head>
+<body>
+<div id="wrapper">
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li>
+                    <a href="/admin/dashboard"><i class="fa fa-th-large"></i> <span class="nav-label">控制台</span></a>
+                </li>
+                <li>
+                    <a href="/admin/organize"><i class="fa fa-university"></i> <span class="nav-label">组织机构</span></a>
+                </li>
+                <li>
+                    <a href="/admin/category"><i class="fa fa-folder-open"></i> <span class="nav-label">网站栏目</span></a>
+                </li>
+                <li class="active">
+                    <a href="#"><i class="fa fa-file-text"></i> <span class="nav-label">文章管理 </span><span
+                            class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li><a href="/admin/createPaper">创建文章</a></li>
+                        <li class="active"><a href="/admin/auditPaperList">审核文章</a></li>
+                        <li><a href="/admin/pendingPaper">我发布的文章</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/admin/user"><i class="fa fa-address-card"></i> <span class="nav-label">用户管理</span> </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i>
+                    </a>
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        <span class="m-r-sm text-muted welcome-message">欢迎使用</span>
+                    </li>
+                    <li>
+                        <a href="login.html">
+                            <i class="fa fa-sign-out"></i>退出登录
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+        </div>
+
+        <div class="wrapper wrapper-content">
+            <div class="row">
+                <div class="col-12">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>审核文件</h5>
+                            <div class="ibox-content">
+                                <div class="form-group">
+                                    <label>标题</label>
+                                    <input id="txtTitle" type="text" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>作者</label>
+                                    <input id="txtAuthor" type="text" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>所属栏目</label>
+                                    <select id="selectCategory" class="chosen-select" tabindex="2"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label>是否公开</label>
+                                    <sapn class="i-checks"><label> <input type="radio" value="option1"
+                                                                          name="isPublic"><i></i> 是
+                                    </label></sapn>
+                                    <span class="i-checks"><label> <input type="radio" checked="" value="option2"
+                                                                          name="isPublic"> <i></i> 否 </label></span>
+                                </div>
+                                <div class="form-group">
+                                    <label>内容</label>
+                                    <div id="txtContent" class="summernote">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button id="btApprove" type="button" class="btn btn-primary">通过</button>
+                                    <button id="btReject" type="button" class="btn btn-danger">拒绝</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-reject" class="modal fade" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3 class="m-t-none m-b">审核拒绝</h3>
+                        <p>拒绝审核，并退回给创建用户</p>
+                        <form role="form">
+                            <div class="form-group">
+                                <label>拒绝理由</label>
+                                <input id="txtRejectRemark" type="text"
+                                       class="form-control">
+                            </div>
+                            <div>
+                                <button class="btn btn-sm btn-white float-left m-t-n-xs"
+                                        type="button" data-dismiss="modal">
+                                    <strong>取消</strong>
+                                </button>
+                                <button id="btReject2"
+                                        class="btn btn-sm btn-primary float-right m-t-n-xs"
+                                        type="button">
+                                    <strong>确认拒绝</strong>
+                                </button>
+                                </label>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/framework/jquery/jquery.min.js"></script>
+<script src="/framework/jquery/jquery.session.js"></script>
+<script src="/framework/popper.min.js"></script>
+<script src="/framework/bootstrap/bootstrap.js"></script>
+<script src="/framework/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="/framework/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/framework/inspinia.js"></script>
+<script src="/framework/summernote/summernote-bs4.js"></script>
+<script src="/framework/summernote/summernotezhcn.js"></script>
+<script src="/framework/bootstrap/chosen.jquery.js"></script>
+<script src="/framework/icheck/icheck.min.js"></script>
+<script>
+    $(document).ready(function () {
+        /**
+         * 初始化控件：富文本框summernote，checkbox, radiobox
+         */
+        $('.summernote').summernote({
+            lang: 'zh-CN',
+        });
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+
+        // 初始化栏目选择下拉框
+        //  读取栏目列表
+        params = {
+            "categoryName": null,
+            "pid": null
+        }
+        var categoryList
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: "http://127.0.0.1:8080/api/category/listCategory",
+            data: JSON.stringify(params),
+            contentType: 'application/json',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("token", $.session.get("token"));
+            },
+            success: function (response) {
+                console.log(response)
+                if (response.code == 0) {
+                    categoryList = response.data.categoryList
+                }
+            }
+        })
+        var optionHtml = ""
+        $.each(categoryList, function (i, item) {
+            optionHtml += '<option value="' + item.categoryId + '">' + item.categoryName + '</option>';
+        })
+        console.log(optionHtml)
+        $('#selectCategory').html(optionHtml);
+        $('.chosen-select').chosen({width: "100%"});
+
+        /**
+         * 读取要审核的文章详情
+         * paperId从session获取
+         * @type {{paperId: *}}
+         */
+        params = {
+            paperId: $.session.get("paperId")
+        }
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: "http://127.0.0.1:8080/api/paper/getPaperByPaperId",
+            data: JSON.stringify(params),
+            contentType: 'application/json',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("token", $.session.get("token"))
+            },
+            success: function (response) {
+                console.log(response)
+                if (response.code == 0) {
+                    paper = response.data.paper
+                    $('#txtTitle').val(paper.title)
+                    $('#txtAuthor').val(paper.author)
+                    $('#selectCategory').val(paper.categoryId).trigger("chosen:updated")
+                    if (paper.isPublic == "true") {
+                        $('#isPublic').iCheck('check');
+                    }
+                    $('#txtContent').summernote('code', paper.content)
+                }
+            }
+        })
+
+        /**
+         * 拒绝审核
+         */
+        $('#btReject').click(function () {
+            $('#modal-reject').modal('show')
+        })
+        $('#btReject2').click(function () {
+            params = {
+                paperId: $.session.get("paperId"),
+                remark: $('#txtRejectRemark').val()
+            }
+            console.log(params)
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "http://127.0.0.1:8080/api/paper/rejectPaper",
+                data: JSON.stringify(params),
+                contentType: 'application/json',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("token", $.session.get("token"))
+                },
+                success: function (response) {
+                    console.log(response)
+                    if (response.code == 0) {
+
+                    } else {
+                        alert("保存失败！")
+                    }
+                }
+            })
+        })
+
+        /**
+         * 通过审核
+         */
+        $('#btApprove').click(function () {
+            params = {
+                paperId: $.session.get("paperId"),
+                isPublic: $('input[name=isPublic]').get(0).checked,
+                content: $('#txtContent').summernote('code'),
+                title: $('#txtTitle').val(),
+                author: $('#txtAuthor').val(),
+                categoryId: $('#selectCategory').val()
+            }
+            console.log(params)
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "http://127.0.0.1:8080/api/paper/approvePaper",
+                data: JSON.stringify(params),
+                contentType: 'application/json',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("token", $.session.get("token"))
+                },
+                success: function (response) {
+                    console.log(response)
+                    if (response.code == 0) {
+                        window.location.href="/admin/auditPaperList"
+                    }
+                }
+            })
+        })
+    })
+</script>
+</body>
+</html>

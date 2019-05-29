@@ -1,6 +1,7 @@
 package com.lito.fupin.business.paper;
 
 import com.lito.fupin.common.GGF;
+import com.lito.fupin.common.ICommonService;
 import com.lito.fupin.meta.organize.entity.Organize;
 import com.lito.fupin.meta.organize.service.IOrganizeService;
 import com.lito.fupin.meta.paper.entity.Paper;
@@ -21,14 +22,17 @@ public class PaperBusinessService implements IPaperBusinessService {
     private final IPaperService iPaperService;
     private final IUserService iUserService;
     private final IOrganizeService iOrganizeService;
+    private final ICommonService iCommonService;
 
     @Autowired
     public PaperBusinessService(IPaperService iPaperService,
                                 IUserService iUserService,
-                                IOrganizeService iOrganizeService) {
+                                IOrganizeService iOrganizeService,
+                                ICommonService iCommonService) {
         this.iPaperService = iPaperService;
         this.iUserService = iUserService;
         this.iOrganizeService = iOrganizeService;
+        this.iCommonService = iCommonService;
     }
 
     /**
@@ -115,17 +119,27 @@ public class PaperBusinessService implements IPaperBusinessService {
     public void approvePaper(Map in) throws Exception {
         String token=in.get("token").toString();
         String paperId=in.get("paperId").toString();
+        String isPublic=(String)in.get("isPublic");
+        String content=(String)in.get("content");
+        String title=(String)in.get("title");
+        String author=(String)in.get("author");
+        String categoryId=(String)in.get("categoryId");
 
-        User user=iUserService.getUserByToken(token);
-        Paper paper=iPaperService.getPaperTinyByPaperId(paperId);
-        Organize userOrganize=iOrganizeService.getOrganizeById(user.getOrganizeId());
+        User loginUser=iCommonService.checkUser(token, "stuff");
+        Paper paper=iPaperService.getPaperDetailByPaperId(paperId);
+        Organize userOrganize=iOrganizeService.getOrganizeById(loginUser.getOrganizeId());
         Organize paperOrganize=iOrganizeService.getOrganizeById(paper.getOrganizeId());
         if(!paperOrganize.getPid().equals(userOrganize.getOrganizeId())){
             throw new Exception("10002");
         }
+        paper.setTitle(title);
+        paper.setContent(content);
+        paper.setAuthor(author);
+        paper.setIsPublic(isPublic);
+        paper.setCategoryId(categoryId);
         paper.setStatus("通过审核");
         paper.setApproveTime(new Date());
-        paper.setApproveUserId(user.getUserId());
+        paper.setApproveUserId(loginUser.getUserId());
         iPaperService.updatePaper(paper);
     }
 
@@ -163,4 +177,15 @@ public class PaperBusinessService implements IPaperBusinessService {
         iPaperService.updatePaper(paper);
     }
 
+    @Override
+    public Map getPaperByPaerid(Map in) throws Exception {
+//        String token=in.get("token").toString();
+        String paperId=in.get("paperId").toString();
+
+//        iCommonService.checkUser(token, "stuff");
+        Paper paper=iPaperService.getPaperDetailByPaperId(paperId);
+        Map out=new HashMap();
+        out.put("paper", paper);
+        return out;
+    }
 }

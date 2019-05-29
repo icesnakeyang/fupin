@@ -18,4 +18,6 @@ public interface IPaperBusinessService {
     Map listPaperToShow(Map in) throws Exception;
 
     void rejectPaper(Map in) throws Exception;
+
+    Map getPaperByPaerid(Map in) throws Exception;
 }

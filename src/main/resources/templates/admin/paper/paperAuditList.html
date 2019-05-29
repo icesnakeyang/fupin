@@ -25,10 +25,11 @@
                     <a href="/admin/category"><i class="fa fa-folder-open"></i> <span class="nav-label">网站栏目</span></a>
                 </li>
                 <li class="active">
-                    <a><i class="fa fa-file-text"></i> <span class="nav-label">文章管理 </span><span class="fa arrow"></span></a>
+                    <a><i class="fa fa-file-text"></i> <span class="nav-label">文章管理 </span><span
+                            class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
-                        <li><a href="/admin/editPaper">创建文章</a></li>
-                        <li class="active"><a href="/admin/approvePaper">审核文章</a></li>
+                        <li><a href="/admin/createPaper">创建文章</a></li>
+                        <li class="active"><a href="/admin/auditPaperList">审核文章</a></li>
                         <li><a href="/admin/pendingPaper">我发布的文章</a></li>
                     </ul>
                 </li>
@@ -127,12 +128,12 @@
             success: function (response) {
                 console.log(response)
                 if (response.code == 0) {
-                    paperList=response.data.paperList
+                    paperList = response.data.paperList
                 }
             }
         })
         $('.dataTables-example').DataTable({
-            data:paperList,
+            data: paperList,
             "columns": [
                 {
                     "data": "title"
@@ -152,8 +153,8 @@
                     //操作列不排序
                     "bSortable": false,
                     "render": function (data, type, full) {
-                        return '<button id="btRow" type = "button" class="btn btn-primary">审核</button>' +
-                            '&nbsp;&nbsp;<button id="btDelRow" type="button" class="btn btn-danger">拒绝</button>'
+                        return '<button id="btApplyApproveRow" type = "button" class="btn btn-primary">审核</button>' +
+                            '&nbsp;&nbsp;<button id="btApplyRejectRow" type="button" class="btn btn-danger">拒绝</button>'
                     }
                 }
             ],
@@ -165,7 +166,6 @@
                 {extend: 'csv'},
                 {extend: 'excel', title: 'ExampleFile'},
                 {extend: 'pdf', title: 'ExampleFile'},
-
                 {
                     extend: 'print',
                     customize: function (win) {
@@ -204,6 +204,13 @@
             }
         });
 
+        $(document).on('click', '#btApplyApproveRow', function () {
+            $(this).parent('td').parent("tr").addClass('select').siblings('tr').removeClass('select')
+            var table = $('#paperTable').DataTable()
+            console.log(table.row('.select').data().paperId)
+            $.session.set("paperId", table.row('.select').data().paperId)
+            window.location.href = "/admin/auditPaperPage"
+        })
     });
 </script>
 </body>

@@ -64,7 +64,7 @@
                         disabled: group_disabled === true ? group_disabled : option.disabled,
                         group_array_index: group_position,
                         classes: option.className,
-                        style: option.style.cssText
+                        style: option.style2.cssText
                     });
                 } else {
                     this.parsed.push({
@@ -245,7 +245,7 @@
             }
             option_el = document.createElement("li");
             option_el.className = classes.join(" ");
-            option_el.style.cssText = option.style;
+            option_el.style.cssText = option.style2;
             option_el.setAttribute("data-option-array-index", option.array_index);
             option_el.innerHTML = option.search_text;
             return this.outerHTML(option_el);

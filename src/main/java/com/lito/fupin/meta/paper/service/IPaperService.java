@@ -33,4 +33,6 @@ public interface IPaperService {
     void updatePaper(Paper paper) throws Exception;
 
     ArrayList<Paper> listPaperToShow(Map in) throws Exception;
+
+    Paper getPaperDetailByPaperId(String paperId) throws Exception;
 }

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- 标准化页头 -->
+    <meta charset="utf-8"/><!-- 声明文档使用的字符编码 -->
+    <title>新闻中心</title>
+    <!--公共样式表-->
+    <link rel="stylesheet" href="/framework/bootstrap/bootstrap.min.css">
+    <link href="/web/reset.css" rel="stylesheet">
+    <link href="/web/common.css" rel="stylesheet">
+    <link rel="stylesheet" href="/web/swiper.min.css">
+    <!--模块样式表-->
+    <link rel="stylesheet" type="text/css" href="/web/style.css">
+    <!--模块js-->
+    <style>
+        .newsCenter {
+            background: #c10901;
+            position: relative;
+        }
+
+        .newsCenter:after {
+            display: block;
+            content: '';
+            height: 2px;
+            width: 70%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            background: #FFF;
+        }
+
+        .speciaWork.newsBox {
+            margin-top: 0;
+            padding-top: 0;
+            position: relative;
+            top: -10px;
+        }
+    </style>
+</head>
+<body>
+<div class="header"></div>
+<div class="content">
+    <div class="title">
+        <img src="/web/images/daohang.png">
+        <a href="index.html">首页</a>
+        <img src="/web/images/leftBtn.png">
+        <a href="JavaScript:;">新闻中心</a>
+        <img src="/web/images/leftBtn.png">
+        <a href="JavaScript:;" class="active">焦点中心</a>
+    </div>
+    <hr class="lineBr">
+    <div class="conBox cl">
+        <ul class="fl aside">
+            <li class="active">焦点新i闻</li>
+            <li>省州新闻</li>
+            <li>媒体报导</li>
+        </ul>
+        <div class="fr rightBox">
+            <div class="speciaWorkBox">
+                <ul class="speciaWork newsBox" th:each="item:${data.paperList}">
+                    <li><a th:href="@{'paperDetail/'+${item.paperId}}" class="newsTit"
+                           th:text="${item.title}"></a><span class="newsDate" th:text="${item.paperId}">2019-05-21</span></li>
+                </ul>
+                <ul class="speciaWork newsBox" style="display: none;">
+                    <!--<li><a href="javascript:;" class="newsTit">标题标题标题</a><span class="newsDate">2019-05-21</span></li>-->
+                    <!--<li><a href="javascript:;" class="newsTit">标题标题标题</a><span class="newsDate">2019-05-21</span></li>-->
+                    <!--<li><a href="javascript:;" class="newsTit">标题标题标题</a><span class="newsDate">2019-05-21</span></li>-->
+                    <!--<li><a href="javascript:;" class="newsTit">标题标题标题</a><span class="newsDate">2019-05-21</span></li>-->
+                    <!--<li><a href="javascript:;" class="newsTit">标题标题标题</a><span class="newsDate">2019-05-21</span></li>-->
+                    <!--<li><a href="javascript:;" class="newsTit">标题标题标题</a><span class="newsDate">2019-05-21</span></li>-->
+                    <!--<li><a href="javascript:;" class="newsTit">标题标题标题</a><span class="newsDate">2019-05-21</span></li>-->
+                    <!--<li><a href="javascript:;" class="newsTit">标题标题标题</a><span class="newsDate">2019-05-21</span></li>-->
+                    <!--<li><a href="javascript:;" class="newsTit">标题标题标题</a><span class="newsDate">2019-05-21</span></li>-->
+                    <!--<li><a href="javascript:;" class="newsTit">标题标题标题</a><span class="newsDate">2019-05-21</span></li>-->
+                </ul>
+                <ul class="speciaWork newsBox" style="display: none;">
+                    <!--<li><a href="javascript:;" class="newsTit">标题标题标题</a><span class="newsDate">2019-05-21</span></li>-->
+                    <!--<li><a href="javascript:;" class="newsTit">标题标题标题</a><span class="newsDate">2019-05-21</span></li>-->
+                    <!--<li><a href="javascript:;" class="newsTit">标题标题标题</a><span class="newsDate">2019-05-21</span></li>-->
+                    <!--<li><a href="javascript:;" class="newsTit">标题标题标题</a><span class="newsDate">2019-05-21</span></li>-->
+                    <!--<li><a href="javascript:;" class="newsTit">标题标题标题</a><span class="newsDate">2019-05-21</span></li>-->
+                    <!--<li><a href="javascript:;" class="newsTit">标题标题标题</a><span class="newsDate">2019-05-21</span></li>-->
+                    <!--<li><a href="javascript:;" class="newsTit">标题标题标题</a><span class="newsDate">2019-05-21</span></li>-->
+                    <!--<li><a href="javascript:;" class="newsTit">标题标题标题</a><span class="newsDate">2019-05-21</span></li>-->
+                    <!--<li><a href="javascript:;" class="newsTit">标题标题标题</a><span class="newsDate">2019-05-21</span></li>-->
+                    <!--<li><a href="javascript:;" class="newsTit">标题标题标题</a><span class="newsDate">2019-05-21</span></li>-->
+                </ul>
+                <div class="pageBox" style="text-align: center;">
+                    <span>共10条</span>
+                    <span style="padding: 0 8px;">1/1</span>
+                    <button>首页</button>
+                    <button>上页</button>
+                    <button>下页</button>
+                    <button>尾页</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- footer-->
+<div class="friendshipLinkBox"></div>
+<div class="footer"></div>
+
+<!--公共js-->
+<script src="/web/jquery.min.js"></script>
+<script src="/web/bootstrap.min.js"></script>
+<script src="/web/swiper.min.js"></script>
+<script src="/web/common.js"></script>
+<script src="/web/specialWork.js"></script>
+</body>
+<script>
+    $(function () {
+        //aside
+        $('.aside>li').click(function () {
+            $(this).addClass('active').siblings('').removeClass('active');
+            var index = $(this).index();
+            console.log(index)
+            $('.speciaWorkBox .newsBox').eq(index).show().siblings('.newsBox').hide()
+        })
+    })
+</script>
+</html>

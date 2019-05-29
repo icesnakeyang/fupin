@@ -263,7 +263,7 @@ function SmoothlyMenu() {
             }, 100);
     } else {
         // Remove all inline style from jquery fadeIn function to reset menu state
-        $('#side-menu').removeAttr('style');
+        $('#side-menu').removeAttr('style.css');
     }
 }
 

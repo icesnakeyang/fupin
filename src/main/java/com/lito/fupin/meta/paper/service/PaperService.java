@@ -39,19 +39,19 @@ public class PaperService implements IPaperService {
     }
 
     /**
-     *
      * @param paperId
      * @return
      * @throws Exception
      */
     @Override
     public Paper getPaperTinyByPaperId(String paperId) throws Exception {
-        Paper paper=paperDao.getPaperTinyByPaperId(paperId);
+        Paper paper = paperDao.getPaperTinyByPaperId(paperId);
         return paper;
     }
 
     /**
      * 增量修改文章信息
+     *
      * @param paper
      * @throws Exception
      */
@@ -63,19 +63,25 @@ public class PaperService implements IPaperService {
 
     @Override
     public ArrayList<Paper> listPaperToShow(Map in) throws Exception {
-        String categoryId=(String)in.get("categoryId");
-        String organizeId=in.get("organizeId").toString();
-        Integer pageIndex=(Integer)in.get("pageIndex");
-        Integer pageSize=(Integer)in.get("pageSize");
-        Integer offset=pageIndex*pageSize;
-        Integer size=pageSize;
+        String categoryId = (String) in.get("categoryId");
+        String organizeId = (String)in.get("organizeId");
+        Integer pageIndex = (Integer) in.get("pageIndex");
+        Integer pageSize = (Integer) in.get("pageSize");
+        Integer offset = pageIndex * pageSize;
+        Integer size = pageSize;
 
-        Map qIn=new HashMap();
+        Map qIn = new HashMap();
         qIn.put("categoryId", categoryId);
         qIn.put("organizeId", organizeId);
         qIn.put("offset", offset);
         qIn.put("size", size);
-        ArrayList<Paper> papers=paperDao.listPaperToShow(qIn);
+        ArrayList<Paper> papers = paperDao.listPaperToShow(qIn);
         return papers;
+    }
+
+    @Override
+    public Paper getPaperDetailByPaperId(String paperId) throws Exception {
+        Paper paper = paperDao.getPaperDetailByPaperId(paperId);
+        return paper;
     }
 }

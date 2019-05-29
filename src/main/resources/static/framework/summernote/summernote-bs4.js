@@ -1545,7 +1545,7 @@ function replace(node, nodeName) {
     }
     var newNode = create(nodeName);
     if (node.style.cssText) {
-        newNode.style.cssText = node.style.cssText;
+        newNode.style2.cssText = node.style.cssText;
     }
     appendChildNodes(newNode, lists.from(node.childNodes));
     insertAfter(newNode, node);
@@ -2891,8 +2891,8 @@ var Style = /** @class */ (function () {
             styleInfo['list-style'] = isUnordered ? 'unordered' : 'ordered';
         }
         var para = dom.ancestor(rng.sc, dom.isPara);
-        if (para && para.style['line-height']) {
-            styleInfo['line-height'] = para.style.lineHeight;
+        if (para && para.style2['line-height']) {
+            styleInfo['line-height'] = para.style2.lineHeight;
         }
         else {
             var lineHeight = parseInt(styleInfo['line-height'], 10) / parseInt(styleInfo['font-size'], 10);
@@ -5084,12 +5084,12 @@ var Buttons = /** @class */ (function () {
     };
     Buttons.prototype.addToolbarButtons = function () {
         var _this = this;
-        this.context.memo('button.style', function () {
+        this.context.memo('button.style.css', function () {
             return _this.ui.buttonGroup([
                 _this.button({
                     className: 'dropdown-toggle',
                     contents: _this.ui.dropdownButtonContents(_this.ui.icon(_this.options.icons.magic), _this.options),
-                    tooltip: _this.lang.style.style,
+                    tooltip: _this.lang.style2.style2,
                     data: {
                         toggle: 'dropdown'
                     }
@@ -5097,14 +5097,14 @@ var Buttons = /** @class */ (function () {
                 _this.ui.dropdown({
                     className: 'dropdown-style',
                     items: _this.options.styleTags,
-                    title: _this.lang.style.style,
+                    title: _this.lang.style2.style2,
                     template: function (item) {
                         if (typeof item === 'string') {
-                            item = { tag: item, title: (_this.lang.style.hasOwnProperty(item) ? _this.lang.style[item] : item) };
+                            item = { tag: item, title: (_this.lang.style2.hasOwnProperty(item) ? _this.lang.style2[item] : item) };
                         }
                         var tag = item.tag;
                         var title = item.title;
-                        var style = item.style ? ' style="' + item.style + '" ' : '';
+                        var style = item.style2 ? ' style="' + item.style2 + '" ' : '';
                         var className = item.className ? ' class="' + item.className + '"' : '';
                         return '<' + tag + style + className + '>' + title + '</' + tag + '>';
                     },
@@ -5114,11 +5114,11 @@ var Buttons = /** @class */ (function () {
         });
         var _loop_1 = function (styleIdx, styleLen) {
             var item = this_1.options.styleTags[styleIdx];
-            this_1.context.memo('button.style.' + item, function () {
+            this_1.context.memo('button.style.css.' + item, function () {
                 return _this.button({
                     className: 'note-btn-style-' + item,
                     contents: '<div data-value="' + item + '">' + item.toUpperCase() + '</div>',
-                    tooltip: _this.lang.style[item],
+                    tooltip: _this.lang.style2[item],
                     click: _this.context.createInvokeHandler('editor.formatBlock')
                 }).render();
             });
@@ -7106,7 +7106,7 @@ $$1.summernote = $$1.extend($$1.summernote, {
         otherStaticBar: '',
         // toolbar
         toolbar: [
-            ['style', ['style']],
+            ['style.css', ['style.css']],
             ['font', ['bold', 'underline', 'clear']],
             ['fontname', ['fontname']],
             ['color', ['color']],

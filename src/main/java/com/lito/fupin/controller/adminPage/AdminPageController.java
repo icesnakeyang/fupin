@@ -1,6 +1,7 @@
 package com.lito.fupin.controller.adminPage;
 
 import com.lito.fupin.business.user.IUserBusinessService;
+import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -82,14 +83,32 @@ public class AdminPageController {
         return "admin/user/user";
     }
 
-    @RequestMapping("/editPaper")
-    public String editPaperPage(){
-        return "admin/paper/editPaper";
+    /**
+     * 创建新的文章页面
+     * @return
+     */
+    @RequestMapping("/createPaper")
+    public String createPaper(){
+        return "admin/paper/paperNew";
     }
 
+    @RequestMapping("/auditPaperList")
+    public String auditPaperListPage(){
+        return "admin/paper/paperAuditList";
+    }
+
+    @RequestMapping("/auditPaperPage")
+    public String auditPaperPage(){
+        return "admin/paper/paperAuditPage";
+    }
+
+    /**
+     * 我创建的等待审核的文章
+     * @return
+     */
     @RequestMapping("/pendingPaper")
     public String myPendingPaper(){
-        return "admin/paper/pendingPaper";
+        return "admin/paper/paperPendingList";
     }
 
 }

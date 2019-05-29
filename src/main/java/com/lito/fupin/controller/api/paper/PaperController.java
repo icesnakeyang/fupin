@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.lang.model.element.NestingKind;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -91,8 +92,32 @@ public class PaperController {
         return response;
     }
 
+    @ResponseBody
+    @PostMapping("/getPaperByPaperId")
+    public Response getPaperById(@RequestBody PaperRequest request,
+                                 HttpServletRequest httpServletRequest) {
+        Response response = new Response();
+        try {
+            String token = httpServletRequest.getHeader("token");
+            Map in = new HashMap();
+            in.put("token", token);
+            in.put("paperId", request.getPaperId());
+            Map out = iPaperBusinessService.getPaperByPaerid(in);
+            response.setData(out);
+        } catch (Exception ex) {
+            try {
+                response.setCode(Integer.parseInt(ex.getMessage()));
+            } catch (Exception ex2) {
+                response.setCode(10001);
+                logger.error(ex.getMessage());
+            }
+        }
+        return response;
+    }
+
     /**
      * 管理员通过文章审核
+     *
      * @param request
      * @param httpServletRequest
      * @return
@@ -107,7 +132,11 @@ public class PaperController {
             Map in = new HashMap();
             in.put("token", token);
             in.put("paperId", request.getPaperId());
-
+            in.put("isPublic", request.getIsPublic());
+            in.put("content", request.getContent());
+            in.put("title", request.getTitle());
+            in.put("author", request.getAuthor());
+            in.put("categoryId", request.getCategoryId());
             iPaperBusinessService.approvePaper(in);
         } catch (Exception ex) {
             try {
@@ -123,7 +152,7 @@ public class PaperController {
     @ResponseBody
     @PostMapping("/rejectPaper")
     public Response rejectPaper(@RequestBody PaperRequest request,
-                                 HttpServletRequest httpServletRequest) {
+                                HttpServletRequest httpServletRequest) {
         Response response = new Response();
         try {
             String token = httpServletRequest.getHeader("token");

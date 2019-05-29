@@ -30,4 +30,6 @@ public interface PaperDao {
     void updatePaper(Paper paper);
 
     ArrayList<Paper> listPaperToShow(Map qIn);
+
+    Paper getPaperDetailByPaperId(String paperId);
 }
