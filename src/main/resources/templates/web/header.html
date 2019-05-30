@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="copy">
+    <div class="logoWrap">
+        <div class="logoSearchWrap">
+            <div class="logoBox fl"><a href="javascript:;"><img src="/web/common/images/logo.png"></a></div>
+            <div class="searchBox fr">
+                <input type="text" placeholder="请输入关键字查询">
+                <img src="/web/common/images/searchBtn.png">
+            </div>
+        </div>
+    </div>
+    <div class="navBox">
+        <ul class="navBar cl">
+            <li class="fl"><a href="/">首页</a></li>
+            <li class="fl"><a href="/newsList">新闻中心</a></li>
+            <li class="fl"><a href="javascript:;">甘孜扶贫</a></li>
+            <li class="fl"><a href="javascript:;">专项工作</a></li>
+            <li class="fl"><a href="javascript:;">乡镇动态</a></li>
+            <li class="fl"><a href="javascript:;">公示公告</a></li>
+        </ul>
+    </div>
+    <div class="bannerBox">
+        <div class="swiper-container swiper-container1 swiper-no-swiping">
+            <div class="swiper-wrapper bannerPicBox"></div>
+            <div class="swiper-pagination swiper-pagination1"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

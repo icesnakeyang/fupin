@@ -78,13 +78,13 @@
 
 .bannerBox .swiper-button-next {
 	right: 22.7%;
-	background: url(/web/images/swiper-button-next.png);
+	background: url(/web/common/images/swiper-button-next.png);
 	background-size: 100%;
 }
 
 .bannerBox .swiper-button-prev {
 	left: 22.7%;
-	background: url(/web/images/swiper-button-prev.png);
+	background: url(/web/common/images/swiper-button-prev.png);
 	background-size: 100%;
 }
 

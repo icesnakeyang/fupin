@@ -27,8 +27,8 @@ function friendshipLink(){
 function header(){
     var headerHtml='';
     headerHtml +='<div class="logoWrap"><div class="logoSearchWrap">';
-    headerHtml +='<div class="logoBox fl"><a href="index.html"><img src="/web/images/logo.png"></a></div>';
-    headerHtml +='<div class="searchBox fr"><input type="text" placeholder="请输入关键字查询"><img src="/web/images/searchBtn.png">';
+    headerHtml +='<div class="logoBox fl"><a href="index.html"><img src="/web/common/images/logo.png"></a></div>';
+    headerHtml +='<div class="searchBox fr"><input type="text" placeholder="请输入关键字查询"><img src="/web/common/images/searchBtn.png">';
     headerHtml +='</div></div></div>';
     headerHtml +='<div class="navBox"><ul class="navBar cl">';
     headerHtml +='<li class="fl index"><a href="index.html">首页</a></li>';

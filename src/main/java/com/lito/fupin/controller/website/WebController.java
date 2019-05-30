@@ -34,7 +34,7 @@ public class WebController {
     }
 
     @GetMapping("/homePage")
-    public String homePage(Model model){
+    public String homePage(Model model) {
         try {
             Map in = new HashMap();
             in.put("categoryId", "5357e621-6952-4287-bbf3-1e878eaeff89");
@@ -46,7 +46,12 @@ public class WebController {
         } catch (Exception ex) {
 
         }
-        return "web/index";
+            return "web/index";
+    }
+
+    @GetMapping("/newsList")
+    public String newsListPage(Model model) {
+        return "web/newsList";
     }
 
     @GetMapping("/paperDetail/{paperId}")

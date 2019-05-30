@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- 标准化页头 -->
     <meta charset="utf-8" /><!-- 声明文档使用的字符编码 -->
     <title>首页</title>
     <!--公共样式表-->
-    <link rel="stylesheet" href="/framework/bootstrap/bootstrap.min.css">
-    <link href="/css/reset.css" rel="stylesheet">
-    <link href="/css/common.css" rel="stylesheet">
-    <link rel="stylesheet" href="static/common/css/swiper.min.css">
+    <link rel="stylesheet" href="/web/common/css/bootstrap.min.css">
+    <link href="/web/common/css/reset.css" rel="stylesheet">
+    <link href="/web/common/css/common.css" rel="stylesheet">
+    <link rel="stylesheet" href="/web/common/css/swiper.min.css">
     <!--模块样式表-->
-    <link rel="stylesheet" type="text/css" href="static/template/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/web/template/css/style.css">
     <!--公共js-->
-    <script src="static/common/js/jquery.min.js"></script>
-    <script src="static/common/js/bootstrap.min.js"></script>
+    <script src="/web/common/js/jquery.min.js"></script>
+    <script src="/web/common/js/bootstrap.min.js"></script>
     <!--模块js-->
     <style>
         .index{background: #c10901;position: relative;}
@@ -21,7 +21,8 @@
     </style>
 </head>
 <body>
-<div class="header"></div>
+<!--<div class="header"></div>-->
+<div th:include="/web/header::copy"></div>
 <!-- content -->
 <div class="content">
     <!-- 图片专题-->
@@ -97,8 +98,8 @@
 <!-- footer-->
 <div class="friendshipLinkBox"></div>
 <div class="footer"></div>
-<script src="/js/web/swiper.min.js"></script>
-<script src="static/template/js/index.js"></script>
-<script src="static/template/js/common.js"></script>
+<script src="/web/common/js/swiper.min.js"></script>
+<script src="/web/template/js/index.js"></script>
+<script src="/web/template/js/common.js"></script>
 </body>
 </html>
