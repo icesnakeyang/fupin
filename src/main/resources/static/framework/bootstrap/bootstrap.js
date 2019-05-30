@@ -4,8 +4,8 @@
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
   */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('jquery'), require('popper.min.js')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'jquery', 'popper.min.js'], factory) :
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('jquery'), require('popper.js')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'jquery', 'popper.js'], factory) :
   (factory((global.bootstrap = {}),global.jQuery,global.Popper));
 }(this, (function (exports,$,Popper) { 'use strict';
 
@@ -1182,7 +1182,7 @@
         var dimension = this._getDimension();
 
         $$$1(this._element).removeClass(ClassName.COLLAPSE).addClass(ClassName.COLLAPSING);
-        this._element.style2[dimension] = 0;
+        this._element.style[dimension] = 0;
 
         if (this._triggerArray.length > 0) {
           $$$1(this._triggerArray).removeClass(ClassName.COLLAPSED).attr('aria-expanded', true);
@@ -1192,7 +1192,7 @@
 
         var complete = function complete() {
           $$$1(_this._element).removeClass(ClassName.COLLAPSING).addClass(ClassName.COLLAPSE).addClass(ClassName.SHOW);
-          _this._element.style2[dimension] = '';
+          _this._element.style[dimension] = '';
 
           _this.setTransitioning(false);
 
@@ -1203,7 +1203,7 @@
         var scrollSize = "scroll" + capitalizedDimension;
         var transitionDuration = Util.getTransitionDurationFromElement(this._element);
         $$$1(this._element).one(Util.TRANSITION_END, complete).emulateTransitionEnd(transitionDuration);
-        this._element.style2[dimension] = this._element[scrollSize] + "px";
+        this._element.style[dimension] = this._element[scrollSize] + "px";
       };
 
       _proto.hide = function hide() {
@@ -1222,7 +1222,7 @@
 
         var dimension = this._getDimension();
 
-        this._element.style2[dimension] = this._element.getBoundingClientRect()[dimension] + "px";
+        this._element.style[dimension] = this._element.getBoundingClientRect()[dimension] + "px";
         Util.reflow(this._element);
         $$$1(this._element).addClass(ClassName.COLLAPSING).removeClass(ClassName.COLLAPSE).removeClass(ClassName.SHOW);
 
@@ -1249,7 +1249,7 @@
           $$$1(_this2._element).removeClass(ClassName.COLLAPSING).addClass(ClassName.COLLAPSE).trigger(Event.HIDDEN);
         };
 
-        this._element.style2[dimension] = '';
+        this._element.style[dimension] = '';
         var transitionDuration = Util.getTransitionDurationFromElement(this._element);
         $$$1(this._element).one(Util.TRANSITION_END, complete).emulateTransitionEnd(transitionDuration);
       };
@@ -1538,7 +1538,7 @@
            * Popper - https://popper.js.org
            */
           if (typeof Popper === 'undefined') {
-            throw new TypeError('Bootstrap dropdown require Popper.js (https://popper.min.js.org)');
+            throw new TypeError('Bootstrap dropdown require Popper.js (https://popper.js.org)');
           }
 
           var referenceElement = this._element;
@@ -2099,7 +2099,7 @@
           document.body.appendChild(this._element);
         }
 
-        this._element.style2.display = 'block';
+        this._element.style.display = 'block';
 
         this._element.removeAttribute('aria-hidden');
 
@@ -2178,7 +2178,7 @@
       _proto._hideModal = function _hideModal() {
         var _this7 = this;
 
-        this._element.style2.display = 'none';
+        this._element.style.display = 'none';
 
         this._element.setAttribute('aria-hidden', true);
 
@@ -2281,17 +2281,17 @@
         var isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
 
         if (!this._isBodyOverflowing && isModalOverflowing) {
-          this._element.style2.paddingLeft = this._scrollbarWidth + "px";
+          this._element.style.paddingLeft = this._scrollbarWidth + "px";
         }
 
         if (this._isBodyOverflowing && !isModalOverflowing) {
-          this._element.style2.paddingRight = this._scrollbarWidth + "px";
+          this._element.style.paddingRight = this._scrollbarWidth + "px";
         }
       };
 
       _proto._resetAdjustments = function _resetAdjustments() {
-        this._element.style2.paddingLeft = '';
-        this._element.style2.paddingRight = '';
+        this._element.style.paddingLeft = '';
+        this._element.style.paddingRight = '';
       };
 
       _proto._checkScrollbar = function _checkScrollbar() {
@@ -2308,19 +2308,19 @@
           //   while $(DOMNode).css('padding-right') returns the calculated value or 0 if not set
           // Adjust fixed content padding
           $$$1(Selector.FIXED_CONTENT).each(function (index, element) {
-            var actualPadding = $$$1(element)[0].style2.paddingRight;
+            var actualPadding = $$$1(element)[0].style.paddingRight;
             var calculatedPadding = $$$1(element).css('padding-right');
             $$$1(element).data('padding-right', actualPadding).css('padding-right', parseFloat(calculatedPadding) + _this9._scrollbarWidth + "px");
           }); // Adjust sticky content margin
 
           $$$1(Selector.STICKY_CONTENT).each(function (index, element) {
-            var actualMargin = $$$1(element)[0].style2.marginRight;
+            var actualMargin = $$$1(element)[0].style.marginRight;
             var calculatedMargin = $$$1(element).css('margin-right');
             $$$1(element).data('margin-right', actualMargin).css('margin-right', parseFloat(calculatedMargin) - _this9._scrollbarWidth + "px");
           }); // Adjust navbar-toggler margin
 
           $$$1(Selector.NAVBAR_TOGGLER).each(function (index, element) {
-            var actualMargin = $$$1(element)[0].style2.marginRight;
+            var actualMargin = $$$1(element)[0].style.marginRight;
             var calculatedMargin = $$$1(element).css('margin-right');
             $$$1(element).data('margin-right', actualMargin).css('margin-right', parseFloat(calculatedMargin) + _this9._scrollbarWidth + "px");
           }); // Adjust body padding
@@ -2561,7 +2561,7 @@
          * Popper - https://popper.js.org
          */
         if (typeof Popper === 'undefined') {
-          throw new TypeError('Bootstrap tooltips require Popper.js (https://popper.min.js.org)');
+          throw new TypeError('Bootstrap tooltips require Popper.js (https://popper.js.org)');
         } // private
 
 

@@ -1,0 +1,78 @@
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, blockquote {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline
+}
+
+table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0
+}
+address, caption, cite, code, dfn, em, i, th, var {
+    font-style: normal;
+    font-weight: normal
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
+    display: block
+}
+
+audio, canvas, video {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1
+}
+fieldset, img {
+    border: 0
+}
+
+img {
+    vertical-align: middle;
+}
+
+ol, ul ,li{
+    list-style: none
+}
+button {
+    cursor: pointer;
+    _cursor: hand;
+    border: 0;
+    overflow: visible
+}
+
+input, textarea {
+    outline: 0
+}
+
+label {
+    cursor: pointer;
+    _cursor: hand
+}
+
+input, .checkbox {
+    vertical-align: middle
+}
+
+a:focus,button:focus {
+    outline: 0;
+	text-decoration:none;
+}
+
+a:hover {
+    color: #fd5b78;
+    text-decoration: none
+}
+.fl{
+    float: left;
+}
+.fr{
+    float: right;
+}
+.cl:after {
+    content: '.';
+    visibility: hidden;
+    height: 0;
+    display: block;
+    clear: both
+}

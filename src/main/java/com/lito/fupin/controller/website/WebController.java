@@ -2,6 +2,7 @@ package com.lito.fupin.controller.website;
 
 import com.lito.fupin.business.paper.IPaperBusinessService;
 import com.lito.fupin.meta.paper.entity.Paper;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/page")
 public class WebController {
     private final IPaperBusinessService iPaperBusinessService;
 
@@ -27,8 +28,13 @@ public class WebController {
         this.iPaperBusinessService = iPaperBusinessService;
     }
 
-    @GetMapping("/listPaperToShow")
-    public String listPaperToShow(Model model) {
+    @GetMapping("/")
+    public String rootMe() {
+        return "redirect:/homePage";
+    }
+
+    @GetMapping("/homePage")
+    public String homePage(Model model){
         try {
             Map in = new HashMap();
             in.put("categoryId", "5357e621-6952-4287-bbf3-1e878eaeff89");

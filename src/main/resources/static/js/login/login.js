@@ -1,9 +1,13 @@
 $(function () {
+    console.log(1)
     $("#btLogin").click(function () {
+        console.log('click')
         var params = {
             "loginName": $("#loginName").val(),
             "password": $("#password").val()
         }
+
+        console.log(params)
 
         $.ajax({
             type: "POST",
