@@ -64,7 +64,7 @@ public class PaperService implements IPaperService {
     @Override
     public ArrayList<Paper> listPaperToShow(Map in) throws Exception {
         String categoryId = (String) in.get("categoryId");
-        String organizeId = (String)in.get("organizeId");
+        String organizeId = (String) in.get("organizeId");
         Integer pageIndex = (Integer) in.get("pageIndex");
         Integer pageSize = (Integer) in.get("pageSize");
         Integer offset = pageIndex * pageSize;
@@ -75,7 +75,7 @@ public class PaperService implements IPaperService {
         qIn.put("organizeId", organizeId);
         qIn.put("offset", offset);
         qIn.put("size", size);
-        ArrayList<Paper> papers = paperDao.listPaperToShow(qIn);
+        ArrayList<Paper> papers = paperDao.listPaper(qIn);
         return papers;
     }
 
@@ -83,5 +83,26 @@ public class PaperService implements IPaperService {
     public Paper getPaperDetailByPaperId(String paperId) throws Exception {
         Paper paper = paperDao.getPaperDetailByPaperId(paperId);
         return paper;
+    }
+
+    @Override
+    public ArrayList<Paper> listPaperByCategoryId(String categoryId, Integer pageIndex, Integer pageSize) throws Exception {
+        Map qIn = new HashMap();
+        qIn.put("categoryId", categoryId);
+        Integer offset = pageIndex * pageSize;
+        qIn.put("offset", offset);
+        qIn.put("size", pageSize);
+        ArrayList<Paper> paperList = paperDao.listPaper(qIn);
+        return paperList;
+    }
+
+    @Override
+    public ArrayList<Paper> listMyPendingPaper(String userId, Integer pageIndex, Integer pageSize) throws Exception {
+        Map qIn = new HashMap();
+        qIn.put("userId", userId);
+        qIn.put("offset", pageIndex * pageSize);
+        qIn.put("size", pageSize);
+        ArrayList<Paper> paperList = paperDao.listMyPendingPaper(qIn);
+        return paperList;
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,55 +14,11 @@
 <body>
 <div id="wrapper">
 <!--    左侧导航栏-->
-    <nav class="navbar-default navbar-static-side" role="navigation">
-        <div class="sidebar-collapse">
-            <ul class="nav metismenu" id="side-menu">
-                <li>
-                    <a href="/admin/dashboard"><i class="fa fa-th-large"></i> <span class="nav-label">控制台</span></a>
-                </li>
-                <li class="active">
-                    <a href="/admin/organize"><i class="fa fa-university"></i> <span class="nav-label">组织机构</span></a>
-                </li>
-                <li>
-                    <a href="/admin/category"><i class="fa fa-folder-open"></i> <span class="nav-label">网站栏目</span></a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-file-text"></i> <span class="nav-label">文章管理 </span><span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse">
-                        <li><a href="/admin/createPaper">创建文章</a></li>
-                        <li><a href="/admin/auditPaperList">审核文章</a></li>
-                        <li><a href="/admin/pendingPaper">我发布的文章</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="/admin/user"><i class="fa fa-address-card"></i> <span class="nav-label">用户管理</span> </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <div th:include="/admin/sidebar::content"></div>
 
     <div id="page-wrapper" class="gray-bg">
 <!--        头部header-->
-        <div class="row border-bottom">
-            <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
-                <div class="navbar-header">
-                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i>
-                    </a>
-                </div>
-                <ul class="nav navbar-top-links navbar-right">
-                    <li>
-                        <span id="loginName"></span>
-                        <span class="m-r-sm text-muted welcome-message">欢迎使用</span>
-                    </li>
-                    <li>
-                        <a href="/admin/loginPage">
-                            <i class="fa fa-sign-out"></i>退出登录
-                        </a>
-                    </li>
-                </ul>
-
-            </nav>
-        </div>
+        <div th:include="/admin/header::content"></div>
 
 <!--        主体页面-->
         <div class="wrapper wrapper-content">

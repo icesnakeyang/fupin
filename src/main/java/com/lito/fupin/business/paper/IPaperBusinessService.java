@@ -22,4 +22,6 @@ public interface IPaperBusinessService {
     Map getPaperByPaerid(Map in) throws Exception;
 
     Map listPaperList(Map in) throws Exception;
+
+    Map listMyPendingPaper(Map in) throws Exception;
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,55 +14,11 @@
 <body>
 <div id="wrapper">
     <!--    左侧导航栏-->
-    <nav class="navbar-default navbar-static-side" role="navigation">
-        <div class="sidebar-collapse">
-            <ul class="nav metismenu" id="side-menu">
-                <li>
-                    <a href="/admin/dashboard"><i class="fa fa-th-large"></i> <span class="nav-label">控制台</span></a>
-                </li>
-                <li>
-                    <a href="/admin/organize"><i class="fa fa-university"></i> <span class="nav-label">组织机构</span></a>
-                </li>
-                <li>
-                    <a href="/admin/category"><i class="fa fa-folder-open"></i> <span class="nav-label">网站栏目</span></a>
-                </li>
-                <li class="active">
-                    <a href="#"><i class="fa fa-file-text"></i> <span class="nav-label">文章管理 </span><span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse">
-                        <li><a href="/admin/createPaper">创建文章</a></li>
-                        <li><a href="/admin/approvePaper">审核文章</a></li>
-                        <li class="active"><a href="/admin/pendingPaper">我发布的文章</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="/admin/user"><i class="fa fa-address-card"></i> <span class="nav-label">用户管理</span> </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <div th:include="/admin/sidebar::content"></div>
 
     <div id="page-wrapper" class="gray-bg">
         <!--        头部header-->
-        <div class="row border-bottom">
-            <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
-                <div class="navbar-header">
-                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i>
-                    </a>
-                </div>
-                <ul class="nav navbar-top-links navbar-right">
-                    <li>
-                        <span id="loginName"></span>
-                        <span class="m-r-sm text-muted welcome-message">欢迎使用</span>
-                    </li>
-                    <li>
-                        <a href="/admin/loginPage">
-                            <i class="fa fa-sign-out"></i>退出登录
-                        </a>
-                    </li>
-                </ul>
-
-            </nav>
-        </div>
+        <div th:include="/admin/header::content"></div>
 
         <!--        主体页面-->
         <div class="wrapper wrapper-content">
@@ -126,17 +82,13 @@
                         </div>
                         <div class="ibox-content">
                             <div class="table-responsive">
-                                <table id="organizeTable"
+                                <table id="paperTable"
                                        class="table table-striped table-bordered table-hover dataTables-example">
                                     <thead>
-                                    <tr>
-                                        <th>机构名称</th>
-                                        <th>上级机构</th>
-                                        <th>操作</th>
-                                    </tr>
+                                    <th>标题</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
                                     </thead>
-                                    <tbody>
-                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -183,7 +135,8 @@
 </div>
 
 <!--确认删除modal-->
-<div class="modal inmodal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="false">
+<div class="modal inmodal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-hidden="true"
+     data-backdrop="false">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
@@ -211,13 +164,16 @@
 <script src="/framework/bootstrap/datatables.bootstrap4.min.js"></script>
 <script src="/framework/jquery/jquery.session.js"></script>
 <script src="/framework/bootstrap/chosen.jquery.js"></script>
-<script src="/js/organize/organize.js"></script>
 
 <script>
     $(document).ready(function () {
         var loginName = $.session.get("loginName")
-        $('#loginName').html("你好，"+loginName+"！")
+        $('#loginName').html("你好，" + loginName + "！")
 
+        /**
+         * 读取机构列表
+         * @type {{pageIndex: number, pageSize: number}}
+         */
         var params = {
             "pageIndex": 0,
             "pageSize": 200
@@ -239,8 +195,37 @@
             }
         })
         console.log(organizeList)
-        $('.dataTables-example').DataTable({
-            data: organizeList,
+        var optionHtml
+        $.each(organizeList, function (i, item) {
+            optionHtml += '<option value="' + item.organizeId + '">' + item.organizeName + '</option>';
+        })
+        $('#organizeSelect').html(optionHtml);
+
+        /**
+         * 读取我创建的文章
+         */
+        var params = {
+            "pageIndex": 0,
+            "pageSize": 200
+        }
+        var paperList
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: "/api/paper/listMyPendingPaper",
+            data: JSON.stringify(params),
+            contentType: 'application/json',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("token", $.session.get("token"));
+            },
+            success: function (response) {
+                console.log(response)
+                paperList = response.data.list
+            }
+        })
+        console.log(paperList)
+        $('#paperTable').DataTable({
+            data: paperList,
             //给table内自定义按钮
             "columnDefs": [
                 {
@@ -253,15 +238,29 @@
                         return '<button id="btEditRow" type = "button" class="btn btn-primary">编辑</button>' +
                             '&nbsp;&nbsp;<button id="btDelRow" type="button" class="btn btn-danger">删除</button>'
                     }
+                },
+                {
+                    // targets用于指定操作的列，从第0列开始，-1为最后一列，这里第4列
+                    // return后边是我们希望在指定列填入的按钮代码
+                    "targets": 1,
+                    //操作列不排序
+                    "bSortable": false,
+                    "render": function (data, type, full) {
+                        if (!data) {
+                            return "未处理"
+                        } else {
+                            return data
+                        }
+                    }
                 }
             ],
             //给列赋值，这里的列名需要和data的数据名对应
             //注意这里第4列数据指定为null，用来存放我们加入的按钮
             "columns": [
                 {
-                    "data": "organizeName"
+                    "data": "title"
                 }, {
-                    "data": "pname"
+                    "data": "status"
                 },
                 {
                     "data": null
@@ -287,31 +286,54 @@
                     }
                 }
             ],
-            language: {
-                "sProcessing": "处理中...",
-                "sLengthMenu": "显示 _MENU_ 项结果",
-                "sZeroRecords": "没有匹配结果",
-                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
-                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
-                "sInfoPostFix": "",
-                "sSearch": "搜索:",
-                "sUrl": "",
-                "sEmptyTable": "表中数据为空",
-                "sLoadingRecords": "载入中...",
-                "sInfoThousands": ",",
-                "oPaginate": {
-                    "sFirst": "首页",
-                    "sPrevious": "上页",
-                    "sNext": "下页",
-                    "sLast": "末页"
-                },
-                "oAria": {
-                    "sSortAscending": ": 以升序排列此列",
-                    "sSortDescending": ": 以降序排列此列"
+            language:
+                {
+                    "sProcessing":
+                        "处理中...",
+                    "sLengthMenu":
+                        "显示 _MENU_ 项结果",
+                    "sZeroRecords":
+                        "没有匹配结果",
+                    "sInfo":
+                        "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                    "sInfoEmpty":
+                        "显示第 0 至 0 项结果，共 0 项",
+                    "sInfoFiltered":
+                        "(由 _MAX_ 项结果过滤)",
+                    "sInfoPostFix":
+                        "",
+                    "sSearch":
+                        "搜索:",
+                    "sUrl":
+                        "",
+                    "sEmptyTable":
+                        "表中数据为空",
+                    "sLoadingRecords":
+                        "载入中...",
+                    "sInfoThousands":
+                        ",",
+                    "oPaginate":
+                        {
+                            "sFirst":
+                                "首页",
+                            "sPrevious":
+                                "上页",
+                            "sNext":
+                                "下页",
+                            "sLast":
+                                "末页"
+                        }
+                    ,
+                    "oAria":
+                        {
+                            "sSortAscending":
+                                ": 以升序排列此列",
+                            "sSortDescending":
+                                ": 以降序排列此列"
+                        }
                 }
-            }
-        });
+        })
+        ;
         $(document).on('click', '#btEditRow', function () {
             $(this).parent('td').parent("tr").addClass('select').siblings('tr').removeClass('select')
             var table = $('#organizeTable').DataTable()
@@ -331,11 +353,7 @@
             $('#modalConfirmDelete').modal('show')
         })
 
-        var optionHtml
-        $.each(organizeList, function (i, item) {
-            optionHtml += '<option value="' + item.organizeId + '">' + item.organizeName + '</option>';
-        })
-        $('#organizeSelect').html(optionHtml);
+
         $('#editOrganizeSelect').html(optionHtml);
 
         $('.chosen-select').chosen({width: "100%"});

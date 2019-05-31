@@ -8,14 +8,13 @@ import com.lito.fupin.meta.paper.entity.Paper;
 import com.lito.fupin.meta.paper.service.IPaperService;
 import com.lito.fupin.meta.user.entity.User;
 import com.lito.fupin.meta.user.service.IUserService;
+import com.sun.xml.internal.ws.policy.spi.PolicyAssertionValidator;
+import org.omg.PortableInterceptor.ServerRequestInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PaperBusinessService implements IPaperBusinessService {
@@ -77,6 +76,7 @@ public class PaperBusinessService implements IPaperBusinessService {
 
     /**
      * 读取一个用户需要审核的下级单位文章
+     *
      * @param in
      * @return
      * @throws Exception
@@ -90,11 +90,18 @@ public class PaperBusinessService implements IPaperBusinessService {
          * 2、获取当前用户的机构id
          * 3、读取该机构id下一级的所有的机构id
          * 4、查询这些机构id下的所有文章，Approve time=null
+         * 5、如果当前用户的机构无上级机构，即还需审核自己的文章，添加本级机构创建的文章
          */
 
         User loginUser = iUserService.getUserByToken(token);
 
         ArrayList<Organize> organizeList = iOrganizeService.listOrganizeByPid(loginUser.getOrganizeId());
+
+        Organize organize = iOrganizeService.getOrganizeById(loginUser.getOrganizeId());
+        if (organize.getPid() == null) {
+            //没有父机构了，需要审核自己
+            organizeList.add(organize);
+        }
 
         ArrayList<Paper> paperList = new ArrayList<>();
         for (int i = 0; i < organizeList.size(); i++) {
@@ -111,25 +118,26 @@ public class PaperBusinessService implements IPaperBusinessService {
 
     /**
      * 通过审核
+     *
      * @param in
      * @throws Exception
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void approvePaper(Map in) throws Exception {
-        String token=in.get("token").toString();
-        String paperId=in.get("paperId").toString();
-        String isPublic=(String)in.get("isPublic");
-        String content=(String)in.get("content");
-        String title=(String)in.get("title");
-        String author=(String)in.get("author");
-        String categoryId=(String)in.get("categoryId");
+        String token = in.get("token").toString();
+        String paperId = in.get("paperId").toString();
+        String isPublic = (String) in.get("isPublic");
+        String content = (String) in.get("content");
+        String title = (String) in.get("title");
+        String author = (String) in.get("author");
+        String categoryId = (String) in.get("categoryId");
 
-        User loginUser=iCommonService.checkUser(token, "stuff");
-        Paper paper=iPaperService.getPaperDetailByPaperId(paperId);
-        Organize userOrganize=iOrganizeService.getOrganizeById(loginUser.getOrganizeId());
-        Organize paperOrganize=iOrganizeService.getOrganizeById(paper.getOrganizeId());
-        if(!paperOrganize.getPid().equals(userOrganize.getOrganizeId())){
+        User loginUser = iCommonService.checkUser(token, "stuff");
+        Paper paper = iPaperService.getPaperDetailByPaperId(paperId);
+        Organize userOrganize = iOrganizeService.getOrganizeById(loginUser.getOrganizeId());
+        Organize paperOrganize = iOrganizeService.getOrganizeById(paper.getOrganizeId());
+        if (!paperOrganize.getPid().equals(userOrganize.getOrganizeId())) {
             throw new Exception("10002");
         }
         paper.setTitle(title);
@@ -145,29 +153,30 @@ public class PaperBusinessService implements IPaperBusinessService {
 
     @Override
     public Map listPaperToShow(Map in) throws Exception {
-        ArrayList<Paper> papers=iPaperService.listPaperToShow(in);
-        Map out=new HashMap();
+        ArrayList<Paper> papers = iPaperService.listPaperToShow(in);
+        Map out = new HashMap();
         out.put("paperList", papers);
         return out;
     }
 
     /**
      * 拒绝文章审核
+     *
      * @param in
      * @throws Exception
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void rejectPaper(Map in) throws Exception {
-        String token=in.get("token").toString();
-        String paperId=in.get("paperId").toString();
-        String remark=(String)in.get("remark");
+        String token = in.get("token").toString();
+        String paperId = in.get("paperId").toString();
+        String remark = (String) in.get("remark");
 
-        User user=iUserService.getUserByToken(token);
-        Paper paper=iPaperService.getPaperTinyByPaperId(paperId);
-        Organize userOrganize=iOrganizeService.getOrganizeById(user.getOrganizeId());
-        Organize paperOrganize=iOrganizeService.getOrganizeById(paper.getOrganizeId());
-        if(!paperOrganize.getPid().equals(userOrganize.getOrganizeId())){
+        User user = iUserService.getUserByToken(token);
+        Paper paper = iPaperService.getPaperTinyByPaperId(paperId);
+        Organize userOrganize = iOrganizeService.getOrganizeById(user.getOrganizeId());
+        Organize paperOrganize = iOrganizeService.getOrganizeById(paper.getOrganizeId());
+        if (!paperOrganize.getPid().equals(userOrganize.getOrganizeId())) {
             throw new Exception("10002");
         }
         paper.setStatus("拒绝审核");
@@ -180,11 +189,11 @@ public class PaperBusinessService implements IPaperBusinessService {
     @Override
     public Map getPaperByPaerid(Map in) throws Exception {
 //        String token=in.get("token").toString();
-        String paperId=in.get("paperId").toString();
+        String paperId = in.get("paperId").toString();
 
 //        iCommonService.checkUser(token, "stuff");
-        Paper paper=iPaperService.getPaperDetailByPaperId(paperId);
-        Map out=new HashMap();
+        Paper paper = iPaperService.getPaperDetailByPaperId(paperId);
+        Map out = new HashMap();
         out.put("paper", paper);
         return out;
     }
@@ -195,21 +204,25 @@ public class PaperBusinessService implements IPaperBusinessService {
          * 2、获取当前用户的机构id
          * 4、查询这些机构id下的所有文章
          */
-
-        User loginUser = iUserService.getUserByToken(token);
-
-        ArrayList<Organize> organizeList = iOrganizeService.listOrganizeByPid(loginUser.getOrganizeId());
-
-        ArrayList<Paper> paperList = new ArrayList<>();
-        for (int i = 0; i < organizeList.size(); i++) {
-            ArrayList<Paper> papers = iPaperService.listPaperUnApprove(organizeList.get(i).getOrganizeId());
-            if (papers.size() > 0) {
-                paperList.addAll(papers);
-            }
-        }
-
+        String categoryId = in.get("categoryId").toString();
+        Integer pageIndex = (Integer) in.get("pageIndex");
+        Integer pageSize = (Integer) in.get("pageSize");
+        ArrayList<Paper> papers = iPaperService.listPaperByCategoryId(categoryId, pageIndex, pageSize);
         Map out = new HashMap();
-        out.put("paperList", paperList);
+        out.put("list", papers);
+        return out;
+    }
+
+    @Override
+    public Map listMyPendingPaper(Map in) throws Exception {
+        String token = in.get("token").toString();
+        Integer pageIndex = (Integer) in.get("pageIndex");
+        Integer pageSize = (Integer) in.get("pageSize");
+
+        User loginUser = iCommonService.checkUser(token, "stuff");
+        ArrayList<Paper> paperList = iPaperService.listMyPendingPaper(loginUser.getUserId(), pageIndex, pageSize);
+        Map out = new HashMap();
+        out.put("list", paperList);
         return out;
     }
 }

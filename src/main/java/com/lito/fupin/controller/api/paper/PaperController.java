@@ -149,6 +149,13 @@ public class PaperController {
         return response;
     }
 
+    /**
+     * 管理员拒绝审核通过文章
+     *
+     * @param request
+     * @param httpServletRequest
+     * @return
+     */
     @ResponseBody
     @PostMapping("/rejectPaper")
     public Response rejectPaper(@RequestBody PaperRequest request,
@@ -162,6 +169,36 @@ public class PaperController {
             in.put("remark", request.getRemark());
 
             iPaperBusinessService.rejectPaper(in);
+        } catch (Exception ex) {
+            try {
+                response.setCode(Integer.parseInt(ex.getMessage()));
+            } catch (Exception ex2) {
+                response.setCode(10001);
+                logger.error(ex.getMessage());
+            }
+        }
+        return response;
+    }
+
+    /**
+     * listMyPendingPaper
+     * @param request
+     * @param httpServletRequest
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/listMyPendingPaper")
+    public Response listMyPendingPaper(@RequestBody PaperRequest request,
+                                       HttpServletRequest httpServletRequest) {
+        Response response = new Response();
+        try {
+            String token = httpServletRequest.getHeader("token");
+            Map in = new HashMap();
+            in.put("token", token);
+            in.put("pageIndex", request.getPageIndex());
+            in.put("pageSize", request.getPageSize());
+            Map out = iPaperBusinessService.listMyPendingPaper(in);
+            response.setData(out);
         } catch (Exception ex) {
             try {
                 response.setCode(Integer.parseInt(ex.getMessage()));

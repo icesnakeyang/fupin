@@ -29,7 +29,16 @@ public interface PaperDao {
      */
     void updatePaper(Paper paper);
 
-    ArrayList<Paper> listPaperToShow(Map qIn);
-
     Paper getPaperDetailByPaperId(String paperId);
+
+    /**
+     * 查询已通过审核的文章
+     * @param qIn
+     * categoryId
+     * organizeId
+     * @return
+     */
+    ArrayList<Paper> listPaper(Map qIn);
+
+    ArrayList<Paper> listMyPendingPaper(Map qIn);
 }
