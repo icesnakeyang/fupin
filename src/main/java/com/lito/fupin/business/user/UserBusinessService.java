@@ -117,9 +117,10 @@ public class UserBusinessService implements IUserBusinessService {
 
     private ArrayList listSubUser(Organize organize) throws Exception {
         //查询当前机构的所有用户
-        ArrayList<User> userList = iUserService.listUserByOrganizeId(organize.getOrganizeId());
-        //j检查当前机构是否有下一级机构
+//        ArrayList<User> userList = iUserService.listUserByOrganizeId(organize.getOrganizeId());
+        //检查当前机构是否有下一级机构
         ArrayList<Organize> organizeList = iOrganizeService.listOrganizeByPid(organize.getOrganizeId());
+        ArrayList<User> userList=new ArrayList<>();
         if (organizeList.size() > 0) {
             for (int i = 0; i < organizeList.size(); i++) {
                 userList.addAll(listSubUser(organizeList.get(i)));
