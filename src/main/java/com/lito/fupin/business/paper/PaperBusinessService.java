@@ -133,13 +133,27 @@ public class PaperBusinessService implements IPaperBusinessService {
         String author = (String) in.get("author");
         String categoryId = (String) in.get("categoryId");
 
+        //检查用户是否管理员
         User loginUser = iCommonService.checkUser(token, "stuff");
-        Paper paper = iPaperService.getPaperDetailByPaperId(paperId);
+
+        Paper paper = iPaperService.getPaperTinyByPaperId(paperId);
+        //读取当前用户的机构
         Organize userOrganize = iOrganizeService.getOrganizeById(loginUser.getOrganizeId());
+        //读取当前文章的机构
         Organize paperOrganize = iOrganizeService.getOrganizeById(paper.getOrganizeId());
-        if (!paperOrganize.getPid().equals(userOrganize.getOrganizeId())) {
-            throw new Exception("10002");
+
+        if (paperOrganize.getPid() == null) {
+            //如果当前文章的机构没有上级机构，则检查是否和当前用户是同一机构
+            if (!paperOrganize.getOrganizeId().equals(loginUser.getOrganizeId())) {
+                throw new Exception("10002");
+            }
+        } else {
+            if (!paperOrganize.getPid().equals(userOrganize.getOrganizeId())) {
+                //检查当前文章的机构的上级机构不是当前用户的机构
+                throw new Exception("10002");
+            }
         }
+
         paper.setTitle(title);
         paper.setContent(content);
         paper.setAuthor(author);
