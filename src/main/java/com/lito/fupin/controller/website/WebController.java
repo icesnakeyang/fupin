@@ -46,11 +46,21 @@ public class WebController {
         } catch (Exception ex) {
 
         }
-            return "web/index";
+        return "web/index";
     }
 
     @GetMapping("/newsList")
     public String newsListPage(Model model) {
+        try {
+            Map in = new HashMap();
+            in.put("categoryId", "478b7858-fc40-46ca-86a4-a1dfce24c5bb");
+            in.put("pageIndex", 0);
+            in.put("pageSize", 10);
+            Map out = iPaperBusinessService.listPaperList(in);
+            model.addAttribute("list", out.get("list"));
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
+        }
         return "web/newsList";
     }
 

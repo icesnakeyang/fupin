@@ -188,4 +188,28 @@ public class PaperBusinessService implements IPaperBusinessService {
         out.put("paper", paper);
         return out;
     }
+
+    @Override
+    public Map listPaperList(Map in) throws Exception {
+        /**
+         * 2、获取当前用户的机构id
+         * 4、查询这些机构id下的所有文章
+         */
+
+        User loginUser = iUserService.getUserByToken(token);
+
+        ArrayList<Organize> organizeList = iOrganizeService.listOrganizeByPid(loginUser.getOrganizeId());
+
+        ArrayList<Paper> paperList = new ArrayList<>();
+        for (int i = 0; i < organizeList.size(); i++) {
+            ArrayList<Paper> papers = iPaperService.listPaperUnApprove(organizeList.get(i).getOrganizeId());
+            if (papers.size() > 0) {
+                paperList.addAll(papers);
+            }
+        }
+
+        Map out = new HashMap();
+        out.put("paperList", paperList);
+        return out;
+    }
 }

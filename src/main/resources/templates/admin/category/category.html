@@ -26,7 +26,8 @@
                     <a href="/admin/category"><i class="fa fa-folder-open"></i> <span class="nav-label">网站栏目</span></a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-file-text"></i> <span class="nav-label">文章管理 </span><span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-file-text"></i> <span class="nav-label">文章管理 </span><span
+                            class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
                         <li><a href="/admin/createPaper">创建文章</a></li>
                         <li><a href="/admin/auditPaperList">审核文章</a></li>
@@ -253,7 +254,7 @@
                 }
             }
         })
-        var optionHtml = ""
+        var optionHtml = "<option value=null>无</option>"
         $.each(categoryList, function (i, item) {
             optionHtml += '<option value="' + item.categoryId + '">' + item.categoryName + '</option>';
         })
@@ -342,11 +343,13 @@
 
         $('#btCreateCategory').click(function () {
             console.log($('#txtCategoryName').val())
-            console.log($('#categorySelect').val())
+            var cate = $('#categorySelect').val()
 
             params = {
-                categoryName: $('#txtCategoryName').val(),
-                pid: $('#categorySelect').val()
+                categoryName: $('#txtCategoryName').val()
+            }
+            if (cate != "null") {
+                params.pid = cate
             }
             $.ajax({
                 type: "POST",
