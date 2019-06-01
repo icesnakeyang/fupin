@@ -207,6 +207,7 @@ public class PaperBusinessService implements IPaperBusinessService {
 
 //        iCommonService.checkUser(token, "stuff");
         Paper paper = iPaperService.getPaperDetailByPaperId(paperId);
+        iPaperService.updateAddView(paperId);
         Map out = new HashMap();
         out.put("paper", paper);
         return out;

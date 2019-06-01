@@ -41,4 +41,6 @@ public interface PaperDao {
     ArrayList<Paper> listPaper(Map qIn);
 
     ArrayList<Paper> listMyPendingPaper(Map qIn);
+
+    void updateAddView(String paperId);
 }

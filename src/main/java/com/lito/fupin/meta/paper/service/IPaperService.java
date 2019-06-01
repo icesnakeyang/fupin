@@ -39,4 +39,6 @@ public interface IPaperService {
     ArrayList<Paper> listPaperByCategoryId(String categoryId, Integer pageIndex, Integer pageSize) throws Exception;
 
     ArrayList<Paper> listMyPendingPaper(String userId, Integer pageIndex, Integer pageSize) throws Exception;
+
+    void updateAddView(String paperId) throws Exception;
 }

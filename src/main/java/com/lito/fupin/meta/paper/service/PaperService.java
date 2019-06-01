@@ -105,4 +105,10 @@ public class PaperService implements IPaperService {
         ArrayList<Paper> paperList = paperDao.listMyPendingPaper(qIn);
         return paperList;
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void updateAddView(String paperId) throws Exception {
+        paperDao.updateAddView(paperId);
+    }
 }

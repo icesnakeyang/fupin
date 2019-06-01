@@ -1,12 +1,67 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <!-- 标准化页头 -->
+    <meta charset="utf-8" /><!-- 声明文档使用的字符编码 -->
+    <title>新闻详情</title>
+    <!--公共样式表-->
+    <link rel="stylesheet" href="/web/common/css/bootstrap.min.css">
+    <link href="/web/common/css/reset.css" rel="stylesheet">
+    <link href="/web/common/css/common.css" rel="stylesheet">
+    <link rel="stylesheet" href="/web/common/css/swiper.min.css">
+    <!--模块样式表-->
+    <link rel="stylesheet" type="text/css" href="/web/template/css/style.css">
+    <!--公共js-->
+    <script src="/web/common/js/jquery.min.js"></script>
+    <script src="/web/common/js/bootstrap.min.js"></script>
+    <!--模块js-->
 </head>
 <body>
-<div>paper detail</div>
-<div th:text="${paper.title}"></div>
-<div th:utext="${paper.content}"></div>
+<div th:include="/web/header::copy"></div>
+<div class="content">
+    <div class="title">
+        <img src="/web/common/images/daohang.png">
+        <a href="index.html">新闻中心</a>
+        <img src="/web/common/images/leftBtn.png">
+        <a href="JavaScript:;">焦点新闻</a>
+        <img src="/web/common/images/leftBtn.png">
+        <a href="JavaScript:;" class="active">正文</a>
+    </div>
+    <hr class="lineBr">
+    <!--<div id="news">-->
+    <!--</div>-->
+    <div class="newd_section_content">
+        <div class="section_c_title"><div th:text="${paper.title}"></div></div>
+        <div class="section_c_author">
+            作者：<span class="auhor" th:text="${paper.author}"></span>
+            时间：<span class="time" th:text="${#dates.format(paper.uploadTime, 'yyyy-MM-dd')}"></span>
+            点击数 ：<span class="num" th:text="${paper.views}"></span></div>
+        <div class="page_content">
+            <!--<p>-->
+                <!--<img src="static/template/images/banner/banner3.jpg" alt=""/>-->
+            <!--</p>-->
+            <p>
+            <div th:utext="${paper.content}"></div>
+            </p>
+        </div>
+    </div>
+
+    <div class="items_wrapper">
+        <p class="preBtn">
+            <span>上一条：</span> <span class="pre_title">甘孜县以主导产业为支撑统筹构建扶贫产业发展格局</span>
+        </p>
+        <p class="nextBtn">
+            <span>下一条：</span> <span class="next_title">甘孜县以主导产业为支撑统筹构建扶贫产业发展格局</span>
+        </p>
+
+    </div>
+</div>
+
+<!-- footer-->
+<div class="friendshipLinkBox"></div>
+<div class="footer"></div>
+<script src="static/common/js/swiper.min.js"></script>
+<script src="static/template/js/common.js"></script>
+<script src="static/template/js/newsDetail.js"></script>
 </body>
 </html>

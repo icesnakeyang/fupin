@@ -21,6 +21,7 @@
         <result property="imgUrl" column="img_url"/>
         <result property="organizeId" column="organize_id"/>
         <result property="organizeName" column="organize_name"/>
+        <result property="approveTime" column="approve_time"/>
     </resultMap>
 
     <!-- 读取一个机构下的所有未审核文章-->
@@ -124,7 +125,7 @@
     <!--查询文章用于网站显示，指定分类和单位，分页-->
     <select id="listPaper" parameterType="map"
             resultMap="paperMap">
-        select ids, paper_id, title, views, approve_time from paper
+        select ids, paper_id, title, views, approve_time, upload_time from paper
         where 1=1
         and status='通过审核'
         <choose>
@@ -149,4 +150,11 @@
         and upload_user_id=#{userId}
         limit #{offset},#{size}
     </select>
+
+    <!--增加一次阅读次数-->
+    <update id="updateAddView" parameterType="java.lang.String">
+        update paper set
+        views=views+1
+        where paper_id=#{paperId}
+    </update>
 </mapper>
