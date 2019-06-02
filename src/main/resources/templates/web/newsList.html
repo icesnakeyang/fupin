@@ -14,7 +14,6 @@
     <!--公共js-->
     <script src="/web/common/js/jquery.min.js"></script>
     <script src="/web/common/js/bootstrap.min.js"></script>
-    <script src="/web/common/js/moment.js"></script>
     <!--模块js-->
     <style>
         .newsCenter {
@@ -57,14 +56,14 @@
     <hr class="lineBr">
     <div class="conBox cl">
         <ul class="fl aside">
-            <li class="active">焦点新闻</li>
-            <li>省州新闻</li>
-            <li>媒体报导</li>
+            <li th:each="item, itemStat:${out.categoryList}">
+                <div th:text="${item.categoryName}"></div>
+            </li>
         </ul>
         <div class="fr rightBox">
             <div class="speciaWorkBox">
                 <ul class="speciaWork newsBox">
-                    <li th:each="item, itemStat:${list}">
+                    <li th:each="item, itemStat:${out.list}">
                         <a th:href="@{'paperDetail/'+${item.paperId}}" class="newsTit" th:text="${item.title}"></a>
                         <span class="newsDate" th:text="${#dates.format(item.uploadTime,'yyyy-MM-dd')}"></span>
                     </li>
@@ -107,10 +106,10 @@
 </div>
 <!-- footer-->
 <div class="friendshipLinkBox"></div>
-<div class="footer"></div>
-<script src="static/common/js/swiper.min.js"></script>
-<script src="static/template/js/common.js"></script>
-<script src="static/template/js/specialWork.js"></script>
+<div th:include="/web/footer::footer"></div>
+<script src="/web/common/js/swiper.min.js"></script>
+<script src="/web/template/js/common.js"></script>
+<script src="/web/template/js/specialWork.js"></script>
 </body>
 <script>
     $(function () {

@@ -7,6 +7,8 @@ public interface ICategoryBusinessService {
 
     Map listCategory(Map in) throws Exception;
 
+    Map listSubCategory(Map in) throws Exception;
+
     Map getCategory(Map in) throws Exception;
 
     void updateCategory(Map in) throws Exception;

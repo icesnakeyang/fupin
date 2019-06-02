@@ -216,12 +216,12 @@ public class PaperBusinessService implements IPaperBusinessService {
     @Override
     public Map listPaperList(Map in) throws Exception {
         /**
-         * 2、获取当前用户的机构id
-         * 4、查询这些机构id下的所有文章
+         * 读取categoryId下的所有下级categoryId
          */
         String categoryId = in.get("categoryId").toString();
         Integer pageIndex = (Integer) in.get("pageIndex");
         Integer pageSize = (Integer) in.get("pageSize");
+
         ArrayList<Paper> papers = iPaperService.listPaperByCategoryId(categoryId, pageIndex, pageSize);
         Map out = new HashMap();
         out.put("list", papers);

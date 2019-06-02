@@ -48,13 +48,13 @@ function header(){
     $('.header').append(headerHtml)
 }
 //footer
-function footer(){
-    var footerHtml = '';
-    footerHtml += '<div style="padding-top: 20px"><a href="javascript:;">版权所有：甘孜藏族自治州脱贫攻坚&copy;2002-2019</a></div>';
-    footerHtml += '<div><a href="javascript:;">川公网安备51079002110064</a></div>';
-    footerHtml += '<div><a href="javascript:;">蜀ICP备06016397号</a></div>';
-    $('.footer').append(footerHtml)
-}
+// function footer(){
+//     var footerHtml = '';
+//     footerHtml += '<div style="padding-top: 20px"><a href="javascript:;">版权所有：甘孜藏族自治州脱贫攻坚&copy;2002-2019</a></div>';
+//     footerHtml += '<div><a href="javascript:;">川公网安备51079002110064</a></div>';
+//     footerHtml += '<div><a href="javascript:;">蜀ICP备06016397号</a></div>';
+//     $('.footer').append(footerHtml)
+// }
 //banner
 function loadBanner(){
     $.ajax({

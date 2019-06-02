@@ -9,6 +9,7 @@ import com.lito.fupin.meta.user.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sun.swing.StringUIClientPropertyKey;
 
 import javax.print.attribute.HashAttributeSet;
 import java.util.ArrayList;
@@ -69,6 +70,24 @@ public class CategoryBusinessService implements ICategoryBusinessService {
     }
 
     @Override
+    public Map listSubCategory(Map in) throws Exception {
+        String categoryName = (String) in.get("categoryName");
+        String pid = (String) in.get("pid");
+
+        if (pid == null) {
+            Category category = iCategoryService.getCategoryByName(categoryName);
+            pid = category.getCategoryId();
+        }
+        Map qIn = new HashMap();
+        qIn.put("pid", pid);
+        ArrayList<Category> categories = iCategoryService.listCategory(qIn);
+
+        Map out = new HashMap();
+        out.put("categoryList", categories);
+        return out;
+    }
+
+    @Override
     public Map getCategory(Map in) throws Exception {
         String categoryName = (String) in.get("categoryName");
         String categoryId = (String) in.get("categoryId");
@@ -123,7 +142,7 @@ public class CategoryBusinessService implements ICategoryBusinessService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteCategory(Map in) throws Exception {
-        String token=in.get("token").toString();
+        String token = in.get("token").toString();
         String categoryId = in.get("categoryId").toString();
         iCommonService.checkUser(token, "stuff");
         iCategoryService.deleteCategory(categoryId);
