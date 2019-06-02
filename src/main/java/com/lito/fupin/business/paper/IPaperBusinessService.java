@@ -15,13 +15,15 @@ public interface IPaperBusinessService {
 
     void approvePaper(Map in) throws Exception;
 
-    Map listPaperToShow(Map in) throws Exception;
-
     void rejectPaper(Map in) throws Exception;
 
-    Map getPaperByPaerid(Map in) throws Exception;
+    Map getPaperByPaerId(Map in) throws Exception;
 
     Map listPaperList(Map in) throws Exception;
 
     Map listMyPendingPaper(Map in) throws Exception;
+
+    void deletePaper(Map in) throws Exception;
+
+    Map listAllPaperSub(Map in) throws Exception;
 }

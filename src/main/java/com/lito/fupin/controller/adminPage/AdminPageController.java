@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -103,6 +104,12 @@ public class AdminPageController {
         return "admin/paper/paperNew";
     }
 
+    /**
+     * 需要审核的文章列表
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping("/auditPaperList")
     public String auditPaperListPage(Model model) {
         model.addAttribute("paper", true);
@@ -110,6 +117,12 @@ public class AdminPageController {
         return "admin/paper/paperAuditList";
     }
 
+    /**
+     * 审核文章详情
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping("/auditPaperPage")
     public String auditPaperPage(Model model) {
         return "admin/paper/paperAuditPage";
@@ -125,6 +138,19 @@ public class AdminPageController {
         model.addAttribute("paper", true);
         model.addAttribute("pendingPaper", true);
         return "admin/paper/paperPendingList";
+    }
+
+    /**
+     * 所有我和我的下级机构创建的文章
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/listMyPaperSub")
+    public String listMyPaperSub(Model model) {
+        model.addAttribute("paper", true);
+        model.addAttribute("listMyPaperSub", true);
+        return "admin/paper/paperListAll";
     }
 
 }

@@ -12,4 +12,5 @@ public class Category {
     private String categoryName;
     private String pid;
     private String pName;
+    private Boolean active;
 }

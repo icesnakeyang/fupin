@@ -1,6 +1,7 @@
 package com.lito.fupin.business.user;
 
 import com.lito.fupin.common.GGF;
+import com.lito.fupin.common.ICommonService;
 import com.lito.fupin.meta.organize.entity.Organize;
 import com.lito.fupin.meta.organize.service.IOrganizeService;
 import com.lito.fupin.meta.user.entity.User;
@@ -18,12 +19,15 @@ import java.util.Map;
 public class UserBusinessService implements IUserBusinessService {
     private final IUserService iUserService;
     private final IOrganizeService iOrganizeService;
+    private final ICommonService iCommonService;
 
     @Autowired
     public UserBusinessService(IUserService iUserService,
-                               IOrganizeService iOrganizeService) {
+                               IOrganizeService iOrganizeService,
+                               ICommonService iCommonService) {
         this.iUserService = iUserService;
         this.iOrganizeService = iOrganizeService;
+        this.iCommonService = iCommonService;
     }
 
     /**
@@ -105,10 +109,18 @@ public class UserBusinessService implements IUserBusinessService {
          * 通过organizeId读取所有下级机构
          * 读取每个下级机构的用户
          */
-        User user = iUserService.getUserByToken(token);
-        Organize organize = iOrganizeService.getOrganizeById(user.getOrganizeId());
-
-        ArrayList<User> userList = listSubUser(organize);
+        User loginUser = iCommonService.checkUser(token, "admin");
+        Organize organize = iOrganizeService.getOrganizeById(loginUser.getOrganizeId());
+        ArrayList<User> userList = new ArrayList<>();
+        if (organize.getPid() == null) {
+            //如果没有父机构，读取本级机构用户
+            userList.addAll(iUserService.listUserByOrganizeId(organize.getOrganizeId()));
+        }
+        //读取下级机构用户
+        ArrayList<Organize> subOrganizeList = iOrganizeService.listOrganizeByPid(organize.getOrganizeId());
+        for (int i = 0; i < subOrganizeList.size(); i++) {
+            userList.addAll(listSubUser(subOrganizeList.get(i)));
+        }
 
         Map out = new HashMap();
         out.put("userList", userList);
@@ -117,10 +129,9 @@ public class UserBusinessService implements IUserBusinessService {
 
     private ArrayList listSubUser(Organize organize) throws Exception {
         //查询当前机构的所有用户
-//        ArrayList<User> userList = iUserService.listUserByOrganizeId(organize.getOrganizeId());
+        ArrayList<User> userList = iUserService.listUserByOrganizeId(organize.getOrganizeId());
         //检查当前机构是否有下一级机构
         ArrayList<Organize> organizeList = iOrganizeService.listOrganizeByPid(organize.getOrganizeId());
-        ArrayList<User> userList=new ArrayList<>();
         if (organizeList.size() > 0) {
             for (int i = 0; i < organizeList.size(); i++) {
                 userList.addAll(listSubUser(organizeList.get(i)));

@@ -32,8 +32,6 @@ public interface IPaperService {
      */
     void updatePaper(Paper paper) throws Exception;
 
-    ArrayList<Paper> listPaperToShow(Map in) throws Exception;
-
     Paper getPaperDetailByPaperId(String paperId) throws Exception;
 
     ArrayList<Paper> listPaperByCategoryId(String categoryId, Integer pageIndex, Integer pageSize) throws Exception;
@@ -41,4 +39,14 @@ public interface IPaperService {
     ArrayList<Paper> listMyPendingPaper(String userId, Integer pageIndex, Integer pageSize) throws Exception;
 
     void updateAddView(String paperId) throws Exception;
+
+    void deletePaper(String paperId) throws Exception;
+
+    /**
+     * 读取一个机构的所有文章
+     * @param organizeId
+     * @return
+     * @throws Exception
+     */
+    ArrayList<Paper> listPaperByOrganize(String organizeId) throws Exception;
 }

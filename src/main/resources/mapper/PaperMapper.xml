@@ -145,7 +145,7 @@
     <!--查询我创建的文章-->
     <select id="listMyPendingPaper" parameterType="map"
             resultMap="paperMap">
-        select * from paper
+        select ids, paper_id, title, views, approve_time, upload_time from paper
         where 1=1
         and upload_user_id=#{userId}
         limit #{offset},#{size}
@@ -157,4 +157,16 @@
         views=views+1
         where paper_id=#{paperId}
     </update>
+
+    <delete id="deletePaper" parameterType="java.lang.String">
+        delete from paper
+        where paper_id=#{paperId}
+    </delete>
+
+<!--    读取一个机构的所有文章-->
+    <select id="listPaperByOrganize" parameterType="java.lang.String"
+            resultMap="paperMap">
+        select ids, paper_id, title, views, approve_time, upload_time, status from paper
+        where organize_id=#{organizeId}
+    </select>
 </mapper>

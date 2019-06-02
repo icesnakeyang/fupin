@@ -56,15 +56,16 @@
     <hr class="lineBr">
     <div class="conBox cl">
         <ul class="fl aside">
-            <li th:each="item, itemStat:${out.categoryList}">
-                <div th:text="${item.categoryName}"></div>
+            <li th:each="item, itemStat:${out.categoryList}" class=""
+                th:classappend="${item.active eq true ? 'active': ''}">
+                <a th:href="@{'/newsList/'+${item.categoryId}}" th:text="${item.categoryName}"></a>
             </li>
         </ul>
         <div class="fr rightBox">
             <div class="speciaWorkBox">
                 <ul class="speciaWork newsBox">
-                    <li th:each="item, itemStat:${out.list}">
-                        <a th:href="@{'paperDetail/'+${item.paperId}}" class="newsTit" th:text="${item.title}"></a>
+                    <li th:each="item, itemStat:${out.paperList}">
+                        <a th:href="@{'/paperDetail/'+${item.paperId}}" class="newsTit" th:text="${item.title}"></a>
                         <span class="newsDate" th:text="${#dates.format(item.uploadTime,'yyyy-MM-dd')}"></span>
                     </li>
                 </ul>
@@ -109,17 +110,17 @@
 <div th:include="/web/footer::footer"></div>
 <script src="/web/common/js/swiper.min.js"></script>
 <script src="/web/template/js/common.js"></script>
-<script src="/web/template/js/specialWork.js"></script>
+<!--<script src="/web/template/js/specialWork.js"></script>-->
 </body>
 <script>
     $(function () {
         //aside
-        $('.aside>li').click(function () {
-            $(this).addClass('active').siblings('').removeClass('active');
-            var index = $(this).index();
-            console.log(index)
-            $('.speciaWorkBox .newsBox').eq(index).show().siblings('.newsBox').hide()
-        })
+        // $('.aside>li').click(function () {
+        //     $(this).addClass('active').siblings('').removeClass('active');
+        //     var index = $(this).index();
+        //     console.log(index)
+        //     $('.speciaWorkBox .newsBox').eq(index).show().siblings('.newsBox').hide()
+        // })
     })
 </script>
 </html>

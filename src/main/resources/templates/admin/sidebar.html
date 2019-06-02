@@ -24,8 +24,14 @@
                     <ul class="nav nav-second-level collapse">
                         <li class="" th:classappend="${createPaper eq true ? 'active':''}"><a href="/admin/createPaper">创建文章</a>
                         </li>
-                        <li class="" th:classappend="${auditPaperList eq true ? 'active':''}"><a href="/admin/auditPaperList">审核文章</a></li>
-                        <li><a href="/admin/pendingPaper">我发布的文章</a></li>
+                        <li class="" th:classappend="${auditPaperList eq true ? 'active':''}"><a
+                                href="/admin/auditPaperList">审核文章</a></li>
+                        <li class="" th:classappend="${pendingPaper eq true ? 'active': ''}">
+                            <a href="/admin/pendingPaper">我发布的文章</a>
+                        </li>
+                        <li class="" th:classappend="${listMyPaperSub eq true ? 'active':''}">
+                            <a href="/admin/listMyPaperSub">所有文章</a>
+                        </li>
                     </ul>
                 </li>
                 <li class="" th:classappend="${user eq true ? 'active':''}">

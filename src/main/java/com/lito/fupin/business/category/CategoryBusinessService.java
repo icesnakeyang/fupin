@@ -71,7 +71,9 @@ public class CategoryBusinessService implements ICategoryBusinessService {
 
     @Override
     public Map listSubCategory(Map in) throws Exception {
+        //父id的名称
         String categoryName = (String) in.get("categoryName");
+        //父id的id
         String pid = (String) in.get("pid");
 
         if (pid == null) {

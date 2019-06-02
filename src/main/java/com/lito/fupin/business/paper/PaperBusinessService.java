@@ -2,6 +2,7 @@ package com.lito.fupin.business.paper;
 
 import com.lito.fupin.common.GGF;
 import com.lito.fupin.common.ICommonService;
+import com.lito.fupin.meta.category.entity.Category;
 import com.lito.fupin.meta.organize.entity.Organize;
 import com.lito.fupin.meta.organize.service.IOrganizeService;
 import com.lito.fupin.meta.paper.entity.Paper;
@@ -165,14 +166,6 @@ public class PaperBusinessService implements IPaperBusinessService {
         iPaperService.updatePaper(paper);
     }
 
-    @Override
-    public Map listPaperToShow(Map in) throws Exception {
-        ArrayList<Paper> papers = iPaperService.listPaperToShow(in);
-        Map out = new HashMap();
-        out.put("paperList", papers);
-        return out;
-    }
-
     /**
      * 拒绝文章审核
      *
@@ -201,7 +194,7 @@ public class PaperBusinessService implements IPaperBusinessService {
     }
 
     @Override
-    public Map getPaperByPaerid(Map in) throws Exception {
+    public Map getPaperByPaerId(Map in) throws Exception {
 //        String token=in.get("token").toString();
         String paperId = in.get("paperId").toString();
 
@@ -213,6 +206,13 @@ public class PaperBusinessService implements IPaperBusinessService {
         return out;
     }
 
+    /**
+     * 读取已通过审核的文章列表
+     *
+     * @param in categoryId：分类
+     * @return
+     * @throws Exception
+     */
     @Override
     public Map listPaperList(Map in) throws Exception {
         /**
@@ -239,5 +239,61 @@ public class PaperBusinessService implements IPaperBusinessService {
         Map out = new HashMap();
         out.put("list", paperList);
         return out;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void deletePaper(Map in) throws Exception {
+        String token = in.get("token").toString();
+        String paperId = in.get("paperId").toString();
+
+        User loginUser = iCommonService.checkUser(token, "stuff");
+        iPaperService.deletePaper(paperId);
+    }
+
+    /**
+     * 管理员读取所有下级机构和本级机构的文章
+     *
+     * @param in
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Map listAllPaperSub(Map in) throws Exception {
+        String token = in.get("token").toString();
+        User loginUser = iCommonService.checkUser(token, "stuff");
+
+        Organize organize=iOrganizeService.getOrganizeById(loginUser.getOrganizeId());
+
+        ArrayList<Paper> paperList=new ArrayList<>();
+        if(organize.getPid()==null){
+            //没有父机构了，需要读取本级机构的文章
+            paperList.addAll(iPaperService.listPaperByOrganize(organize.getOrganizeId()));
+        }
+        ArrayList<Organize> subOrganizeList=iOrganizeService.listOrganizeByPid(organize.getOrganizeId());
+        for(int i=0;i<subOrganizeList.size();i++) {
+            paperList.addAll(listSubPaper(subOrganizeList.get(i).getOrganizeId()));
+        }
+
+        Map out = new HashMap();
+        out.put("paperList", paperList);
+
+        return out;
+    }
+
+    /**
+     * 递归读取一个机构及所有子机构的文章
+     *
+     * @param organizeId
+     * @return
+     * @throws Exception
+     */
+    private ArrayList<Paper> listSubPaper(String organizeId) throws Exception {
+        ArrayList<Paper> paperList = iPaperService.listPaperByOrganize(organizeId);
+        ArrayList<Organize> subOrganizeList = iOrganizeService.listOrganizeByPid(organizeId);
+        for (int i = 0; i < subOrganizeList.size(); i++) {
+            paperList.addAll(listSubPaper(subOrganizeList.get(i).getOrganizeId()));
+        }
+        return paperList;
     }
 }

@@ -62,29 +62,20 @@ public class PaperService implements IPaperService {
     }
 
     @Override
-    public ArrayList<Paper> listPaperToShow(Map in) throws Exception {
-        String categoryId = (String) in.get("categoryId");
-        String organizeId = (String) in.get("organizeId");
-        Integer pageIndex = (Integer) in.get("pageIndex");
-        Integer pageSize = (Integer) in.get("pageSize");
-        Integer offset = pageIndex * pageSize;
-        Integer size = pageSize;
-
-        Map qIn = new HashMap();
-        qIn.put("categoryId", categoryId);
-        qIn.put("organizeId", organizeId);
-        qIn.put("offset", offset);
-        qIn.put("size", size);
-        ArrayList<Paper> papers = paperDao.listPaper(qIn);
-        return papers;
-    }
-
-    @Override
     public Paper getPaperDetailByPaperId(String paperId) throws Exception {
         Paper paper = paperDao.getPaperDetailByPaperId(paperId);
         return paper;
     }
 
+    /**
+     * 读取已通过审核的文章列表
+     *
+     * @param categoryId
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     * @throws Exception
+     */
     @Override
     public ArrayList<Paper> listPaperByCategoryId(String categoryId, Integer pageIndex, Integer pageSize) throws Exception {
         Map qIn = new HashMap();
@@ -110,5 +101,23 @@ public class PaperService implements IPaperService {
     @Override
     public void updateAddView(String paperId) throws Exception {
         paperDao.updateAddView(paperId);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void deletePaper(String paperId) throws Exception {
+        paperDao.deletePaper(paperId);
+    }
+
+    /**
+     * 读取一个机构的所有文章
+     * @param organizeId
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public ArrayList<Paper> listPaperByOrganize(String organizeId) throws Exception {
+        ArrayList<Paper> paperList = paperDao.listPaperByOrganize(organizeId);
+        return paperList;
     }
 }

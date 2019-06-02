@@ -102,7 +102,7 @@ public class PaperController {
             Map in = new HashMap();
             in.put("token", token);
             in.put("paperId", request.getPaperId());
-            Map out = iPaperBusinessService.getPaperByPaerid(in);
+            Map out = iPaperBusinessService.getPaperByPaerId(in);
             response.setData(out);
         } catch (Exception ex) {
             try {
@@ -182,6 +182,7 @@ public class PaperController {
 
     /**
      * listMyPendingPaper
+     *
      * @param request
      * @param httpServletRequest
      * @return
@@ -198,6 +199,57 @@ public class PaperController {
             in.put("pageIndex", request.getPageIndex());
             in.put("pageSize", request.getPageSize());
             Map out = iPaperBusinessService.listMyPendingPaper(in);
+            response.setData(out);
+        } catch (Exception ex) {
+            try {
+                response.setCode(Integer.parseInt(ex.getMessage()));
+            } catch (Exception ex2) {
+                response.setCode(10001);
+                logger.error(ex.getMessage());
+            }
+        }
+        return response;
+    }
+
+    /**
+     * 管理员删除一篇文章
+     *
+     * @param request
+     * @param httpServletRequest
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/deletePaper")
+    public Response deletePaper(@RequestBody PaperRequest request,
+                                HttpServletRequest httpServletRequest) {
+        Response response = new Response();
+        try {
+            String token = httpServletRequest.getHeader("token");
+            Map in = new HashMap();
+            in.put("token", token);
+            in.put("paperId", request.getPaperId());
+            iPaperBusinessService.deletePaper(in);
+        } catch (Exception ex) {
+            try {
+                response.setCode(Integer.parseInt(ex.getMessage()));
+            } catch (Exception ex2) {
+                response.setCode(10001);
+                logger.error(ex.getMessage());
+            }
+        }
+        return response;
+    }
+
+    @ResponseBody
+    @PostMapping("/listAllPaperSub")
+    public Response listAllPaperSub(@RequestBody PaperRequest request,
+                                    HttpServletRequest httpServletRequest) {
+        Response response = new Response();
+        try {
+            String token = httpServletRequest.getHeader("token");
+            Map in = new HashMap();
+            in.put("token", token);
+            Map out = iPaperBusinessService.listAllPaperSub(in);
             response.setData(out);
         } catch (Exception ex) {
             try {

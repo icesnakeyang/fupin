@@ -23,15 +23,12 @@ import java.util.Map;
 
 @Controller
 public class WebController {
-    private final IPaperBusinessService iPaperBusinessService;
-    private final ICategoryBusinessService iCategoryBusinessService;
+    private final IWebBusinessService iWebBusinessService;
 
     Logger logger = LoggerFactory.getLogger(getClass());
 
-    public WebController(IPaperBusinessService iPaperBusinessService,
-                         ICategoryBusinessService iCategoryBusinessService) {
-        this.iPaperBusinessService = iPaperBusinessService;
-        this.iCategoryBusinessService = iCategoryBusinessService;
+    public WebController(IWebBusinessService iWebBusinessService) {
+        this.iWebBusinessService = iWebBusinessService;
     }
 
     @GetMapping("/")
@@ -47,8 +44,8 @@ public class WebController {
 //            in.put("organizeId", "b4daa685-2a6b-4475-b194-2839541d6c59");
             in.put("pageIndex", 0);
             in.put("pageSize", 10);
-            Map out = iPaperBusinessService.listPaperToShow(in);
-            model.addAttribute("data", out);
+//            Map out = iWebBusinessService.listPaperToShow(in);
+//            model.addAttribute("data", out);
         } catch (Exception ex) {
 
         }
@@ -56,16 +53,12 @@ public class WebController {
     }
 
     @GetMapping("/rootNewsList")
-    public String newsListPage(Model model) {
+    public String rootNewsList(Model model) {
         try {
             Map in = new HashMap();
             in.put("pageIndex", 0);
             in.put("pageSize", 10);
-            in.put("categoryName", "新闻中心");
-            Map out = new HashMap();
-            out.put("categoryList", iCategoryBusinessService.listSubCategory(in).get("categoryList"));
-            in.put("categoryId", ((ArrayList<Category>) out.get("categoryList")).get(0).getCategoryId());
-            out.put("list", iPaperBusinessService.listPaperList(in).get("list"));
+            Map out=iWebBusinessService.loadNewsHomePage(in);
             model.addAttribute("out", out);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
@@ -73,16 +66,30 @@ public class WebController {
         return "web/newsList";
     }
 
+    /**
+     * 用户点击新闻子类
+     *
+     * @param model
+     * @param categoryId
+     * @return
+     */
     @GetMapping("/newsList/{categoryId}")
-    public String newsList(Model model, @PathVariable String categoryId){
+    public String newsList(Model model, @PathVariable String categoryId) {
+        /**
+         * 当用户在新闻首页点击二级新闻时
+         * 读取所有新闻子类
+         * 把当前子类设置为active
+         * 通过categoryId查询新闻列表
+         */
         try {
-            Map in=new HashMap();
+            Map in = new HashMap();
             in.put("categoryId", categoryId);
-            Map out=new HashMap();
-            out.put("categoryList", iCategoryBusinessService.listSubCategory(in).get("categoryList"));
-            in.put("categoryId", categoryId)
-            in.put("categoryId", categoryId);
-        }catch (Exception ex){
+            in.put("pageIndex", 0);
+            in.put("pageSize", 10);
+            Map out = new HashMap();
+            out = iWebBusinessService.loadNewsHomePage(in);
+            model.addAttribute("out", out);
+        } catch (Exception ex) {
             logger.error(ex.getMessage());
         }
         return "web/newsList";
@@ -93,7 +100,7 @@ public class WebController {
         try {
             Map in = new HashMap();
             in.put("paperId", paperId);
-            Map out = iPaperBusinessService.getPaperByPaerid(in);
+            Map out = iWebBusinessService.loadPaperDetailPage(in);
             model.addAttribute("paper", out.get("paper"));
         } catch (Exception ex) {
             logger.error(ex.getMessage());
