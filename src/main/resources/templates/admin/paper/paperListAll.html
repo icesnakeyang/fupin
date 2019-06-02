@@ -99,8 +99,8 @@
             <div class="modal-header">
             </div>
             <div class="modal-body">
-                <p>确认要删除该机构吗</p>
-                <span id="deleteOrganizeName" class="label label-warning"></span>
+                <p>确认要删除该文章吗</p>
+                <span id="deletePaperTitle"></span>
             </div>
             <div class="modal-footer">
                 <button id="btCancel" type="button" class="btn btn-white" data-dismiss="modal">取消</button>
@@ -159,7 +159,7 @@
         $('#organizeSelect').html(optionHtml);
 
         /**
-         * 读取我创建的文章
+         * 读取所有下级机构和本级机构的文章
          */
         var params = {
             "pageIndex": 0,
@@ -296,17 +296,17 @@
             var table = $('#organizeTable').DataTable()
             $('#editOrganName').val(table.row('.select').data().organizeName)
             $('#editOrganizeSelect').val(table.row('.select').data().pid).trigger("chosen:updated")
-            rowId = table.row('.select').data().organizeId
+            rowId = table.row('.select').data().paperId
             $('#edit-form').modal('show')
         })
 
         $(document).on('click', '#btDelRow', function () {
             $(this).parent('td').parent("tr").addClass('select').siblings('tr').removeClass('select')
-            var table = $('#organizeTable').DataTable()
+            var table = $('#paperTable').DataTable()
             console.log(table.row('.select').data())
-            rowId = table.row('.select').data().organizeId
-            rowName = table.row('.select').data().organizeName
-            $('#deleteOrganizeName').html(rowName)
+            rowId = table.row('.select').data().paperId
+            rowName = table.row('.select').data().title
+            $('#deletePaperTitle').html(rowName)
             $('#modalConfirmDelete').modal('show')
         })
 
@@ -347,7 +347,7 @@
             })
         })
 
-        $('#btEditOrganize').click(function () {
+        $('#btEditPaper').click(function () {
             var params = {
                 pid: $('#editOrganizeSelect').val(),
                 organizeName: $('#editOrganName').val(),
@@ -374,13 +374,13 @@
 
         $('#btConfirmDelete').click(function () {
             var params = {
-                organizeId: rowId
+                paperId: rowId
             }
             console.log(params)
             $.ajax({
                 type: "POST",
                 async: false,
-                url: "/api/organize/deleteOrganize",
+                url: "/api/paper/deletePaper",
                 data: JSON.stringify(params),
                 contentType: 'application/json',
                 beforeSend: function (xhr) {
