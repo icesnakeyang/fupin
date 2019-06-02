@@ -38,11 +38,16 @@
                                 </div>
                                 <div class="form-group">
                                     <label>是否公开</label>
-                                    <sapn class="i-checks"><label> <input type="radio" value="option1"
-                                                                          name="isPublic"><i></i> 是
-                                    </label></sapn>
-                                    <span class="i-checks"><label> <input type="radio" checked="" value="option2"
-                                                                          name="isPublic"> <i></i> 否 </label></span>
+                                    <sapn class="i-checks">
+                                        <label>
+                                            <input id="public1" type="radio" name="isPublic" value="yes"><i></i> 是
+                                        </label>
+                                    </sapn>
+                                    <span class="i-checks">
+                                        <label>
+                                            <input id="public2" type="radio" name="isPublic" value="no"><i></i>否
+                                        </label>
+                                    </span>
                                 </div>
                                 <div class="form-group">
                                     <label>内容</label>
@@ -176,7 +181,8 @@
                     $('#txtAuthor').val(paper.author)
                     $('#selectCategory').val(paper.categoryId).trigger("chosen:updated")
                     if (paper.isPublic == "true") {
-                        $('#isPublic').iCheck('check');
+                        $('input:radio[name="isPublic"]').filter('[id="public1"]').iCheck('check');
+                        // console.log($('input:radio[name="tt"]:checked').val())
                     }
                     $('#txtContent').summernote('code', paper.content)
                 }
@@ -240,7 +246,7 @@
                 success: function (response) {
                     console.log(response)
                     if (response.code == 0) {
-                        window.location.href="/admin/auditPaperList"
+                        window.location.href = "/admin/auditPaperList"
                     }
                 }
             })
