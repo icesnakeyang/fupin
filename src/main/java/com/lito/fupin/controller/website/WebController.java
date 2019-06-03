@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -108,5 +109,10 @@ public class WebController {
             logger.error(ex.getMessage());
         }
         return "web/paperDetail";
+    }
+
+    @RequestMapping("/gzfpHome")
+    public String gzfpHome(Model model){
+        return "web/gzfp/gzfpHome";
     }
 }

@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- 标准化页头 -->
+    <meta charset="utf-8" /><!-- 声明文档使用的字符编码 -->
+    <title>甘孜扶贫</title>
+    <!--公共样式表-->
+    <link rel="stylesheet" href="/web/common/css/bootstrap.min.css">
+    <link href="/web/common/css/reset.css" rel="stylesheet">
+    <link href="/web/common/css/common.css" rel="stylesheet">
+    <link rel="stylesheet" href="/web/common/css/swiper.min.css">
+    <!--模块样式表-->
+    <link rel="stylesheet" type="text/css" href="/web/template/css/style.css">
+    <!--公共js-->
+    <script src="/web/common/js/jquery.min.js"></script>
+    <script src="/web/common/js/bootstrap.min.js"></script>
+    <!--模块js-->
+    <style>
+        .helpPoor {
+            background: #c10901;
+            position: relative;
+        }
+
+        .helpPoor:after {
+            display: block;
+            content: '';
+            height: 2px;
+            width: 70%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            background: #FFF;
+        }
+    </style>
+</head>
+<body>
+<div class="header"></div>
+<!-- content start-->
+
+<div class="section_container content">
+
+    <div class="title">
+        <img src="static/common/images/daohang.png">
+        <a href="index.html">首页</a>
+        <img src="static/common/images/leftBtn.png">
+        <a href="JavaScript:;">甘孜扶贫</a>
+        <img src="static/common/images/leftBtn.png">
+        <a href="JavaScript:;" class="active">甘孜县情</a>
+    </div>
+    <hr class="lineBr">
+    <div class="conBox cl">
+        <ul class="fl aside">
+            <li class="active">甘孜县情</li>
+            <li class="fpActive">扶贫动态</li>
+            <ul class="fpdtBox">
+                <li class="active"><i></i>决策部署</li>
+                <li><i></i>精准识别</li>
+                <li><i></i>精准帮扶</li>
+                <li><i></i>精准退出</li>
+            </ul>
+            <li>对口帮扶</li>
+            <li>定点帮扶</li>
+            <li>东西协作</li>
+            <li>驻村帮扶</li>
+        </ul>
+        <!--甘孜县情-->
+        <div class="fr rightBox firstNewsBox">
+            <div class="conunty_box">
+                <div class="fl conunty_pic">
+                    <img src="static/template/images/banner/banner3.jpg" alt="" />
+                </div>
+                <div class="fl conunty_title">
+                    <ul>
+                        <li><a class="dot_space" href="javascript:;">0甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span> </li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="poverty_newsWrap newsWrap cl">
+                <div class="newsBox fl">
+                    <div class="title"><span>扶贫动态</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>对口帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>定点帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>东西协作</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>驻村帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>乡镇动态</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+            </div>
+        </div>
+        <!--扶贫帮助>决策部署-->
+        <div class="fr rightBox firstNewsBox fpdtCon" style="display: none">
+            <div class="conunty_box">
+                <div class="fl conunty_pic">
+                    <img src="static/template/images/banner/banner3.jpg" alt="" />
+                </div>
+                <div class="fl conunty_title">
+                    <ul>
+                        <li><a class="dot_space" href="javascript:;">1-1甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span> </li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="poverty_newsWrap newsWrap cl">
+                <div class="newsBox fl">
+                    <div class="title"><span>扶贫动态</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>对口帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>定点帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>东西协作</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>驻村帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>乡镇动态</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+            </div>
+        </div>
+        <!--扶贫帮助>精准识别-->
+        <div class="fr rightBox fpdtCon" style="display: none">
+            <div class="conunty_box">
+                <div class="fl conunty_pic">
+                    <img src="static/template/images/banner/banner3.jpg" alt="" />
+                </div>
+                <div class="fl conunty_title">
+                    <ul>
+                        <li><a class="dot_space" href="javascript:;">1-2甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span> </li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="poverty_newsWrap newsWrap cl">
+                <div class="newsBox fl">
+                    <div class="title"><span>扶贫动态</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>对口帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>定点帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>东西协作</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>驻村帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>乡镇动态</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+            </div>
+        </div>
+        <!--扶贫帮助>精准帮扶-->
+        <div class="fr rightBox fpdtCon" style="display: none">
+            <div class="conunty_box">
+                <div class="fl conunty_pic">
+                    <img src="static/template/images/banner/banner3.jpg" alt="" />
+                </div>
+                <div class="fl conunty_title">
+                    <ul>
+                        <li><a class="dot_space" href="javascript:;">1-3甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span> </li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="poverty_newsWrap newsWrap cl">
+                <div class="newsBox fl">
+                    <div class="title"><span>扶贫动态</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>对口帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>定点帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>东西协作</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>驻村帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>乡镇动态</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+            </div>
+        </div>
+        <!--扶贫帮助>精准退出-->
+        <div class="fr rightBox fpdtCon" style="display: none">
+            <div class="conunty_box">
+                <div class="fl conunty_pic">
+                    <img src="static/template/images/banner/banner3.jpg" alt="" />
+                </div>
+                <div class="fl conunty_title">
+                    <ul>
+                        <li><a class="dot_space" href="javascript:;">1-4甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span> </li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="poverty_newsWrap newsWrap cl">
+                <div class="newsBox fl">
+                    <div class="title"><span>扶贫动态</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>对口帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>定点帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>东西协作</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>驻村帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>乡镇动态</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+            </div>
+        </div>
+        <!--对口帮扶-->
+        <div class="fr rightBox firstNewsBox" style="display: none">
+            <div class="conunty_box">
+                <div class="fl conunty_pic">
+                    <img src="static/template/images/banner/banner3.jpg" alt="" />
+                </div>
+                <div class="fl conunty_title">
+                    <ul>
+                        <li><a class="dot_space" href="javascript:;">2甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span> </li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="poverty_newsWrap newsWrap cl">
+                <div class="newsBox fl">
+                    <div class="title"><span>扶贫动态</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>对口帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>定点帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>东西协作</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>驻村帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>乡镇动态</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+            </div>
+        </div>
+        <!--定点帮扶-->
+        <div class="fr rightBox firstNewsBox" style="display: none">
+            <div class="conunty_box">
+                <div class="fl conunty_pic">
+                    <img src="static/template/images/banner/banner3.jpg" alt="" />
+                </div>
+                <div class="fl conunty_title">
+                    <ul>
+                        <li><a class="dot_space" href="javascript:;">3甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span> </li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="poverty_newsWrap newsWrap cl">
+                <div class="newsBox fl">
+                    <div class="title"><span>扶贫动态</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>对口帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>定点帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>东西协作</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>驻村帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>乡镇动态</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+            </div>
+        </div>
+        <!--东西协作-->
+        <div class="fr rightBox firstNewsBox" style="display: none">
+            <div class="conunty_box">
+                <div class="fl conunty_pic">
+                    <img src="static/template/images/banner/banner3.jpg" alt="" />
+                </div>
+                <div class="fl conunty_title">
+                    <ul>
+                        <li><a class="dot_space" href="javascript:;">4甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span> </li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="poverty_newsWrap newsWrap cl">
+                <div class="newsBox fl">
+                    <div class="title"><span>扶贫动态</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>对口帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>定点帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>东西协作</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>驻村帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>乡镇动态</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+            </div>
+        </div>
+        <!--驻村帮扶-->
+        <div class="fr rightBox firstNewsBox" style="display: none">
+            <div class="conunty_box">
+                <div class="fl conunty_pic">
+                    <img src="static/template/images/banner/banner3.jpg" alt="" />
+                </div>
+                <div class="fl conunty_title">
+                    <ul>
+                        <li><a class="dot_space" href="javascript:;">5甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span> </li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                        <li><a class="dot_space" href="javascript:;">甘孜县系统发力打好脱贫攻坚战</a> <span class="newsDate">02/21</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="poverty_newsWrap newsWrap cl">
+                <div class="newsBox fl">
+                    <div class="title"><span>扶贫动态</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>对口帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>定点帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>东西协作</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>驻村帮扶</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+                <div class="newsBox fl">
+                    <div class="title"><span>乡镇动态</span><span class="moreCom fr">更多+</span></div>
+                    <ul class="FocusNews"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content end-->
+<!-- footer-->
+<div class="friendshipLinkBox"></div>
+<div class="footer"></div>
+<script src="/web/common/js/swiper.min.js"></script>
+<script src="/web/template/js/index.js"></script>
+<script src="/web/template/js/common.js"></script>
+</body>
+<script>
+    $(function(){
+        //aside
+        $('.aside>li').click(function(){
+            $(this).addClass('active').siblings('li').removeClass('active');
+            var index = $(this).index();
+            if(index >1){
+                index = index-1
+                $('.firstNewsBox').eq(index).show().siblings('.firstNewsBox').hide()
+            }else{
+                $('.firstNewsBox').eq(index).show().siblings('.firstNewsBox').hide()
+            }
+            if(index != 1){
+                $('.fpdtCon').hide()
+                $('.fpdtBox>li').eq(0).addClass('active').siblings('li').removeClass('active');
+            }
+        })
+        $('.fpActive').click(function(){
+            $(this).toggleClass('fpdBoxHS')
+            if($(this).hasClass('fpdBoxHS')){
+                $('.fpdtBox').show()
+            }else{
+                $('.fpdtBox').hide()
+            }
+        })
+        $('.fpdtBox>li').click(function(){
+            $(this).addClass('active').siblings('').removeClass('active');
+            var index = $(this).index();
+            $('.fpdtCon').eq(index).show().siblings('.fpdtCon').hide()
+        })
+        $('.aside>li').not(".fpActive").click(function(){
+            $('.fpActive').removeClass('fpdBoxHS')
+            $('.fpdtBox').hide()
+        })
+
+    })
+</script>
+</html>
