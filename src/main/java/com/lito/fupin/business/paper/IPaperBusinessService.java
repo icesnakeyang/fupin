@@ -26,4 +26,6 @@ public interface IPaperBusinessService {
     void deletePaper(Map in) throws Exception;
 
     Map listAllPaperSub(Map in) throws Exception;
+
+    void editPaper(Map in) throws Exception;
 }

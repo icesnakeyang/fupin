@@ -261,4 +261,32 @@ public class PaperController {
         }
         return response;
     }
+
+    @ResponseBody
+    @PostMapping("/editPaper")
+    public Response editPaper(@RequestBody PaperRequest request,
+                              HttpServletRequest httpServletRequest){
+        Response response=new Response();
+        try {
+            String token=httpServletRequest.getHeader("token");
+            Map in=new HashMap();
+            in.put("token", token);
+            in.put("title", request.getTitle());
+            in.put("content", request.getContent());
+            in.put("categoryId", request.getCategoryId());
+            in.put("isPublic", request.getIsPublic());
+            in.put("imgUrl", request.getImgUrl());
+            in.put("fileUrl", request.getFileUrl());
+            in.put("author", request.getAuthor());
+            iPaperBusinessService.editPaper(in);
+        }catch (Exception ex){
+            try {
+                response.setCode(Integer.parseInt(ex.getMessage()));
+            }catch (Exception ex2){
+                response.setCode(10001);
+                logger.error(ex.getMessage());
+            }
+        }
+        return response;
+    }
 }

@@ -281,6 +281,35 @@ public class PaperBusinessService implements IPaperBusinessService {
         return out;
     }
 
+    @Override
+    public void editPaper(Map in) throws Exception {
+        String token = in.get("token").toString();
+        String paperId=in.get("paperId").toString();
+        String author = (String) in.get("author");
+        String categoryId = in.get("categoryId").toString();
+        String content = in.get("content").toString();
+        String fileUrl = (String) in.get("fileUrl");
+        String imgUrl = (String) in.get("imgUrl");
+        String isPublic = in.get("isPublic").toString();
+        String title = in.get("title").toString();
+
+        User loginUser=iCommonService.checkUser(token, "stuff");
+
+        Paper paper=iPaperService.getPaperDetailByPaperId(paperId);
+
+        paper.setAuthor(author);
+        paper.setCategoryId(categoryId);
+        paper.setContent(content);
+        paper.setFileUrl(fileUrl);
+        paper.setImgUrl(imgUrl);
+        paper.setIsPublic(isPublic);
+        paper.setTitle(title);
+        iPaperService.updatePaper(paper);
+
+        Map out = new HashMap();
+        out.put("paper", paper);
+    }
+
     /**
      * 递归读取一个机构及所有子机构的文章
      *

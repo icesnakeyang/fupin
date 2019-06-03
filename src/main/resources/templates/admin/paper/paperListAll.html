@@ -63,26 +63,43 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-sm-12">
-                        <h3 class="m-t-none m-b">编辑机构</h3>
-                        <p>修改机构名称，重新设定上级单位</p>
-                        <form role="form">
-                            <div class="form-group">
-                                <label>机构名称</label>
-                                <input type="text" id="editOrganName"
-                                       class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label>上级单位</label>
-                                <select id="editOrganizeSelect"
-                                        class="chosen-select" tabindex="2">
-                                </select>
-                            </div>
-                            <div>
-                                <button id="btEditOrganize"
-                                        class="btn btn-sm btn-primary float-right m-t-n-xs"
-                                        type="button"><strong>更改</strong></button>
+                        <h3 class="m-t-none m-b">编辑文章</h3>
+                        <p>对文章信息进行编辑</p>
+                        <div class="form-group">
+                            <label>标题</label>
+                            <input id="txtTitle" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>作者</label>
+                            <input id="txtAuthor" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>所属栏目</label>
+                            <select id="selectCategory" class="chosen-select" tabindex="2"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>是否公开</label>
+                            <sapn class="i-checks">
+                                <label>
+                                    <input id="public1" type="radio" name="isPublic" value="yes"><i></i> 是
                                 </label>
-                            </div>
+                            </sapn>
+                            <span class="i-checks">
+                                <label>
+                                    <input id="public2" type="radio" name="isPublic" value="no"><i></i>否
+                                </label>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label>内容</label>
+                            <div id="txtContent" class="summernote"></div>
+                        </div>
+                        <div>
+                            <button id="btEditPaper"
+                                    class="btn btn-sm btn-primary float-right m-t-n-xs"
+                                    type="button"><strong>更改文章</strong></button>
+                            </label>
+                        </div>
                         </form>
                     </div>
                 </div>
@@ -121,42 +138,44 @@
 <script src="/framework/bootstrap/datatables.bootstrap4.min.js"></script>
 <script src="/framework/jquery/jquery.session.js"></script>
 <script src="/framework/bootstrap/chosen.jquery.js"></script>
+<script src="/framework/summernote/summernote-bs4.js"></script>
+<script src="/framework/summernote/summernotezhcn.js"></script>
 
 <script>
     $(document).ready(function () {
         var loginName = $.session.get("loginName")
         $('#loginName').html("你好，" + loginName + "！")
 
-        /**
-         * 读取机构列表
-         * @type {{pageIndex: number, pageSize: number}}
-         */
-        var params = {
-            "pageIndex": 0,
-            "pageSize": 200
+        // 初始化栏目选择下拉框
+        //  读取栏目列表
+        params = {
+            "categoryName": null,
+            "pid": null
         }
-        var organizeList
-        var rowId
-        var rowName
+        var categoryList
         $.ajax({
             type: "POST",
             async: false,
-            url: "/api/organize/listOrganizeByToken",
+            url: "http://127.0.0.1:8080/api/category/listCategory",
             data: JSON.stringify(params),
             contentType: 'application/json',
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("token", $.session.get("token"));
             },
             success: function (response) {
-                organizeList = response.data.organizeList
+                console.log(response)
+                if (response.code == 0) {
+                    categoryList = response.data.categoryList
+                }
             }
         })
-        console.log(organizeList)
-        var optionHtml
-        $.each(organizeList, function (i, item) {
-            optionHtml += '<option value="' + item.organizeId + '">' + item.organizeName + '</option>';
+        var optionHtml = ""
+        $.each(categoryList, function (i, item) {
+            optionHtml += '<option value="' + item.categoryId + '">' + item.categoryName + '</option>';
         })
-        $('#organizeSelect').html(optionHtml);
+        console.log(optionHtml)
+        $('#selectCategory').html(optionHtml);
+        $('.chosen-select').chosen({width: "100%"});
 
         /**
          * 读取所有下级机构和本级机构的文章
@@ -293,10 +312,16 @@
         ;
         $(document).on('click', '#btEditRow', function () {
             $(this).parent('td').parent("tr").addClass('select').siblings('tr').removeClass('select')
-            var table = $('#organizeTable').DataTable()
-            $('#editOrganName').val(table.row('.select').data().organizeName)
-            $('#editOrganizeSelect').val(table.row('.select').data().pid).trigger("chosen:updated")
-            rowId = table.row('.select').data().paperId
+            var paper = $('#paperTable').DataTable().row('.select').data()
+            $('#txtTitle').val(paper.title)
+            $('#txtAuthor').val(paper.author)
+            $('#selectCategory').val(paper.categoryId).trigger("chosen:updated")
+            if (paper.isPublic == "true") {
+                $('input:radio[name="isPublic"]').filter('[id="public1"]').iCheck('check');
+                // console.log($('input:radio[name="tt"]:checked').val())
+            }
+            $('#txtContent').summernote('code', paper.content)
+            rowId = paper.paperId
             $('#edit-form').modal('show')
         })
 
@@ -357,7 +382,7 @@
             $.ajax({
                 type: "POST",
                 async: false,
-                url: "/api/organize/updateOrganize",
+                url: "/api/paper/editPaper",
                 data: JSON.stringify(params),
                 contentType: 'application/json',
                 beforeSend: function (xhr) {
