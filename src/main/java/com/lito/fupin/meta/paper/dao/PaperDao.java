@@ -57,4 +57,19 @@ public interface PaperDao {
      * @return
      */
     ArrayList<Paper> listPaperByOrganize(String organizeId);
+
+
+    /**
+     * 读取上一篇文章的标题信息
+     * @param qIn
+     * @return
+     */
+    Paper getLastPaper(Map qIn);
+
+    /**
+     * 读取下一篇文章的标题信息
+     * @param qIn
+     * @return
+     */
+    Paper getNextPaper(Map qIn);
 }

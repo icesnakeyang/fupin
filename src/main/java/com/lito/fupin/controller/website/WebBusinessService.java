@@ -4,10 +4,13 @@ import com.lito.fupin.business.category.ICategoryBusinessService;
 import com.lito.fupin.business.paper.IPaperBusinessService;
 import com.lito.fupin.meta.category.entity.Category;
 import com.lito.fupin.meta.category.service.ICategoryService;
+import com.lito.fupin.meta.paper.entity.Paper;
+import com.lito.fupin.meta.paper.service.IPaperService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,13 +20,16 @@ import java.util.Map;
 public class WebBusinessService implements IWebBusinessService {
     private final ICategoryBusinessService iCategoryBusinessService;
     private final IPaperBusinessService iPaperBusinessService;
+    private final IPaperService iPaperService;
 
     Logger logger = LoggerFactory.getLogger(getClass());
 
     public WebBusinessService(ICategoryBusinessService iCategoryBusinessService,
-                              IPaperBusinessService iPaperBusinessService) {
+                              IPaperBusinessService iPaperBusinessService,
+                              IPaperService iPaperService) {
         this.iCategoryBusinessService = iCategoryBusinessService;
         this.iPaperBusinessService = iPaperBusinessService;
+        this.iPaperService = iPaperService;
     }
 
     /**
@@ -91,9 +97,24 @@ public class WebBusinessService implements IWebBusinessService {
         return out;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Map loadPaperDetailPage(Map in) throws Exception {
+        String paperId = in.get("paperId").toString();
+
+        //读取文章详情
         Map out = iPaperBusinessService.getPaperByPaerId(in);
+
+        //增加一次点击量
+        if (out.get("paper") != null) {
+            iPaperService.updateAddView(paperId);
+        }
+
+        //按提交时间排顺序，读取上一条和下一条文章的标题
+        Paper paper = iPaperBusinessService.getLastPaper(paperId);
+        out.put("lastPaper", paper);
+        paper = iPaperBusinessService.getNextPaper(paperId);
+        out.put("nextPaper", paper);
         return out;
     }
 }

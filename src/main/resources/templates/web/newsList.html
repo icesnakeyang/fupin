@@ -105,11 +105,17 @@
         </div>
     </div>
 </div>
+
 <!-- footer-->
-<div class="friendshipLinkBox"></div>
-<div th:include="/web/footer::footer"></div>
+<div class="friendshipLinkBox">
+    <div th:include="/web/friendshiplink::content"></div>
+</div>
+<div class="footer">
+    <div th:include="/web/footer::content"></div>
+</div>
+
 <script src="/web/common/js/swiper.min.js"></script>
-<script src="/web/template/js/common.js"></script>
+<!--<script src="/web/template/js/common.js"></script>-->
 <!--<script src="/web/template/js/specialWork.js"></script>-->
 </body>
 <script>

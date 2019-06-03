@@ -102,6 +102,8 @@ public class WebController {
             in.put("paperId", paperId);
             Map out = iWebBusinessService.loadPaperDetailPage(in);
             model.addAttribute("paper", out.get("paper"));
+            model.addAttribute("lastPaper", out.get("lastPaper"));
+            model.addAttribute("nextPaper", out.get("nextPaper"));
         } catch (Exception ex) {
             logger.error(ex.getMessage());
         }

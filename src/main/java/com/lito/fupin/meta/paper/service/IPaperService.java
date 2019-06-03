@@ -49,4 +49,22 @@ public interface IPaperService {
      * @throws Exception
      */
     ArrayList<Paper> listPaperByOrganize(String organizeId) throws Exception;
+
+    /**
+     * 读取上一篇文章的标题信息
+     * @param categoryId
+     * @param ids
+     * @return
+     * @throws Exception
+     */
+    Paper getLastPaper(String categoryId, Integer ids) throws Exception;
+
+    /**
+     * 读取下一篇文章的标题信息
+     * @param categoryId
+     * @param ids
+     * @return
+     * @throws Exception
+     */
+    Paper getNextPaper(String categoryId, Integer ids) throws Exception;
 }

@@ -193,6 +193,13 @@ public class PaperBusinessService implements IPaperBusinessService {
         iPaperService.updatePaper(paper);
     }
 
+    /**
+     * 读取文章详细信息
+     *
+     * @param in
+     * @return
+     * @throws Exception
+     */
     @Override
     public Map getPaperByPaerId(Map in) throws Exception {
 //        String token=in.get("token").toString();
@@ -200,7 +207,6 @@ public class PaperBusinessService implements IPaperBusinessService {
 
 //        iCommonService.checkUser(token, "stuff");
         Paper paper = iPaperService.getPaperDetailByPaperId(paperId);
-        iPaperService.updateAddView(paperId);
         Map out = new HashMap();
         out.put("paper", paper);
         return out;
@@ -263,15 +269,15 @@ public class PaperBusinessService implements IPaperBusinessService {
         String token = in.get("token").toString();
         User loginUser = iCommonService.checkUser(token, "stuff");
 
-        Organize organize=iOrganizeService.getOrganizeById(loginUser.getOrganizeId());
+        Organize organize = iOrganizeService.getOrganizeById(loginUser.getOrganizeId());
 
-        ArrayList<Paper> paperList=new ArrayList<>();
-        if(organize.getPid()==null){
+        ArrayList<Paper> paperList = new ArrayList<>();
+        if (organize.getPid() == null) {
             //没有父机构了，需要读取本级机构的文章
             paperList.addAll(iPaperService.listPaperByOrganize(organize.getOrganizeId()));
         }
-        ArrayList<Organize> subOrganizeList=iOrganizeService.listOrganizeByPid(organize.getOrganizeId());
-        for(int i=0;i<subOrganizeList.size();i++) {
+        ArrayList<Organize> subOrganizeList = iOrganizeService.listOrganizeByPid(organize.getOrganizeId());
+        for (int i = 0; i < subOrganizeList.size(); i++) {
             paperList.addAll(listSubPaper(subOrganizeList.get(i).getOrganizeId()));
         }
 
@@ -284,7 +290,7 @@ public class PaperBusinessService implements IPaperBusinessService {
     @Override
     public void editPaper(Map in) throws Exception {
         String token = in.get("token").toString();
-        String paperId=in.get("paperId").toString();
+        String paperId = in.get("paperId").toString();
         String author = (String) in.get("author");
         String categoryId = in.get("categoryId").toString();
         String content = in.get("content").toString();
@@ -293,9 +299,9 @@ public class PaperBusinessService implements IPaperBusinessService {
         String isPublic = in.get("isPublic").toString();
         String title = in.get("title").toString();
 
-        User loginUser=iCommonService.checkUser(token, "stuff");
+        User loginUser = iCommonService.checkUser(token, "stuff");
 
-        Paper paper=iPaperService.getPaperDetailByPaperId(paperId);
+        Paper paper = iPaperService.getPaperDetailByPaperId(paperId);
 
         paper.setAuthor(author);
         paper.setCategoryId(categoryId);
@@ -308,6 +314,40 @@ public class PaperBusinessService implements IPaperBusinessService {
 
         Map out = new HashMap();
         out.put("paper", paper);
+    }
+
+    /**
+     * 根据当前paperId，获取上一篇文章
+     *
+     * @param paperId
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Paper getLastPaper(String paperId) throws Exception {
+        /**
+         * 按照uploadTime排顺序
+         * 必须是同一个category
+         * public为true
+         * 审核已通过
+         */
+        Paper paper = iPaperService.getPaperTinyByPaperId(paperId);
+        Paper lastPaper = iPaperService.getLastPaper(paper.getCategoryId(), paper.getIds());
+        return lastPaper;
+    }
+
+    /**
+     * 根据当前paperId，获取下一篇文章
+     *
+     * @param paperId
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Paper getNextPaper(String paperId) throws Exception {
+        Paper paper = iPaperService.getPaperTinyByPaperId(paperId);
+        Paper nextPaper = iPaperService.getNextPaper(paper.getCategoryId(), paper.getIds());
+        return nextPaper;
     }
 
     /**

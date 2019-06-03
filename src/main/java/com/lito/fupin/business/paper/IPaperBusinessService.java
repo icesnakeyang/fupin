@@ -1,5 +1,7 @@
 package com.lito.fupin.business.paper;
 
+import com.lito.fupin.meta.paper.entity.Paper;
+
 import java.util.Map;
 
 public interface IPaperBusinessService {
@@ -17,6 +19,12 @@ public interface IPaperBusinessService {
 
     void rejectPaper(Map in) throws Exception;
 
+    /**
+     * 读取文章详细信息
+     * @param in
+     * @return
+     * @throws Exception
+     */
     Map getPaperByPaerId(Map in) throws Exception;
 
     Map listPaperList(Map in) throws Exception;
@@ -28,4 +36,14 @@ public interface IPaperBusinessService {
     Map listAllPaperSub(Map in) throws Exception;
 
     void editPaper(Map in) throws Exception;
+
+    /**
+     * 读取上一条文章的简要信息
+     * @param paperId
+     * @return
+     * @throws Exception
+     */
+    Paper getLastPaper(String paperId) throws Exception;
+
+    Paper getNextPaper(String paperId) throws Exception;
 }

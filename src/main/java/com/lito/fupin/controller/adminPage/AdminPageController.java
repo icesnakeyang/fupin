@@ -4,6 +4,7 @@ import com.lito.fupin.business.user.IUserBusinessService;
 import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.jws.WebParam;
@@ -151,6 +152,11 @@ public class AdminPageController {
         model.addAttribute("paper", true);
         model.addAttribute("listMyPaperSub", true);
         return "admin/paper/paperListAll";
+    }
+
+    @GetMapping("/paperEditPage")
+    public String editPaperPage(Model model) {
+        return "admin/paper/paperEdit";
     }
 
 }

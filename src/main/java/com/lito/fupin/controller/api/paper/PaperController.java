@@ -92,6 +92,12 @@ public class PaperController {
         return response;
     }
 
+    /**
+     * 读取文章详细信息
+     * @param request
+     * @param httpServletRequest
+     * @return
+     */
     @ResponseBody
     @PostMapping("/getPaperByPaperId")
     public Response getPaperById(@RequestBody PaperRequest request,
@@ -271,6 +277,7 @@ public class PaperController {
             String token=httpServletRequest.getHeader("token");
             Map in=new HashMap();
             in.put("token", token);
+            in.put("paperId", request.getPaperId());
             in.put("title", request.getTitle());
             in.put("content", request.getContent());
             in.put("categoryId", request.getCategoryId());

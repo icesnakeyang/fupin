@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="/framework/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="/framework/font-awesome/font-awesome.css" rel="stylesheet">
+    <link href="/framework/css/style.css" rel="stylesheet">
+    <link href="/framework/summernote/summernote-bs4.css" rel="stylesheet">
+    <link href="/framework/bootstrap/bootstrap-chosen.css" rel="stylesheet">
+    <link href="/framework/icheck/custom.css" rel="stylesheet">
+</head>
+<body>
+<div id="wrapper">
+    <div th:include="/admin/sidebar::content"></div>
+
+    <div id="page-wrapper" class="gray-bg">
+        <div th:include="/admin/header::content"></div>
+
+        <div class="wrapper wrapper-content">
+            <div class="row">
+                <div class="col-12">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>编辑文件</h5>
+                            <div class="ibox-content">
+                                <div class="form-group">
+                                    <label>标题</label>
+                                    <input id="txtTitle" type="text" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>作者</label>
+                                    <input id="txtAuthor" type="text" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>所属栏目</label>
+                                    <select id="selectCategory" class="chosen-select" tabindex="2"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label>是否公开</label>
+                                    <sapn class="i-checks">
+                                        <label>
+                                            <input id="public1" type="radio" name="isPublic" value="yes"><i></i> 是
+                                        </label>
+                                    </sapn>
+                                    <span class="i-checks">
+                                        <label>
+                                            <input id="public2" type="radio" name="isPublic" value="no"><i></i>否
+                                        </label>
+                                    </span>
+                                </div>
+                                <div class="form-group">
+                                    <label>内容</label>
+                                    <div id="txtContent" class="summernote">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button id="btUpdatePaper" type="button" class="btn btn-primary">修改文章</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/framework/jquery/jquery-3.1.1.min.js"></script>
+<script src="/framework/jquery/jquery.session.js"></script>
+<script src="/framework/popper.min.js"></script>
+<script src="/framework/bootstrap/bootstrap.js"></script>
+<script src="/framework/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="/framework/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/framework/inspinia.js"></script>
+<script src="/framework/summernote/summernote-bs4.js"></script>
+<script src="/framework/summernote/summernotezhcn.js"></script>
+<script src="/framework/bootstrap/chosen.jquery.js"></script>
+<script src="/framework/icheck/icheck.min.js"></script>
+<script>
+    $(document).ready(function () {
+        /**
+         * 初始化控件：富文本框summernote，checkbox, radiobox
+         */
+        $('.summernote').summernote({
+            lang: 'zh-CN',
+        });
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+
+        // 初始化栏目选择下拉框
+        //  读取栏目列表
+        params = {
+            "categoryName": null,
+            "pid": null
+        }
+        var categoryList
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: "http://127.0.0.1:8080/api/category/listCategory",
+            data: JSON.stringify(params),
+            contentType: 'application/json',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("token", $.session.get("token"));
+            },
+            success: function (response) {
+                if (response.code == 0) {
+                    categoryList = response.data.categoryList
+                }
+            }
+        })
+        var optionHtml = ""
+        $.each(categoryList, function (i, item) {
+            optionHtml += '<option value="' + item.categoryId + '">' + item.categoryName + '</option>';
+        })
+        $('#selectCategory').html(optionHtml);
+        $('.chosen-select').chosen({width: "100%"});
+
+        /**
+         * 读取要修改的文章详情
+         * paperId从session获取
+         * @type {{paperId: *}}
+         */
+        params = {
+            paperId: $.session.get("paperId")
+        }
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: "http://127.0.0.1:8080/api/paper/getPaperByPaperId",
+            data: JSON.stringify(params),
+            contentType: 'application/json',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("token", $.session.get("token"))
+            },
+            success: function (response) {
+                if (response.code == 0) {
+                    paper = response.data.paper
+                    $('#txtTitle').val(paper.title)
+                    $('#txtAuthor').val(paper.author)
+                    $('#selectCategory').val(paper.categoryId).trigger("chosen:updated")
+                    if (paper.isPublic == "true") {
+                        $('input:radio[name="isPublic"]').filter('[id="public1"]').iCheck('check');
+                        // console.log($('input:radio[name="tt"]:checked').val())
+                    }
+                    $('#txtContent').summernote('code', paper.content)
+                }
+            }
+        })
+
+        /**
+         * 修改文章
+         */
+        $('#btUpdatePaper').click(function () {
+            params = {
+                paperId: $.session.get("paperId"),
+                isPublic: $('input[name=isPublic]').get(0).checked,
+                content: $('#txtContent').summernote('code'),
+                title: $('#txtTitle').val(),
+                author: $('#txtAuthor').val(),
+                categoryId: $('#selectCategory').val()
+            }
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "http://127.0.0.1:8080/api/paper/editPaper",
+                data: JSON.stringify(params),
+                contentType: 'application/json',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("token", $.session.get("token"))
+                },
+                success: function (response) {
+                    if (response.code == 0) {
+                        alert("修改成功!")
+                        window.location.href = "/admin/listMyPaperSub"
+                    }else{
+                        alert("修改失败！")
+                    }
+                }
+            })
+        })
+    })
+</script>
+</body>
+</html>

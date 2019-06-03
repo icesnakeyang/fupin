@@ -111,6 +111,7 @@ public class PaperService implements IPaperService {
 
     /**
      * 读取一个机构的所有文章
+     *
      * @param organizeId
      * @return
      * @throws Exception
@@ -119,5 +120,37 @@ public class PaperService implements IPaperService {
     public ArrayList<Paper> listPaperByOrganize(String organizeId) throws Exception {
         ArrayList<Paper> paperList = paperDao.listPaperByOrganize(organizeId);
         return paperList;
+    }
+
+    /**
+     * 读取上一篇文章的标题信息
+     * @param categoryId
+     * @param ids
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Paper getLastPaper(String categoryId, Integer ids) throws Exception {
+        Map qIn = new HashMap();
+        qIn.put("categoryId", categoryId);
+        qIn.put("ids", ids);
+        Paper paper = paperDao.getLastPaper(qIn);
+        return paper;
+    }
+
+    /**
+     * 读取下一篇文章的标题信息
+     * @param categoryId
+     * @param ids
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Paper getNextPaper(String categoryId, Integer ids) throws Exception {
+        Map qIn = new HashMap();
+        qIn.put("categoryId", categoryId);
+        qIn.put("ids", ids);
+        Paper paper = paperDao.getNextPaper(qIn);
+        return paper;
     }
 }

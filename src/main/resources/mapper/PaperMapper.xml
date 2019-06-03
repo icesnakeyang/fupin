@@ -163,10 +163,40 @@
         where paper_id=#{paperId}
     </delete>
 
-<!--    读取一个机构的所有文章-->
+    <!--    读取一个机构的所有文章-->
     <select id="listPaperByOrganize" parameterType="java.lang.String"
             resultMap="paperMap">
         select ids, paper_id, title, views, approve_time, upload_time, status from paper
         where organize_id=#{organizeId}
+    </select>
+
+<!--    读取上一篇文章的标题信息-->
+    <select id="getLastPaper" parameterType="map"
+            resultMap="paperMap">
+            select ids, paper_id, title, upload_time from paper
+            where 1 = 1
+            and status='通过审核'
+            and public='true'
+            and category_id=#{categoryId}
+            <![CDATA[
+            and ids<#{ids}
+            ]]>
+            order by upload_time desc
+            limit 1
+    </select>
+
+<!--    读取下一篇文章的标题信息-->
+    <select id="getNextPaper" parameterType="map"
+            resultMap="paperMap">
+            select ids, paper_id, title, upload_time from paper
+            where 1 = 1
+            and status='通过审核'
+            and public='true'
+            and category_id=#{categoryId}
+            <![CDATA[
+            and ids>#{ids}
+            ]]>
+            order by upload_time
+            limit 1
     </select>
 </mapper>

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- 标准化页头 -->
-    <meta charset="utf-8" /><!-- 声明文档使用的字符编码 -->
+    <meta charset="utf-8"/><!-- 声明文档使用的字符编码 -->
     <title>新闻详情</title>
     <!--公共样式表-->
     <link rel="stylesheet" href="/web/common/css/bootstrap.min.css">
@@ -31,14 +31,16 @@
     <!--<div id="news">-->
     <!--</div>-->
     <div class="newd_section_content">
-        <div class="section_c_title"><div th:text="${paper.title}"></div></div>
+        <div class="section_c_title">
+            <div th:text="${paper.title}"></div>
+        </div>
         <div class="section_c_author">
             作者：<span class="auhor" th:text="${paper.author}"></span>
             时间：<span class="time" th:text="${#dates.format(paper.uploadTime, 'yyyy-MM-dd')}"></span>
             点击数 ：<span class="num" th:text="${paper.views}"></span></div>
         <div class="page_content">
             <!--<p>-->
-                <!--<img src="static/template/images/banner/banner3.jpg" alt=""/>-->
+            <!--<img src="static/template/images/banner/banner3.jpg" alt=""/>-->
             <!--</p>-->
             <p>
             <div th:utext="${paper.content}"></div>
@@ -48,10 +50,21 @@
 
     <div class="items_wrapper">
         <p class="preBtn">
-            <span>上一条：</span> <span class="pre_title">甘孜县以主导产业为支撑统筹构建扶贫产业发展格局</span>
+            <!--            <span>上一条：</span> <span class="pre_title"></span>-->
+            <span>上一条：</span>
+            <span class="pre_title" th:if="${not(lastPaper eq null)}">
+                <a class="pre_title" th:text="${lastPaper.title}"
+                      th:href="@{'/paperDetail/'+${lastPaper.paperId}}"></a>
+            </span>
+            <span class="pre_title" th:if="${lastPaper eq null}">没有了</span>
         </p>
         <p class="nextBtn">
-            <span>下一条：</span> <span class="next_title">甘孜县以主导产业为支撑统筹构建扶贫产业发展格局</span>
+            <span>下一条：</span>
+            <span class="next_title" th:if="${not (nextPaper eq null)}">
+                <a th:text="${nextPaper.title}"
+                      th:href="@{'/paperDetail/'+${nextPaper.paperId}}"></a>
+            </span>
+            <span class="next_title" th:if="${nextPaper eq null}">没有了</span>
         </p>
 
     </div>
